@@ -561,11 +561,15 @@ function getJacks(kp,cat,shield){
   if(!kp.length||!cat||!shield)return[];
   const isKP=kp.some(p=>p.sr==='KP');
   const isCentralOnly=kp.every(p=>p.br==='Central');
+  const isPanduitOnly=kp.every(p=>p.br==='Panduit');
   const hasPanduitCP=kp.some(p=>p.br==='Panduit'&&p.sr==='MiniCom');
   return CU_JACKS.filter(j=>{
     if(j.cat!==cat||j.sh!==shield)return false;
     if(isKP&&kp.every(p=>p.sr==='KP'))return j.sr==='KP';
     if(isCentralOnly)return j.sr==='Central';
+    // ★ Panduit μόνο → χωρίς Central jacks
+    if(isPanduitOnly){const L=new Set(kp.map(p=>fl(p.pn)));return L.has(fl(j.pn))&&j.sr!=='KP';}
+    // Αμφότερα → Panduit + Central
     if(hasPanduitCP){const L=new Set(kp.filter(p=>p.br==='Panduit').map(p=>fl(p.pn)));return(L.has(fl(j.pn))&&j.sr!=='KP')||(j.sr==='Central');}
     const L=new Set(kp.filter(p=>p.br==='Panduit').map(p=>fl(p.pn)));
     return(j.sr==='Central'||(L.has(fl(j.pn))&&j.sr!=='KP'));
