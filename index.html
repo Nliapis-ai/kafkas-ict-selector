@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ΚΑΥΚΑΣ ΑΕ — ICT Selector v1.4</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.0.0/tabler-icons.min.css">
+<style>
+:root{
+  --color-background-primary:#ffffff;--color-background-secondary:#f8f9fa;
+  --color-background-info:#e8f4fd;--color-background-success:#e8f5e9;
+  --color-background-warning:#fff8e1;--color-background-danger:#fde8e8;
+  --color-text-primary:#1a1a2e;--color-text-secondary:#6b7280;
+  --color-text-tertiary:#9ca3af;--color-text-info:#1a6fb5;
+  --color-text-success:#2e7d32;--color-text-warning:#b45309;
+  --color-text-danger:#c0392b;
+  --color-border-primary:#374151;--color-border-secondary:#d1d5db;
+  --color-border-tertiary:#e5e7eb;--color-border-info:#90caf9;
+  --color-border-success:#a5d6a7;--color-border-warning:#fcd34d;
+  --color-border-danger:#f48fb1;
+  --font-sans:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --font-mono:'SF Mono','Fira Code',monospace;
+  --border-radius-sm:4px;--border-radius-md:6px;--border-radius-lg:10px;
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --color-background-primary:#1e1e2e;--color-background-secondary:#2a2a3e;
+    --color-background-info:#1a3a5c;--color-background-success:#1b3a1f;
+    --color-background-warning:#3a2e00;--color-background-danger:#3a1a1a;
+    --color-text-primary:#e8e8f0;--color-text-secondary:#9ca3af;
+    --color-text-tertiary:#6b7280;--color-text-info:#90caf9;
+    --color-text-success:#a5d6a7;--color-text-warning:#fcd34d;
+    --color-text-danger:#f48fb1;
+    --color-border-secondary:#374151;--color-border-tertiary:#2d2d3e;
+    --color-border-info:#1a6fb5;--color-border-success:#2e7d32;
+    --color-border-warning:#b45309;--color-border-danger:#c0392b;
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);background:var(--color-background-secondary);min-height:100vh;padding:16px}
+#app{max-width:860px;margin:0 auto;padding:0 0 2rem}
+.kh{display:flex;align-items:center;justify-content:space-between;padding:.8rem 1.1rem;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);margin-bottom:1rem;box-shadow:0 1px 3px rgba(0,0,0,.07)}
+.kl{font-size:13px;color:var(--color-text-secondary)}.kl b{color:var(--color-text-primary)}
+.ver{font-size:10px;color:var(--color-text-tertiary);margin-left:6px}
+.kh-actions{display:flex;gap:6px;align-items:center}
+.kr{background:none;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:4px 10px;font-size:12px;cursor:pointer;color:var(--color-text-secondary)}
+.kr:hover{background:var(--color-background-secondary)}
+.stabs{display:flex;gap:5px;margin-bottom:1rem;flex-wrap:wrap}
+.stb{padding:5px 12px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);font-size:12px;cursor:pointer;background:var(--color-background-secondary);color:var(--color-text-secondary);font-weight:500;transition:all .15s}
+.stb.on{background:var(--color-background-primary);border-color:var(--color-border-secondary);color:var(--color-text-primary);box-shadow:inset 0 -2px 0 var(--color-border-info)}
+.subtabs{display:flex;gap:5px;margin-bottom:.85rem}
+.subtb{padding:4px 10px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);font-size:11px;cursor:pointer;background:var(--color-background-secondary);color:var(--color-text-secondary)}
+.subtb.on{background:var(--color-background-info);color:var(--color-text-info);border-color:var(--color-border-info)}
+.crumb{display:flex;align-items:center;gap:5px;flex-wrap:wrap;min-height:30px;padding:.35rem .6rem;background:var(--color-background-secondary);border-radius:var(--border-radius-md);margin-bottom:.85rem}
+.chip{display:inline-flex;align-items:center;gap:3px;background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:2px 6px;font-size:11px}
+.chip button{border:none;background:none;cursor:pointer;color:var(--color-text-secondary);font-size:12px;line-height:1;padding:0}
+.csep{color:var(--color-text-tertiary);font-size:11px}
+.step{margin-bottom:.75rem}
+.slbl{font-size:10px;font-weight:500;letter-spacing:.07em;color:var(--color-text-secondary);text-transform:uppercase;margin-bottom:.35rem}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:5px}
+.opt{padding:.45rem .75rem;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);cursor:pointer;background:var(--color-background-primary);text-align:left;width:100%;transition:all .1s}
+.opt:hover:not([disabled]){border-color:var(--color-border-info);background:var(--color-background-info)}
+.opt.sel{border-color:var(--color-border-info);background:var(--color-background-info)}
+.opt[disabled]{opacity:.3;cursor:not-allowed}
+.ot{font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:1px}
+.os{font-size:11px;color:var(--color-text-secondary)}
+.div{height:.5px;background:var(--color-border-tertiary);margin:1rem 0}
+.sl{font-size:10px;font-weight:500;letter-spacing:.07em;color:var(--color-text-secondary);text-transform:uppercase;margin:.9rem 0 .35rem;padding-bottom:.3rem;border-bottom:0.5px solid var(--color-border-tertiary)}
+.pg{display:grid;gap:5px}
+.pc{display:grid;grid-template-columns:82px 1fr auto;gap:8px;align-items:center;padding:.55rem .85rem;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md)}
+.pc:hover{border-color:var(--color-border-secondary)}
+.ps{font-size:10px;font-family:var(--font-mono);color:var(--color-text-tertiary)}
+.pm{min-width:0}
+.pp{font-size:11px;font-family:var(--font-mono);font-weight:500;color:var(--color-text-info);text-decoration:none}
+.pp:hover{text-decoration:underline}
+.pd{font-size:11px;color:var(--color-text-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pb{display:inline-flex;padding:2px 6px;border-radius:var(--border-radius-md);font-size:10px;font-weight:500;white-space:nowrap}
+.bP{background:var(--color-background-info);color:var(--color-text-info)}
+.bC{background:var(--color-background-success);color:var(--color-text-success)}
+.bR{background:var(--color-background-warning);color:var(--color-text-warning)}
+.bIP{background:var(--color-background-danger);color:var(--color-text-danger)}
+.note{font-size:11px;color:var(--color-text-secondary);background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.4rem .65rem;margin-top:.4rem}
+.warn{font-size:11px;color:var(--color-text-warning);background:var(--color-background-warning);border-radius:var(--border-radius-md);padding:.4rem .65rem;margin-top:.4rem}
+.info{font-size:11px;color:var(--color-text-info);background:var(--color-background-info);border-radius:var(--border-radius-md);padding:.4rem .65rem;margin-top:.4rem}
+.acc-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:.35rem}
+.acc-card{display:flex;align-items:center;gap:7px;padding:.45rem .7rem;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);cursor:pointer;background:var(--color-background-primary);transition:all .1s}
+.acc-card:hover{border-color:var(--color-border-secondary);background:var(--color-background-secondary)}
+.acc-card.on{border-color:var(--color-border-success);background:var(--color-background-success)}
+.acc-cb{width:15px;height:15px;border:1px solid var(--color-border-secondary);border-radius:3px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px}
+.acc-card.on .acc-cb{background:var(--color-background-success);border-color:var(--color-border-success);color:var(--color-text-success)}
+.acc-pn{font-size:10px;font-family:var(--font-mono);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.acc-d{font-size:10px;color:var(--color-text-secondary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.acc-sap{font-size:9px;font-family:var(--font-mono);color:var(--color-text-tertiary)}
+.qty-b{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;border-radius:50%;background:var(--color-background-warning);color:var(--color-text-warning);font-size:10px;font-weight:500;margin-right:3px}
+.none{text-align:center;padding:1.5rem;color:var(--color-text-secondary);font-size:12px;background:var(--color-background-secondary);border-radius:var(--border-radius-md)}
+.export-box{background:var(--color-background-secondary);border:1px solid var(--color-border-info);border-radius:var(--border-radius-lg);overflow:hidden;margin-top:1rem}
+.export-header{display:flex;align-items:center;justify-content:space-between;padding:.55rem .75rem;border-bottom:0.5px solid var(--color-border-secondary);background:var(--color-background-primary)}
+.export-title{font-size:12px;font-weight:600;color:var(--color-text-info)}
+.export-table{width:100%;border-collapse:collapse}
+.export-table th{font-size:10px;font-weight:500;letter-spacing:.06em;color:var(--color-text-tertiary);text-transform:uppercase;padding:.35rem .55rem;border-bottom:0.5px solid var(--color-border-tertiary);text-align:left}
+.export-table td{font-size:11px;padding:.35rem .55rem;border-bottom:0.5px solid var(--color-border-tertiary);vertical-align:middle}
+.export-table tr.dim td{opacity:.35}
+.export-sap{font-family:var(--font-mono);font-size:10px;color:var(--color-text-tertiary)}
+.export-pn{font-family:var(--font-mono);font-size:11px;color:var(--color-text-primary)}
+.export-desc{font-size:11px;color:var(--color-text-secondary);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.qty-input{width:52px;padding:3px 6px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);font-size:12px;font-family:var(--font-mono);text-align:center}
+.qty-input:focus{outline:none;border-color:var(--color-border-info)}
+.export-footer{display:flex;align-items:center;gap:10px;padding:.5rem .75rem}
+.copy-btn{padding:5px 14px;border-radius:var(--border-radius-md);background:var(--color-background-info);color:var(--color-text-info);border:0.5px solid var(--color-border-info);font-size:12px;cursor:pointer;font-weight:500}
+.copy-btn:hover{opacity:.85}
+.copy-msg{font-size:11px;color:var(--color-text-success);opacity:0;transition:opacity .4s}
+/* PIN */
+.pin-screen{display:flex;flex-direction:column;align-items:center;padding:2rem 1rem;gap:1rem}
+.pin-dots{display:flex;gap:10px}
+.pin-dot{width:13px;height:13px;border-radius:50%;border:2px solid var(--color-border-secondary)}
+.pin-dot.f{background:var(--color-text-info);border-color:var(--color-border-info)}
+.pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;width:170px}
+.pin-btn{padding:.65rem;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-primary);font-size:15px;font-weight:500;cursor:pointer;text-align:center}
+.pin-btn:hover{background:var(--color-background-primary);border-color:var(--color-border-info)}
+.pin-error{font-size:11px;color:var(--color-text-danger);background:var(--color-background-danger);padding:4px 12px;border-radius:var(--border-radius-md)}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.shake{animation:shake .3s ease}
+/* Admin */
+.adm-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:.85rem;padding:.45rem .7rem;background:var(--color-background-secondary);border-radius:var(--border-radius-md)}
+.anav{padding:4px 10px;border-radius:var(--border-radius-md);font-size:11px;cursor:pointer;border:0.5px solid var(--color-border-tertiary);background:var(--color-background-primary);color:var(--color-text-secondary)}
+.anav.on{background:var(--color-background-info);color:var(--color-text-info);border-color:var(--color-border-info)}
+.lock-btn{padding:4px 9px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-danger);font-size:11px;cursor:pointer;background:none;color:var(--color-text-danger)}
+.adm-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:.65rem;flex-wrap:wrap;gap:7px}
+.af{padding:3px 9px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);font-size:11px;cursor:pointer;background:var(--color-background-secondary);color:var(--color-text-secondary)}
+.af.on{background:var(--color-background-info);color:var(--color-text-info);border-color:var(--color-border-info)}
+.btn{padding:4px 10px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);font-size:11px;cursor:pointer;font-weight:500}
+.btn-add{background:var(--color-background-success);color:var(--color-text-success);border-color:var(--color-border-success)}
+.btn-rst{background:var(--color-background-secondary);color:var(--color-text-secondary)}
+.btn-del{background:none;border:none;cursor:pointer;color:var(--color-text-danger);font-size:12px;padding:2px 4px;border-radius:3px}
+.btn-del:hover{background:var(--color-background-danger)}
+.btn-edit{background:none;border:none;cursor:pointer;color:var(--color-text-info);font-size:12px;padding:2px 4px;border-radius:3px}
+.btn-edit:hover{background:var(--color-background-info)}
+.btn-save{padding:4px 9px;border-radius:var(--border-radius-md);background:var(--color-background-success);color:var(--color-text-success);border:0.5px solid var(--color-border-success);font-size:11px;cursor:pointer}
+.btn-cancel{padding:4px 9px;border-radius:var(--border-radius-md);background:var(--color-background-secondary);color:var(--color-text-secondary);border:0.5px solid var(--color-border-tertiary);font-size:11px;cursor:pointer}
+.adm-form{background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-lg);padding:.75rem;margin-bottom:.75rem}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:5px;margin-bottom:.55rem}
+.fi{display:flex;flex-direction:column;gap:3px}
+.fi label{font-size:10px;color:var(--color-text-secondary);font-weight:500;text-transform:uppercase;letter-spacing:.04em}
+.fi input,.fi select{padding:4px 7px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);font-size:11px;font-family:var(--font-mono);width:100%}
+.fi.wide{grid-column:span 2}
+.form-actions{display:flex;gap:5px;align-items:center}
+.save-msg{font-size:11px;color:var(--color-text-success);opacity:0;transition:opacity .4s;margin-left:8px}
+.adm-table{width:100%;border-collapse:collapse}
+.adm-table th{font-size:10px;font-weight:500;letter-spacing:.06em;color:var(--color-text-tertiary);text-transform:uppercase;padding:.35rem .55rem;border-bottom:0.5px solid var(--color-border-tertiary);text-align:left}
+.adm-table td{font-size:11px;padding:.35rem .55rem;border-bottom:0.5px solid var(--color-border-tertiary);vertical-align:middle}
+.adm-table tr:hover td{background:var(--color-background-secondary)}
+.td-sap{font-family:var(--font-mono);color:var(--color-text-tertiary);font-size:10px}
+.td-pn{font-family:var(--font-mono);font-weight:500;color:var(--color-text-info);font-size:10px}
+.td-acts{display:flex;gap:2px}
+.badge-def{font-size:9px;padding:1px 4px;border-radius:3px;background:var(--color-background-secondary);color:var(--color-text-tertiary)}
+.badge-cust{font-size:9px;padding:1px 4px;border-radius:3px;background:var(--color-background-success);color:var(--color-text-success)}
+.tp-badge{font-size:9px;padding:1px 5px;border-radius:3px;font-weight:500}
+.tp-wall{background:var(--color-background-secondary);color:var(--color-text-secondary)}
+.tp-std{background:var(--color-background-success);color:var(--color-text-success)}
+.tp-srv{background:var(--color-background-info);color:var(--color-text-info)}
+.tp-rittal{background:var(--color-background-warning);color:var(--color-text-warning)}
+.tp-ip55{background:var(--color-background-danger);color:var(--color-text-danger)}
+.section-card{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:.75rem;margin-bottom:.6rem}
+.section-card h4{font-size:12px;font-weight:600;color:var(--color-text-primary);margin:0 0 .55rem 0}
+.inline-row{display:grid;grid-template-columns:80px 130px 1fr auto;gap:5px;align-items:center;padding:.3rem 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.inline-row:last-child{border-bottom:none}
+.il{font-size:11px;color:var(--color-text-secondary);font-family:var(--font-mono)}
+.pin-change-form{display:flex;flex-direction:column;gap:.6rem;max-width:260px}
+.pin-change-form label{font-size:11px;color:var(--color-text-secondary)}
+.pin-change-form input{padding:6px 9px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);font-size:13px;font-family:var(--font-mono);letter-spacing:.2em;width:100%}
+/* Loading */
+#loading-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.35);z-index:9999;justify-content:center;align-items:center}
+.loading-box{background:var(--color-background-primary);padding:18px 28px;border-radius:var(--border-radius-lg);font-size:13px;color:var(--color-text-primary);display:flex;align-items:center;gap:10px;box-shadow:0 4px 20px rgba(0,0,0,.2)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spinner{width:18px;height:18px;border:2px solid var(--color-border-tertiary);border-top-color:var(--color-text-info);border-radius:50%;animation:spin .7s linear infinite}
+#offline-banner{display:none;background:var(--color-background-warning);color:var(--color-text-warning);font-size:11px;padding:6px 12px;text-align:center;border-radius:var(--border-radius-md);margin-bottom:8px}
+</style>
+</head>
+<body>
+<!-- Loading overlay -->
+<div id="loading-overlay">
+  <div class="loading-box"><div class="spinner"></div>Φόρτωση δεδομένων από Google Sheets...</div>
+</div>
+
+<div id="app">
+  <div id="offline-banner">⚠️ Offline — εμφανίζονται cached δεδομένα. Κλικ 🔄 για ενημέρωση.</div>
+  <div class="kh">
+    <div class="kl"><b>ΚΑΥΚΑΣ ΑΕ</b> — ICT Selector<span class="ver">v1.4 · Google Sheets</span></div>
+    <div class="kh-actions">
+      <button class="kr" id="refresh-btn" onclick="refreshData()" title="Ανανέωση δεδομένων από Sheets">🔄</button>
+      <button class="kr" id="brst">↺ Reset</button>
+    </div>
+  </div>
+  <div class="stabs" id="main-tabs"></div>
+  <div id="main-content"></div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// ★ GOOGLE SHEETS API URL
+// ═══════════════════════════════════════════════════════════
+const API_URL = 'https://script.google.com/macros/s/AKfycbzAvtHusA-RS4K2DJYTkaCUkGk9JZDDSOIAPqkWTQLpR4fEiML2qMyvXDKIpqpQMXrjwQ/exec';
+const CACHE_KEY = 'kafkas_ict_cache_v14';
+
+// ═══════════════════════════════════════════════════════════
+// ══ STATE
+// ═══════════════════════════════════════════════════════════
+let activeTab='copper', admAuth=false, pinBuf='', pinErr='', admPin='1234', exportQtys={};
+let cuMode='panel', cuSel={}, cuOSel={};
+let foMode='panel', foSel={}, foBSel={};
+let rSel={}, rCk=new Set();
+let admSec='racks', admFlt='all', rackEditIdx=null;
+let rackAddForm={sap:'',pn:'',d:'',br:'Central',tp:'std',u:42,w:600,dep:600}, rackEditForm={};
+let shelfEditDep=null, shelfEditForm={}, accEditId=null, accEditForm={};
+let showRackForm=false, showAccForm=false;
+let accAddForm={id:'',sap:'',pn:'',d:''}, pinChangeForm={cur:'',n1:'',n2:''};
+
+// ═══════════════════════════════════════════════════════════
+// ══ COPPER DATA
+// ═══════════════════════════════════════════════════════════
+const CU_PANELS=[
+  {sap:'1047466',pn:'CPP24WBLY',  d:'Panel 24θ Flat Κενό MiniCom',         br:'Panduit',sr:'MiniCom',cats:['Cat6','Cat6A'],        shields:['UTP'],      tp:'keystone'},
+  {sap:'1061925',pn:'CPPL24WBLY', d:'Panel 24θ Flat Μ/Faceplate MiniCom',  br:'Panduit',sr:'MiniCom',cats:['Cat6','Cat6A'],        shields:['UTP'],      tp:'keystone'},
+  {sap:'1001908',pn:'NKFP24Y',    d:'Panel 24θ Κενό NetKey',                br:'Panduit',sr:'NetKey', cats:['Cat5e','Cat6','Cat6A'],shields:['UTP'],      tp:'keystone'},
+  {sap:'1001906',pn:'NK5EPPG24Y', d:'Panel 24θ Pre-wired NetKey Cat5e',     br:'Panduit',sr:'NetKey', cats:['Cat5e'],               shields:['UTP'],      tp:'prewired'},
+  {sap:'1000197',pn:'NK6PPG24Y',  d:'Panel 24θ Pre-wired NetKey Cat6',      br:'Panduit',sr:'NetKey', cats:['Cat6'],                shields:['UTP'],      tp:'prewired'},
+  {sap:'1047279',pn:'NK6XPPG24Y', d:'Panel 24θ Pre-wired NetKey Cat6A',     br:'Panduit',sr:'NetKey', cats:['Cat6A'],               shields:['UTP'],      tp:'prewired'},
+  {sap:'1000192',pn:'CP24BLY',    d:'Panel 24θ All-Metal Flat 1U MiniCom',  br:'Panduit',sr:'MiniCom',cats:['Cat5e','Cat6','Cat6A'],shields:['UTP','SHP'],tp:'keystone'},
+  {sap:'1047281',pn:'CP48BLY',    d:'Panel 48θ All-Metal Flat 2U MiniCom',  br:'Panduit',sr:'MiniCom',cats:['Cat5e','Cat6','Cat6A'],shields:['UTP','SHP'],tp:'keystone'},
+  {sap:'1061507',pn:'CP48HDBL',   d:'Panel 48θ All-Metal 1U High Density',  br:'Panduit',sr:'MiniCom',cats:['Cat5e','Cat6','Cat6A'],shields:['SHP'],      tp:'keystone'},
+  {sap:'1061509',pn:'CP24WSBLY',  d:'Panel 24θ All-Metal Μ/Μπάρα Γείωσης', br:'Panduit',sr:'MiniCom',cats:['Cat5e','Cat6','Cat6A'],shields:['SHP'],      tp:'keystone'},
+  {sap:'1065930',pn:'KP24WSBL',   d:'Panel 24θ KP S/FTP Μ/Μπάρα',          br:'Panduit',sr:'KP',     cats:['Cat6A'],               shields:['SHP'],      tp:'keystone'},
+  {sap:'1045973',pn:'1-66-700/J', d:'Panel 24θ Pre-wired Cat5e UTP',        br:'Central',sr:'Central',cats:['Cat5e'],               shields:['UTP'],      tp:'prewired'},
+  {sap:'1046065',pn:'1-66-704/C6A',d:'Panel 24θ Pre-wired Cat6/6A UTP',    br:'Central',sr:'Central',cats:['Cat6','Cat6A'],        shields:['UTP'],      tp:'prewired'},
+  {sap:'1045735',pn:'01-66-474/24',d:'Panel 24θ Pre-wired Cat6 UTP/FTP',    br:'Central',sr:'Central',cats:['Cat6'],                shields:['SHP'],      tp:'prewired'},
+  {sap:'1045726',pn:'01-60-669/C-N',d:'Πρόσοψη 24θ Κενή Universal',        br:'Central',sr:'Central',cats:['Cat5e','Cat6','Cat6A'],shields:['UTP','SHP'],tp:'keystone'},
+  {sap:'1045728',pn:'01-60-670/C-N',d:'Πρόσοψη 24θ Κενή Universal',        br:'Central',sr:'Central',cats:['Cat5e','Cat6','Cat6A'],shields:['UTP','SHP'],tp:'keystone'},
+  {sap:'1045725',pn:'01-60-672/C-N',d:'Πρόσοψη 48θ Κενή Universal',        br:'Central',sr:'Central',cats:['Cat5e','Cat6','Cat6A'],shields:['UTP','SHP'],tp:'keystone'},
+];
+const CU_JACKS=[
+  {sap:'1047272',pn:'CJ5E88TGBL', d:'Jack Cat5e UTP Μαύρο',  br:'Panduit',sr:'MiniCom',cat:'Cat5e',sh:'UTP'},
+  {sap:'902020150',pn:'CJ5E88TGAW',d:'Jack Cat5e UTP Λευκό', br:'Panduit',sr:'MiniCom',cat:'Cat5e',sh:'UTP'},
+  {sap:'1000191',pn:'CJ688TGBL',  d:'Jack Cat6 UTP Μαύρο',   br:'Panduit',sr:'MiniCom',cat:'Cat6', sh:'UTP'},
+  {sap:'1001897',pn:'CJ688TGAW',  d:'Jack Cat6 UTP Λευκό',   br:'Panduit',sr:'MiniCom',cat:'Cat6', sh:'UTP'},
+  {sap:'1001899',pn:'CJ6X88TGBL', d:'Jack Cat6A UTP Μαύρο',  br:'Panduit',sr:'MiniCom',cat:'Cat6A',sh:'UTP'},
+  {sap:'1001898',pn:'CJ6X88TGAW', d:'Jack Cat6A UTP Λευκό',  br:'Panduit',sr:'MiniCom',cat:'Cat6A',sh:'UTP'},
+  {sap:'1061482',pn:'CJS5E88TGY', d:'Jack Cat5e Θωρακ.',      br:'Panduit',sr:'MiniCom',cat:'Cat5e',sh:'SHP'},
+  {sap:'1047275',pn:'CJS688TGY',  d:'Jack Cat6 Θωρακ.',       br:'Panduit',sr:'MiniCom',cat:'Cat6', sh:'SHP'},
+  {sap:'1047276',pn:'CJS6X88TGY', d:'Jack Cat6A Θωρακ.',      br:'Panduit',sr:'MiniCom',cat:'Cat6A',sh:'SHP'},
+  {sap:'1061832',pn:'KJS6X88TC',  d:'Jack Cat6A S/FTP (KP)',   br:'Panduit',sr:'KP',    cat:'Cat6A',sh:'SHP'},
+  {sap:'1047410',pn:'NK5E88MBL',  d:'Jack Cat5e UTP NK Μαύρο',br:'Panduit',sr:'NetKey', cat:'Cat5e',sh:'UTP'},
+  {sap:'1047411',pn:'NK5E88MAWY', d:'Jack Cat5e UTP NK Λευκό',br:'Panduit',sr:'NetKey', cat:'Cat5e',sh:'UTP'},
+  {sap:'1279670',pn:'NK688MBL',   d:'Jack Cat6 UTP NK Μαύρο', br:'Panduit',sr:'NetKey', cat:'Cat6', sh:'UTP'},
+  {sap:'1279671',pn:'NK688MAW',   d:'Jack Cat6 UTP NK Λευκό', br:'Panduit',sr:'NetKey', cat:'Cat6', sh:'UTP'},
+  {sap:'1047421',pn:'NK6X88MWH',  d:'Jack Cat6A UTP NK',       br:'Panduit',sr:'NetKey', cat:'Cat6A',sh:'UTP'},
+  {sap:'1045905',pn:'15-18-08/T', d:'Jack UTP Cat5e',  br:'Central',sr:'Central',cat:'Cat5e',sh:'UTP'},
+  {sap:'1045906',pn:'15-18-10/T', d:'Jack UTP Cat6',   br:'Central',sr:'Central',cat:'Cat6', sh:'UTP'},
+  {sap:'1061027',pn:'15-18-11/T', d:'Jack UTP Cat6A',  br:'Central',sr:'Central',cat:'Cat6A',sh:'UTP'},
+  {sap:'1045907',pn:'15-18-12/T', d:'Jack STP Cat6A (F/UTP·U/FTP·S/FTP)',br:'Central',sr:'Central',cat:'Cat6A',sh:'SHP',centralShpNote:true},
+];
+const CU_OUTLETS=[
+  {sap:'1047269',pn:'CBXQ2AW-A', d:'Κουτί Επίτοιχο 2θ AW',sr:'MiniCom',mt:'wall',maxP:2},
+  {sap:'1061454',pn:'CFPFS1SAW', d:'Πρόσοψη 1θ DLP Γωνιακή',sr:'MiniCom',mt:'dlp',maxP:1},
+  {sap:'1047267',pn:'CFPFS2SAW', d:'Πρόσοψη 2θ DLP Γωνιακή',sr:'MiniCom',mt:'dlp',maxP:2},
+  {sap:'1047268',pn:'CFPFF2AW',  d:'Πρόσοψη 2θ DLP Επίπεδη',sr:'MiniCom',mt:'dlp',maxP:2},
+  {sap:'1047470',pn:'CFA1FSAW-X',d:'Πρόσοψη 1θ DLP Ευθεία', sr:'MiniCom',mt:'dlp',maxP:1},
+  {sap:'1047412',pn:'NKFS2SAW',  d:'Πρόσοψη 2θ DLP Γωνιακή',sr:'NetKey', mt:'dlp',maxP:2},
+  {sap:'1047413',pn:'NKFA1SAW-X',d:'Πρόσοψη 1θ DLP Επίπεδη',sr:'NetKey', mt:'dlp',maxP:1},
+];
+const CU_OJACKS=[
+  {sap:'1047272',pn:'CJ5E88TGAW',d:'Jack Cat5e UTP',  sr:'MiniCom',cat:'Cat5e',sh:'UTP'},
+  {sap:'1001897',pn:'CJ688TGAW', d:'Jack Cat6 UTP',   sr:'MiniCom',cat:'Cat6', sh:'UTP'},
+  {sap:'1001898',pn:'CJ6X88TGAW',d:'Jack Cat6A UTP',  sr:'MiniCom',cat:'Cat6A',sh:'UTP'},
+  {sap:'1047276',pn:'CJS6X88TGY',d:'Jack Cat6A Θωρακ.',sr:'MiniCom',cat:'Cat6A',sh:'SHP'},
+  {sap:'1047411',pn:'NK5E88MAWY',d:'Jack Cat5e UTP NK',sr:'NetKey', cat:'Cat5e',sh:'UTP'},
+  {sap:'1279671',pn:'NK688MAW',  d:'Jack Cat6 UTP NK', sr:'NetKey', cat:'Cat6', sh:'UTP'},
+  {sap:'1047421',pn:'NK6X88MWH', d:'Jack Cat6A UTP NK',sr:'NetKey', cat:'Cat6A',sh:'UTP'},
+];
+const CU_BLANK={sap:'1047472',pn:'CMBBL-X',d:'Τυφλός Ομφαλός Μαύρος'};
+
+// ═══════════════════════════════════════════════════════════
+// ══ FO DATA
+// ═══════════════════════════════════════════════════════════
+const FO_PANELS=[
+  {sap:'1279568',pn:'FD1W6BUDSCZ', d:'FD1W 6θ SC SM OS2 (12ί)',   br:'Panduit',sr:'FD1W',fi:['OS2'],       co:'SC', p:6},
+  {sap:'1279569',pn:'FD1W12BUDSCZ',d:'FD1W 12θ SC SM OS2 (24ί)',  br:'Panduit',sr:'FD1W',fi:['OS2'],       co:'SC', p:12},
+  {sap:'1061706',pn:'FD1W12BUDLCZ',d:'FD1W 12θ LC SM OS2 (24ί)',  br:'Panduit',sr:'FD1W',fi:['OS2'],       co:'LC', p:12},
+  {sap:'1061705',pn:'FD1W24BUDLCZ',d:'FD1W 24θ LC SM OS2 (48ί)',  br:'Panduit',sr:'FD1W',fi:['OS2'],       co:'LC', p:24},
+  {sap:'1279558',pn:'FD1W6AQDSCZ', d:'FD1W 6θ SC MM (12ί)',       br:'Panduit',sr:'FD1W',fi:['OM3','OM4'],co:'SC', p:6},
+  {sap:'1279557',pn:'FD1W12AQDSCZ',d:'FD1W 12θ SC MM (24ί)',      br:'Panduit',sr:'FD1W',fi:['OM3','OM4'],co:'SC', p:12},
+  {sap:'1061697',pn:'FD1W12AQDLCZ',d:'FD1W 12θ LC MM (24ί)',      br:'Panduit',sr:'FD1W',fi:['OM3','OM4'],co:'LC', p:12},
+  {sap:'1061696',pn:'FD1W24AQDLCZ',d:'FD1W 24θ LC MM (48ί)',      br:'Panduit',sr:'FD1W',fi:['OM3','OM4'],co:'LC', p:24},
+  {sap:'1061922',pn:'CFAPPBL1',d:'FAP Panel 4 slots 1RU',br:'Panduit',sr:'FAP',fi:['OS2','OM3','OM4'],co:'any',p:null,slots:4},
+  {sap:'1061503',pn:'FMT1',    d:'FAP Συρτάρι 4 slots', br:'Panduit',sr:'FAP',fi:['OS2','OM3','OM4'],co:'any',p:null,slots:4},
+  {sap:'1046008',pn:'70-79-1145C',d:'Central PLUS 6θ SC UPC SM',   br:'Central',sr:'PLUS',fi:['OS2'],      co:'SC',    p:6},
+  {sap:'1045965',pn:'70-79-1011C',d:'Central PLUS 8θ SC UPC SM',   br:'Central',sr:'PLUS',fi:['OS2'],      co:'SC',    p:8},
+  {sap:'1045952',pn:'70-79-1106C',d:'Central PLUS 12θ SC UPC SM',  br:'Central',sr:'PLUS',fi:['OS2'],      co:'SC',    p:12},
+  {sap:'1046009',pn:'70-79-1146C',d:'Central PLUS 24θ SC UPC SM',  br:'Central',sr:'PLUS',fi:['OS2'],      co:'SC',    p:24},
+  {sap:'1264907',pn:'70-79-1510C',d:'Central PLUS 8θ SC APC SM',   br:'Central',sr:'PLUS',fi:['OS2-APC'],  co:'SC-APC',p:8},
+  {sap:'1046015',pn:'70-79-1151C',d:'Central PLUS 12θ SC APC SM',  br:'Central',sr:'PLUS',fi:['OS2-APC'],  co:'SC-APC',p:12},
+  {sap:'1265006',pn:'70-79-1152C',d:'Central PLUS 24θ SC APC SM',  br:'Central',sr:'PLUS',fi:['OS2-APC'],  co:'SC-APC',p:24},
+  {sap:'1026712',pn:'70-79-1208C',d:'Central PLUS 8θ LC UPC SM',   br:'Central',sr:'PLUS',fi:['OS2'],      co:'LC',    p:8},
+  {sap:'1045943',pn:'70-79-1209C',d:'Central PLUS 12θ LC UPC SM',  br:'Central',sr:'PLUS',fi:['OS2'],      co:'LC',    p:12},
+  {sap:'1264922',pn:'70-79-2012C',d:'Central PLUS 48θ LC SM 12-QUAD',br:'Central',sr:'PLUS',fi:['OS2'],    co:'LC',    p:48},
+  {sap:'1045946',pn:'70-79-1202C',d:'Central PLUS 8θ LC MM',       br:'Central',sr:'PLUS',fi:['OM3','OM4'],co:'LC',    p:8},
+  {sap:'1045966',pn:'70-79-1203C',d:'Central PLUS 12θ LC MM',      br:'Central',sr:'PLUS',fi:['OM3','OM4'],co:'LC',    p:12},
+  {sap:'1045942',pn:'70-79-1205C',d:'Central PLUS 24θ LC MM',      br:'Central',sr:'PLUS',fi:['OM3','OM4'],co:'LC',    p:24},
+  {sap:'1045941',pn:'70-79-2011C',d:'Central PLUS 48θ LC MM 12-QUAD',br:'Central',sr:'PLUS',fi:['OM3','OM4'],co:'LC',  p:48},
+  {sap:'1346803',pn:'70-79-1302C',d:'Central PLUS 8θ LC APC SM',   br:'Central',sr:'PLUS',fi:['OS2-APC'],  co:'LC-APC',p:8},
+  {sap:'1264918',pn:'70-79-1303C',d:'Central PLUS 12θ LC APC SM',  br:'Central',sr:'PLUS',fi:['OS2-APC'],  co:'LC-APC',p:12},
+  {sap:'1343071',pn:'70-79-2102C',d:'Central PLUS 48θ LC APC 12-QUAD',br:'Central',sr:'PLUS',fi:['OS2-APC'],co:'LC-APC',p:48},
+  {sap:'1045940',pn:'70-79-LCE',d:'Central BASIC Κενό LC ≤24θ',br:'Central',sr:'BASIC',fi:['OS2','OM3','OM4'],co:'LC',p:24},
+  {sap:'1045963',pn:'70-79-SCE',d:'Central BASIC Κενό SC ≤24θ',br:'Central',sr:'BASIC',fi:['OS2','OM3','OM4'],co:'SC',p:24},
+];
+const FO_FAPS=[
+  {sap:'1061926',pn:'FAP6WBUDLCZ', d:'FAP 6θ LC SM OS2',       fi:['OS2'],       co:'LC',p:6},
+  {sap:'1047469',pn:'FAP12WBUDLCZ',d:'FAP 12θ LC SM OS2',      fi:['OS2'],       co:'LC',p:12},
+  {sap:'1061934',pn:'FAP6WBUDSCZ', d:'FAP 6θ SC SM OS2',       fi:['OS2'],       co:'SC',p:6},
+  {sap:'1047465',pn:'FAP6WAQDLCZ', d:'FAP 6θ LC MM OM4',       fi:['OM3','OM4'], co:'LC',p:6},
+  {sap:'1280163',pn:'FAP8WAQDLCZ', d:'FAP 8θ LC MM OM4',       fi:['OM3','OM4'], co:'LC',p:8},
+  {sap:'1061924',pn:'FAP12WAQDLCZ',d:'FAP 12θ LC MM OM4',      fi:['OM3','OM4'], co:'LC',p:12},
+];
+const FAPBLK={sap:'1061659',pn:'FAPB',d:'Κενό FAP'};
+const FO_CAS ={sap:'1001902',pn:'FSC24',d:'Κασέτα Οπτ. 24θ'};
+const FO_HS  ={sap:'1001888',pn:'70-79-1605C',d:'Θερμοσυστελλόμενο 60mm'};
+const FO_WBLK={sap:'1061597',pn:'CMBAW-X',d:'Τυφλός Ομφαλός Λευκός'};
+const FO_PIGS=[
+  {sap:'1061758',pn:'NKFP91BN1NNM001', d:'Pigtail LC SM OS2 1m',  br:'Panduit',fi:'OS2',    co:'LC'},
+  {sap:'1065253',pn:'NKFP91BN3NNM001', d:'Pigtail SC SM OS2 1m',  br:'Panduit',fi:'OS2',    co:'SC'},
+  {sap:'1047409',pn:'NKFPX1BN1NNM001', d:'Pigtail LC OM3 1m',     br:'Panduit',fi:'OM3',    co:'LC'},
+  {sap:'1047404',pn:'NKFPX1BN3NNM001', d:'Pigtail SC OM3 1m',     br:'Panduit',fi:'OM3',    co:'SC'},
+  {sap:'1047417',pn:'NKFPZ1BN1NNM001', d:'Pigtail LC OM4 1m',     br:'Panduit',fi:'OM4',    co:'LC'},
+  {sap:'1280234',pn:'FZ1BN3NNNSNM001', d:'Pigtail SC OM4 1m',     br:'Panduit',fi:'OM4',    co:'SC'},
+  {sap:'1045911',pn:'701-1-602-01C0',  d:'Pigtail LC UPC SM 1m',   br:'Central', fi:'OS2',    co:'LC'},
+  {sap:'1045919',pn:'701-1-604-01C0',  d:'Pigtail LC APC SM 1m',   br:'Central', fi:'OS2-APC',co:'LC-APC'},
+  {sap:'1061028',pn:'701-1-102-01C0',  d:'Pigtail SC UPC SM 1m',   br:'Central', fi:'OS2',    co:'SC'},
+  {sap:'1045931',pn:'701-1-104-01C0',  d:'Pigtail SC APC SM 1m',   br:'Central', fi:'OS2-APC',co:'SC-APC'},
+  {sap:'1045996',pn:'704-1-601-01-C0', d:'Pigtail LC OM3 1m',      br:'Central', fi:'OM3',    co:'LC'},
+  {sap:'1061030',pn:'705-1-601-01C0',  d:'Pigtail LC OM4 1m',      br:'Central', fi:'OM4',    co:'LC'},
+];
+const FO_ADAPS=[
+  {sap:'1061485',pn:'CMDSAQLCZBL',d:'Coupler LC MM',    br:'Panduit',fi:'MM', co:'LC'},
+  {sap:'1061486',pn:'CMDSLCZBU',  d:'Coupler LC OS2',   br:'Panduit',fi:'OS2',co:'LC'},
+  {sap:'1061955',pn:'CMDBUSCZBL', d:'Coupler SC OS2',   br:'Panduit',fi:'OS2',co:'SC'},
+  {sap:'1264930',pn:'70-79-1804', d:'Adaptor LC SM Duplex',  br:'Central',fi:'OS2',co:'LC'},
+  {sap:'1045896',pn:'70-79-1800', d:'Adaptor LC MM Duplex',  br:'Central',fi:'MM', co:'LC'},
+  {sap:'1264909',pn:'70-79-1808', d:'Adaptor LC APC Duplex', br:'Central',fi:'OS2-APC',co:'LC-APC'},
+  {sap:'1045967',pn:'70-79-1111', d:'Adaptor SC SM Duplex',  br:'Central',fi:'OS2',co:'SC'},
+  {sap:'1045957',pn:'70-79-1109', d:'Adaptor SC APC Duplex', br:'Central',fi:'OS2-APC',co:'SC-APC'},
+  {sap:'1045971',pn:'70-79-1113', d:'Adaptor SC MM Duplex',  br:'Central',fi:'MM', co:'SC'},
+];
+const FO_BOXES=[
+  {sap:'1062648',pn:'CBXF6WH-AY', d:'Wall Box 6θ White/Gray',p:6},
+  {sap:'1061461',pn:'CBXF6AW-AY', d:'Wall Box 6θ Arctic White',p:6},
+  {sap:'1061460',pn:'CBXF12AW-AY',d:'Wall Box 12θ Oval AW',  p:12},
+];
+
+// ═══════════════════════════════════════════════════════════
+// ══ RACKS DEFAULT DATA
+// ═══════════════════════════════════════════════════════════
+const DEFAULT_RACKS=[
+  {sap:'1046129',pn:'3000360006C', d:'Επιτοίχιο 6U 540×600', br:'Central',tp:'wall',u:6, w:540,dep:600,url:'https://www.central-telecom.gr/Product/4'},
+  {sap:'1046128',pn:'3000360012/C',d:'Επιτοίχιο 12U 600×600',br:'Central',tp:'wall',u:12,w:600,dep:600,url:'https://www.central-telecom.gr/Product/4'},
+  {sap:'1046130',pn:'3000360015C', d:'Επιτοίχιο 15U 540×600',br:'Central',tp:'wall',u:15,w:540,dep:600,url:'https://www.central-telecom.gr/Product/4'},
+  {sap:'1046126',pn:'3000360020/C',d:'Επιτοίχιο 20U 540×600',br:'Central',tp:'wall',u:20,w:540,dep:600,url:'https://www.central-telecom.gr/Product/4'},
+  {sap:'1046125',pn:'4000160022C', d:'Επιδαπέδιο 22U 600×600',br:'Central',tp:'std',u:22,w:600,dep:600,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046131',pn:'4000160027/C',d:'Επιδαπέδιο 27U 600×600',br:'Central',tp:'std',u:27,w:600,dep:600,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046127',pn:'4000160032/C',d:'Επιδαπέδιο 32U 600×600',br:'Central',tp:'std',u:32,w:600,dep:600,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046132',pn:'4000160037/C',d:'Επιδαπέδιο 37U 600×600',br:'Central',tp:'std',u:37,w:600,dep:600,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046134',pn:'4000160042C', d:'Επιδαπέδιο 42U 600×600',br:'Central',tp:'std',u:42,w:600,dep:600,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046135',pn:'4000268022/C',d:'Επιδαπέδιο 22U 600×800',br:'Central',tp:'std',u:22,w:600,dep:800,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046137',pn:'4000268027/C',d:'Επιδαπέδιο 27U 600×800',br:'Central',tp:'std',u:27,w:600,dep:800,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046138',pn:'4000268032/C',d:'Επιδαπέδιο 32U 600×800',br:'Central',tp:'std',u:32,w:600,dep:800,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046136',pn:'4000268042/C',d:'Επιδαπέδιο 42U 600×800',br:'Central',tp:'std',u:42,w:600,dep:800,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046172',pn:'4000369622/C',d:'Επιδαπέδιο 22U 600×1000',br:'Central',tp:'std',u:22,w:600,dep:1000,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046141',pn:'4000369632/C',d:'Επιδαπέδιο 32U 600×1000',br:'Central',tp:'std',u:32,w:600,dep:1000,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046142',pn:'4000369642/C',d:'Επιδαπέδιο 42U 600×1000',br:'Central',tp:'std',u:42,w:600,dep:1000,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1265194',pn:'9900160027/C2',d:'Server Rack 27U 600×600',br:'Central',tp:'srv',u:27,w:600,dep:600,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046163',pn:'9900160032/C2',d:'Server Rack 32U 600×600',br:'Central',tp:'srv',u:32,w:600,dep:600,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046162',pn:'9900160037/C2',d:'Server Rack 37U 600×600',br:'Central',tp:'srv',u:37,w:600,dep:600,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046151',pn:'9900160042/C2',d:'Server Rack 42U 600×600',br:'Central',tp:'srv',u:42,w:600,dep:600,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046159',pn:'9900160047/C2',d:'Server Rack 47U 600×600',br:'Central',tp:'srv',u:47,w:600,dep:600,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046166',pn:'9900268027/C2',d:'Server Rack 27U 600×800',br:'Central',tp:'srv',u:27,w:600,dep:800,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046154',pn:'9900268032/C2',d:'Server Rack 32U 600×800',br:'Central',tp:'srv',u:32,w:600,dep:800,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046146',pn:'9900268037/C2',d:'Server Rack 37U 600×800',br:'Central',tp:'srv',u:37,w:600,dep:800,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046160',pn:'9900268042/C2',d:'Server Rack 42U 600×800',br:'Central',tp:'srv',u:42,w:600,dep:800,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046148',pn:'9900268047/C2',d:'Server Rack 47U 600×800',br:'Central',tp:'srv',u:47,w:600,dep:800,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046150',pn:'9900369627/C2',d:'Server Rack 27U 600×1000',br:'Central',tp:'srv',u:27,w:600,dep:1000,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046205',pn:'9900369632/C2',d:'Server Rack 32U 600×1000',br:'Central',tp:'srv',u:32,w:600,dep:1000,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046208',pn:'9900369637/C2',d:'Server Rack 37U 600×1000',br:'Central',tp:'srv',u:37,w:600,dep:1000,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046152',pn:'9900369642/C2',d:'Server Rack 42U 600×1000',br:'Central',tp:'srv',u:42,w:600,dep:1000,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1265180',pn:'9900369647/C2',d:'Server Rack 47U 600×1000',br:'Central',tp:'srv',u:47,w:600,dep:1000,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1265198',pn:'9900480027/C2',d:'Server Rack 27U 800×800',br:'Central',tp:'srv',u:27,w:800,dep:800,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1265193',pn:'9900480032/C2',d:'Server Rack 32U 800×800',br:'Central',tp:'srv',u:32,w:800,dep:800,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046171',pn:'9900480037/C2',d:'Server Rack 37U 800×800',br:'Central',tp:'srv',u:37,w:800,dep:800,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046147',pn:'9900480042/C2',d:'Server Rack 42U 800×800',br:'Central',tp:'srv',u:42,w:800,dep:800,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046170',pn:'9900480047/C2',d:'Server Rack 47U 800×800',br:'Central',tp:'srv',u:47,w:800,dep:800,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046206',pn:'9900596027/C2',d:'Server Rack 27U 800×1000',br:'Central',tp:'srv',u:27,w:800,dep:1000,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1265258',pn:'9900596032/C2',d:'Server Rack 32U 800×1000',br:'Central',tp:'srv',u:32,w:800,dep:1000,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1065366',pn:'9900596037/C2',d:'Server Rack 37U 800×1000',br:'Central',tp:'srv',u:37,w:800,dep:1000,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046204',pn:'9900596042/C2',d:'Server Rack 42U 800×1000',br:'Central',tp:'srv',u:42,w:800,dep:1000,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046202',pn:'9900596047/C2',d:'Server Rack 47U 800×1000',br:'Central',tp:'srv',u:47,w:800,dep:1000,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'5326121',pn:'VX IT 5326121',d:'Rittal VX IT 24U 600×600',br:'Rittal',tp:'rittal',u:24,w:600,dep:600,url:'https://www.rittal.com'},
+  {sap:'5329121',pn:'VX IT 5329121',d:'Rittal VX IT 42U 600×600',br:'Rittal',tp:'rittal',u:42,w:600,dep:600,url:'https://www.rittal.com'},
+  {sap:'5307124',pn:'VX IT 5307124',d:'Rittal VX IT 42U 800×800',br:'Rittal',tp:'rittal',u:42,w:800,dep:800,url:'https://www.rittal.com'},
+  {sap:'5309126',pn:'VX IT 5309126',d:'Rittal VX IT 42U 800×1000',br:'Rittal',tp:'rittal',u:42,w:800,dep:1000,url:'https://www.rittal.com'},
+  {sap:'5503120',pn:'TS IT 5503120',d:'Rittal TS IT 24U 800×800',br:'Rittal',tp:'rittal',u:24,w:800,dep:800,url:'https://www.rittal.com'},
+  {sap:'5507120',pn:'TS IT 5507120',d:'Rittal TS IT 42U 800×800',br:'Rittal',tp:'rittal',u:42,w:800,dep:800,url:'https://www.rittal.com'},
+  {sap:'5509120',pn:'TS IT 5509120',d:'Rittal TS IT 42U 800×1000',br:'Rittal',tp:'rittal',u:42,w:800,dep:1000,url:'https://www.rittal.com'},
+  {sap:'5326131',pn:'VX IT 5326131',d:'Rittal VX IT 24U 600×600 IP55',br:'Rittal',tp:'ip55',u:24,w:600,dep:600,url:'https://www.rittal.com'},
+  {sap:'5329131',pn:'VX IT 5329131',d:'Rittal VX IT 42U 600×600 IP55',br:'Rittal',tp:'ip55',u:42,w:600,dep:600,url:'https://www.rittal.com'},
+  {sap:'5330133',pn:'VX IT 5330133',d:'Rittal VX IT 42U 600×800 IP55',br:'Rittal',tp:'ip55',u:42,w:600,dep:800,url:'https://www.rittal.com'},
+  {sap:'5303134',pn:'VX IT 5303134',d:'Rittal VX IT 24U 800×800 IP55',br:'Rittal',tp:'ip55',u:24,w:800,dep:800,url:'https://www.rittal.com'},
+  {sap:'5307134',pn:'VX IT 5307134',d:'Rittal VX IT 42U 800×800 IP55',br:'Rittal',tp:'ip55',u:42,w:800,dep:800,url:'https://www.rittal.com'},
+  {sap:'5309136',pn:'VX IT 5309136',d:'Rittal VX IT 42U 800×1000 IP55',br:'Rittal',tp:'ip55',u:42,w:800,dep:1000,url:'https://www.rittal.com'},
+  {sap:'8840100',pn:'VX 8840100',d:'Rittal VX 42U 800×600 IP55',br:'Rittal',tp:'ip55',u:42,w:800,dep:600,url:'https://www.rittal.com'},
+  {sap:'8840110',pn:'VX 8840110',d:'Rittal VX 42U 800×800 IP55',br:'Rittal',tp:'ip55',u:42,w:800,dep:800,url:'https://www.rittal.com'},
+  {sap:'8840120',pn:'VX 8840120',d:'Rittal VX 42U 600×600 IP55',br:'Rittal',tp:'ip55',u:42,w:600,dep:600,url:'https://www.rittal.com'},
+  {sap:'8840130',pn:'VX 8840130',d:'Rittal VX 42U 600×800 IP55',br:'Rittal',tp:'ip55',u:42,w:600,dep:800,url:'https://www.rittal.com'},
+  {sap:'8807000',pn:'VX Baying 8807000',d:'Rittal VX Baying 800×600 IP66',br:'Rittal',tp:'ip55',u:42,w:800,dep:600,url:'https://www.rittal.com'},
+  {sap:'8458000',pn:'VX Baying 8458000',d:'Rittal VX Baying 800×600 IP66 Stainless',br:'Rittal',tp:'ip55',u:42,w:800,dep:600,url:'https://www.rittal.com'},
+];
+const DEFAULT_SHELVES={
+  600:{dep:600,id:'shelf600',sap:'1046186',pn:'2000160003/C',d:'Ράφι Σταθερό 1U — 600mm'},
+  800:{dep:800,id:'shelf800',sap:'1046182',pn:'2000480004/C',d:'Ράφι 4 Σημείων 1U — 800mm'},
+  1000:{dep:1000,id:'shelf1000',sap:'1046184',pn:'2000596005/C',d:'Ράφι Σταθερό 1U — 1000mm'},
+  1200:{dep:1200,id:'shelf1200',sap:'⚠️',pn:'—',d:'Ράφι 1U 1200mm — επιβεβ.'},
+};
+const DEFAULT_ACCS=[
+  {id:'fan',  sap:'1001879',  pn:'80-83-425C',   d:'Ανεμιστήρας 230V'},
+  {id:'therm',sap:'1001880',  pn:'80-83-440C',   d:'Θερμοστάτης'},
+  {id:'pdu1', sap:'1001887',  pn:'91-71-212C',   d:'PDU 8θ Μ/Διακόπτη'},
+  {id:'pdu2', sap:'1001877',  pn:'91-71-213C',   d:'PDU 8θ RFI'},
+  {id:'org1', sap:'1046189',  pn:'1000440018/C', d:'Οργανωτής 1U Slot'},
+  {id:'org2', sap:'1001878',  pn:'80-83-504C',   d:'Οργανωτής 1U Απλός'},
+  {id:'cage', sap:'815110084',pn:'80-84-434/C-P',d:'Σετ Βίδα & Παξ. M6'},
+];
+
+// ═══════════════════════════════════════════════════════════
+// ══ MUTABLE DATA (loaded from API)
+// ═══════════════════════════════════════════════════════════
+let RACKS=[], SHELVES={}, ACCS=[];
+
+// ═══════════════════════════════════════════════════════════
+// ══ API FUNCTIONS (Google Sheets)
+// ═══════════════════════════════════════════════════════════
+function showLoading(v){
+  document.getElementById('loading-overlay').style.display = v ? 'flex' : 'none';
+}
+function showOffline(v){
+  document.getElementById('offline-banner').style.display = v ? 'block' : 'none';
+}
+
+async function loadAll(){
+  showLoading(true);
+  showOffline(false);
+  try{
+    const resp = await fetch(`${API_URL}?t=${Date.now()}`);
+    if(!resp.ok) throw new Error('HTTP ' + resp.status);
+    const data = await resp.json();
+
+    RACKS  = (data.racks  && data.racks.length)       ? data.racks  : DEFAULT_RACKS.map(x=>({...x}));
+    ACCS   = (data.accessories && data.accessories.length) ? data.accessories : DEFAULT_ACCS.map(x=>({...x}));
+
+    // Shelves: API returns array, HTML uses obj keyed by dep
+    if(data.shelves && data.shelves.length){
+      SHELVES = {};
+      data.shelves.forEach(s => { if(s.dep) SHELVES[parseInt(s.dep)] = s; });
+    } else {
+      SHELVES = JSON.parse(JSON.stringify(DEFAULT_SHELVES));
+    }
+
+    admPin = data.pin || '1234';
+
+    // Cache locally
+    try{ localStorage.setItem(CACHE_KEY, JSON.stringify({racks:RACKS, shelves:SHELVES, accs:ACCS, ts:Date.now()})); }catch(e){}
+
+  } catch(err){
+    console.warn('API unavailable, using cache:', err);
+    try{
+      const cache = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null');
+      if(cache){ RACKS=cache.racks; SHELVES=cache.shelves; ACCS=cache.accs; showOffline(true); }
+      else { RACKS=DEFAULT_RACKS.map(x=>({...x})); SHELVES=JSON.parse(JSON.stringify(DEFAULT_SHELVES)); ACCS=DEFAULT_ACCS.map(x=>({...x})); showOffline(true); }
+    }catch(e2){ RACKS=DEFAULT_RACKS.map(x=>({...x})); SHELVES=JSON.parse(JSON.stringify(DEFAULT_SHELVES)); ACCS=DEFAULT_ACCS.map(x=>({...x})); }
+  } finally{
+    showLoading(false);
+  }
+  renderApp();
+}
+
+async function saveData(key, data, msg){
+  // Build full payload (always sync all data)
+  const payload = {
+    racks:       RACKS,
+    shelves:     Object.values(SHELVES),
+    accessories: ACCS
+  };
+  if(key==='pin') payload.pin = admPin;
+
+  // Update local cache immediately
+  try{ localStorage.setItem(CACHE_KEY, JSON.stringify({racks:RACKS, shelves:SHELVES, accs:ACCS, ts:Date.now()})); }catch(e){}
+
+  // POST to API (fire & forward — text/plain avoids CORS preflight)
+  try{
+    fetch(API_URL, {
+      method:'POST',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body: JSON.stringify(payload),
+      mode:'no-cors'
+    });
+    if(msg) flashAdm(msg + ' ☁️');
+  }catch(err){
+    console.warn('API save failed (local cache updated):', err);
+    if(msg) flashAdm(msg + ' (local)');
+  }
+}
+
+function flashAdm(t){
+  const el=document.getElementById('adm-smsg');
+  if(el){el.textContent=t;el.style.opacity='1';setTimeout(()=>{el.style.opacity='0';},2500);}
+}
+
+async function refreshData(){
+  const btn=document.getElementById('refresh-btn');
+  if(btn){btn.textContent='⏳';btn.disabled=true;}
+  await loadAll();
+  if(btn){btn.textContent='🔄';btn.disabled=false;}
+}
+
+// ═══════════════════════════════════════════════════════════
+// ══ EXPORT
+// ═══════════════════════════════════════════════════════════
+function eqKey(it){return(it.id||it.pn||it.sap)+'_'+(it.co||it.cat||it.fi||'')+'_'+(it.sh||'');}
+function renderExportBox(items){
+  if(!items||!items.length)return'';
+  items.forEach(it=>{const k=eqKey(it);if(exportQtys[k]===undefined)exportQtys[k]=it._qty??1;});
+  const rows=items.map(it=>{const k=eqKey(it),q=exportQtys[k]??1;const sapEl=String(it.sap).startsWith('⚠')?`<span style="color:var(--color-text-warning)">${it.sap}</span>`:it.sap;return`<tr class="${q==0?'dim':''}"><td class="export-sap">${sapEl}</td><td class="export-pn">${it.pn}</td><td class="export-desc">${it.d}</td><td><input class="qty-input" type="number" min="0" max="999" value="${q}" data-k="${k}" onchange="exportQtys[this.dataset.k]=parseInt(this.value)||0;this.closest('tr').className=parseInt(this.value)?'':'dim'"/></td></tr>`;}).join('');
+  return`<div class="export-box"><div class="export-header"><span class="export-title"><i class="ti ti-clipboard-list"></i> Λίστα Παραγγελίας</span><span style="font-size:11px;color:var(--color-text-tertiary)">${items.length} αντικ.</span></div><div style="overflow-x:auto"><table class="export-table"><thead><tr><th>SAP</th><th>P/N</th><th>Περιγραφή</th><th>Qty</th></tr></thead><tbody>${rows}</tbody></table></div><div class="export-footer"><button class="copy-btn" onclick="copyTSV(${JSON.stringify(items).replace(/"/g,"'")})"><i class="ti ti-copy"></i> Αντιγραφή TSV</button><span id="copy-msg" class="copy-msg"></span></div></div>`;
+}
+async function copyTSV(items){
+  const lines=['SAP\tP/N\tΠεριγραφή\tQty'];
+  items.forEach(it=>{const k=eqKey(it),q=exportQtys[k]??1;if(q>0)lines.push(`${it.sap}\t${it.pn}\t${it.d}\t${q}`);});
+  try{await navigator.clipboard.writeText(lines.join('\n'));const m=document.getElementById('copy-msg');if(m){m.textContent='✓ Αντιγράφηκε!';m.style.opacity='1';setTimeout(()=>{m.style.opacity='0';},2500);}}
+  catch(e){alert('Αντιγράψτε χειροκίνητα:\n\n'+lines.join('\n'));}
+}
+
+// ═══════════════════════════════════════════════════════════
+// ══ HELPERS
+// ═══════════════════════════════════════════════════════════
+function fl(pn){return String(pn)[0].toUpperCase();}
+function genericCard(it,qty,url){
+  const isCen=it.br==='Central'||it.sr==='Central';
+  const bc=it.tp==='ip55'?'bIP':it.br==='Rittal'?'bR':isCen?'bC':'bP';
+  const badge=it.tp==='ip55'?'IP55':(it.br||'Panduit');
+  const qEl=qty&&qty>1?`<span class="qty-b">${qty}×</span>`:'';
+  const sapEl=String(it.sap).startsWith('⚠')?`<span style="color:var(--color-text-warning);font-size:9px">${it.sap}</span>`:`<div class="ps">${it.sap}</div>`;
+  const link=url||it.url||'#';
+  return`<div class="pc"><div>${sapEl}</div><div class="pm"><a class="pp" href="${link}" target="_blank">${qEl}${it.pn} <i class="ti ti-external-link" style="font-size:9px"></i></a><div class="pd">${it.d}</div></div><span class="pb ${bc}">${badge}</span></div>`;
+}
+function getJacks(kp,cat,shield){
+  if(!kp.length||!cat||!shield)return[];
+  const isKP=kp.some(p=>p.sr==='KP');
+  const isCentralOnly=kp.every(p=>p.br==='Central');
+  const hasPanduitCP=kp.some(p=>p.br==='Panduit'&&p.sr==='MiniCom');
+  return CU_JACKS.filter(j=>{
+    if(j.cat!==cat||j.sh!==shield)return false;
+    if(isKP&&kp.every(p=>p.sr==='KP'))return j.sr==='KP';
+    if(isCentralOnly)return j.sr==='Central';
+    if(hasPanduitCP){const L=new Set(kp.filter(p=>p.br==='Panduit').map(p=>fl(p.pn)));return(L.has(fl(j.pn))&&j.sr!=='KP')||(j.sr==='Central');}
+    const L=new Set(kp.filter(p=>p.br==='Panduit').map(p=>fl(p.pn)));
+    return(j.sr==='Central'||(L.has(fl(j.pn))&&j.sr!=='KP'));
+  }).filter((j,i,a)=>a.findIndex(x=>x.sap===j.sap&&x.pn===j.pn)===i);
+}
+
+// ═══════════════════════════════════════════════════════════
+// ══ COPPER MODULE
+// ═══════════════════════════════════════════════════════════
+function cuCf(k){if(cuMode==='panel'){const o=['cat','shield','type','brand'];o.slice(o.indexOf(k)).forEach(x=>delete cuSel[x]);}else{const o=['mounting','pos','series','cat','shield'];o.slice(o.indexOf(k)).forEach(x=>delete cuOSel[x]);}exportQtys={};renderApp();}
+function cuCh(k,v){
+  if(cuMode==='panel'){const o=['cat','shield','type','brand'];o.slice(o.indexOf(k)+1).forEach(x=>delete cuSel[x]);cuSel[k]=v;}
+  else{const o=['mounting','pos','series','cat','shield'];o.slice(o.indexOf(k)+1).forEach(x=>delete cuOSel[x]);cuOSel[k]=v;if(cuOSel.series==='NetKey')cuOSel.shield='UTP';}
+  exportQtys={};renderApp();
+}
+function renderCopper(){
+  const s=document.getElementById('main-content');if(!s)return;
+  let html=`<div class="subtabs"><button class="subtb${cuMode==='panel'?' on':''}" onclick="cuMode='panel';cuSel={};exportQtys={};renderApp()">📋 Patch Panel</button><button class="subtb${cuMode==='outlet'?' on':''}" onclick="cuMode='outlet';cuOSel={};exportQtys={};renderApp()">🔌 Outlet / Πριζάκι</button></div>`;
+  if(cuMode==='panel'){
+    function pOpts(k){
+      const tmp={...cuSel};delete tmp[k];
+      const base=CU_PANELS.filter(p=>{if(tmp.cat&&!p.cats.includes(tmp.cat))return false;if(tmp.shield&&!p.shields.includes(tmp.shield))return false;if(tmp.type&&p.tp!==tmp.type)return false;if(tmp.brand&&tmp.brand!=='all'&&p.br!==tmp.brand)return false;return true;});
+      if(k==='cat')return['Cat5e','Cat6','Cat6A'].map(v=>({v,t:v,s:'',dis:!base.some(p=>p.cats.includes(v))}));
+      if(k==='shield')return[{v:'UTP',t:'UTP',s:'Αθωράκιστο'},{v:'SHP',t:'Θωρακισμένα',s:'F/UTP · U/FTP · S/FTP'}].map(o=>({...o,dis:!base.some(p=>p.shields.includes(o.v))}));
+      if(k==='type')return[{v:'keystone',t:'Keystone',s:'Κενό'},{v:'prewired',t:'Pre-wired',s:'Γεμάτο'}].map(o=>({...o,dis:!base.some(p=>p.tp===o.v)}));
+      if(k==='brand')return[{v:'Panduit',t:'Panduit',s:'Επαγγελ.'},{v:'Central',t:'Central',s:'Οικον.'},{v:'all',t:'Αμφότερα',s:''}].map(o=>({...o,dis:o.v!=='all'&&!base.some(p=>p.br===o.v)}));
+      return[];
+    }
+    const steps=[{k:'cat',lbl:'1. Κατηγορία',opts:()=>pOpts('cat')},{k:'shield',lbl:'2. Θωράκιση',opts:()=>pOpts('shield')},{k:'type',lbl:'3. Τύπος',opts:()=>pOpts('type')},{k:'brand',lbl:'4. Brand',opts:()=>pOpts('brand')}];
+    const done=Object.keys(cuSel).filter(k=>cuSel[k]),next=steps.find(s=>!done.includes(s.k));
+    const lnames={cat:'Κατηγορία',shield:'Θωράκιση',type:'Τύπος',brand:'Brand'};
+    const crumb=done.length?done.map((k,i)=>`${i?'<span class="csep">›</span>':''}<span class="chip"><span style="font-size:10px;color:var(--color-text-secondary)">${lnames[k]||k}:</span> <b>${cuSel[k]==='SHP'?'Θωρακισμένα':cuSel[k]}</b><button onclick="cuCf('${k}')">×</button></span>`).join(''):'<span style="color:var(--color-text-tertiary);font-size:11px"><i class="ti ti-filter"></i> Επέλεξε κριτήρια</span>';
+    let wiz='';
+    steps.forEach(st=>{if(!done.includes(st.k)&&st!==next)return;const opts=st.opts();wiz+=`<div class="step"><div class="slbl">${st.lbl}</div><div class="opts">${opts.map(o=>`<button class="opt${cuSel[st.k]===o.v?' sel':''}" onclick="cuCh('${st.k}','${o.v}')"${o.dis?' disabled':''}><div class="ot">${o.t}</div><div class="os">${o.s||''}</div></button>`).join('')}</div></div>`;});
+    html+=`<div class="crumb">${crumb}</div>${wiz}`;
+    if(done.length>=2){
+      const panels=CU_PANELS.filter(p=>{if(cuSel.cat&&!p.cats.includes(cuSel.cat))return false;if(cuSel.shield&&!p.shields.includes(cuSel.shield))return false;if(cuSel.type&&p.tp!==cuSel.type)return false;if(cuSel.brand&&cuSel.brand!=='all'&&p.br!==cuSel.brand)return false;return true;}).filter((p,i,a)=>a.findIndex(x=>x.sap===p.sap&&x.pn===p.pn)===i);
+      const kp=panels.filter(p=>p.tp==='keystone');
+      const jacks=getJacks(kp,cuSel.cat,cuSel.shield);
+      const isKPonly=kp.length&&kp.every(p=>p.sr==='KP');
+      const centralShpJack=jacks.find(j=>j.centralShpNote);
+      html+=`<div class="div"></div>`;
+      if(panels.length)html+=`<div class="sl">Patch Panels (${panels.length})</div><div class="pg">${panels.map(p=>genericCard(p,1)).join('')}</div>`;
+      if(isKPonly)html+=`<div class="warn">⚠️ KP24WSBL: ΜΟΝΟ με KJS6X88TC.</div>`;
+      if(jacks.length)html+=`<div class="sl">Συμβατά Jacks</div><div class="pg">${jacks.map(j=>genericCard(j,1)).join('')}</div>`;
+      if(centralShpJack)html+=`<div class="info"><i class="ti ti-info-circle"></i> <b>15-18-12/T</b>: Συμβατό με όλα τα θωρακισμένα καλώδια και με όλα τα κενά Central panels.</div>`;
+      if(panels.some(p=>p.tp==='prewired'))html+=`<div class="note">Pre-wired: χωρίς ξεχωριστά jacks.</div>`;
+      html+=renderExportBox([...panels.map(p=>({...p,_qty:1})),...jacks.map(j=>({...j,_qty:24}))]);
+    }
+  } else {
+    const steps=[
+      {k:'mounting',lbl:'1. Τοποθέτηση',opts:[{v:'wall',t:'Επίτοιχο',s:''},{v:'dlp',t:'DLP',s:''}]},
+      {k:'pos',lbl:'2. Θέσεις',opts:[{v:'1',t:'1θ',s:''},{v:'2',t:'2θ',s:''}]},
+      {k:'series',lbl:'3. Σειρά',opts:[{v:'MiniCom',t:'MiniCom',s:''},{v:'NetKey',t:'NetKey',s:''}]},
+      {k:'cat',lbl:'4. Κατηγορία',opts:[{v:'Cat5e',t:'Cat5e',s:''},{v:'Cat6',t:'Cat6',s:''},{v:'Cat6A',t:'Cat6A',s:''}]},
+      ...(cuOSel.series==='MiniCom'&&cuOSel.cat==='Cat6A'?[{k:'shield',lbl:'5. Θωράκιση',opts:[{v:'UTP',t:'UTP',s:''},{v:'SHP',t:'Θωρακισμένα',s:''}]}]:[]),
+    ];
+    const done=Object.keys(cuOSel).filter(k=>cuOSel[k]),next=steps.find(s=>!done.includes(s.k));
+    const lnames={mounting:'Τοποθέτηση',pos:'Θέσεις',series:'Σειρά',cat:'Κατηγορία',shield:'Θωράκιση'};
+    const crumb=done.length?done.map((k,i)=>`${i?'<span class="csep">›</span>':''}<span class="chip"><span style="font-size:10px;color:var(--color-text-secondary)">${lnames[k]||k}:</span> <b>${cuOSel[k]==='SHP'?'Θωρακισμένα':cuOSel[k]}</b><button onclick="cuCf('${k}')">×</button></span>`).join(''):'<span style="color:var(--color-text-tertiary);font-size:11px"><i class="ti ti-filter"></i> Επέλεξε κριτήρια</span>';
+    let wiz='';
+    steps.forEach(st=>{if(!done.includes(st.k)&&st!==next)return;wiz+=`<div class="step"><div class="slbl">${st.lbl}</div><div class="opts">${st.opts.map(o=>`<button class="opt${cuOSel[st.k]===o.v?' sel':''}" onclick="cuCh('${st.k}','${o.v}')"${o.dis?' disabled':''}><div class="ot">${o.t}</div><div class="os">${o.s||''}</div></button>`).join('')}</div></div>`;});
+    html+=`<div class="crumb">${crumb}</div>${wiz}`;
+    if(cuOSel.mounting&&cuOSel.pos&&cuOSel.series&&cuOSel.cat){
+      const pos=parseInt(cuOSel.pos),sh=cuOSel.shield||'UTP',isWall=cuOSel.mounting==='wall',n1in2=isWall&&pos===1;
+      const bodies=CU_OUTLETS.filter(b=>{if(b.sr!==cuOSel.series||b.mt!==cuOSel.mounting)return false;if(isWall)return true;return b.maxP===pos;});
+      const ojacks=CU_OJACKS.filter(j=>j.sr===cuOSel.series&&j.cat===cuOSel.cat&&j.sh===sh);
+      html+=`<div class="div"></div>`;
+      if(bodies.length)html+=`<div class="sl">Κουτί / Πρόσοψη</div><div class="pg">${bodies.map(b=>genericCard({...b,br:'Panduit'},1)).join('')}</div>${n1in2?`<div class="warn">1θ επίτοιχο: 2θ κουτί + τυφλό κάλυμμα.</div>`:''}`;
+      if(ojacks.length)html+=`<div class="sl">Jacks (${pos}×)</div><div class="pg">${ojacks.map(j=>genericCard({...j,br:'Panduit'},pos)).join('')}</div>`;
+      if(n1in2&&cuOSel.series==='MiniCom')html+=`<div class="sl">Τυφλός Ομφαλός</div><div class="pg">${genericCard({...CU_BLANK,br:'Panduit'},1)}</div>`;
+      html+=renderExportBox([...bodies.map(b=>({...b,br:'Panduit',_qty:1})),...ojacks.map(j=>({...j,br:'Panduit',_qty:pos})),...(n1in2&&cuOSel.series==='MiniCom'?[{...CU_BLANK,br:'Panduit',_qty:1}]:[])]);
+    }
+  }
+  s.innerHTML=html;
+}
+
+// ═══════════════════════════════════════════════════════════
+// ══ FO MODULE
+// ═══════════════════════════════════════════════════════════
+function foEff(fi,co){if(fi==='OS2'&&(co==='LC-APC'||co==='SC-APC'))return'OS2-APC';return fi;}
+function foFm(pFi,fi,co){const ef=foEff(fi,co);return pFi.includes(ef)||pFi.includes(fi);}
+function foAd(fi){return(fi==='OM3'||fi==='OM4')?'MM':fi;}
+function foCf(k){if(foMode==='panel'){const o=['fi','co','sr','nf'];o.slice(o.indexOf(k)).forEach(x=>delete foSel[x]);}else{const o=['fi','co','bp','nf'];o.slice(o.indexOf(k)).forEach(x=>delete foBSel[x]);}exportQtys={};renderApp();}
+function foCh(k,v){if(foMode==='panel'){const o=['fi','co','sr','nf'];o.slice(o.indexOf(k)+1).forEach(x=>delete foSel[x]);foSel[k]=v;}else{const o=['fi','co','bp','nf'];o.slice(o.indexOf(k)+1).forEach(x=>delete foBSel[x]);foBSel[k]=v;}exportQtys={};renderApp();}
+function foFap(fi,co,N){const mods=FO_FAPS.filter(m=>m.fi.includes(fi)&&m.co===co).sort((a,b)=>b.p-a.p);if(!mods.length)return null;const best=mods[0],n=Math.ceil((N/2)/best.p);return{mod:best,qty:n,blanks:Math.max(0,4-n)};}
+function foMinP(sr,N){return(sr==='PLUS'||sr==='BASIC')?N:Math.ceil(N/2);}
+
+function renderFO(){
+  const s=document.getElementById('main-content');if(!s)return;
+  let html=`<div class="subtabs"><button class="subtb${foMode==='panel'?' on':''}" onclick="foMode='panel';foSel={};exportQtys={};renderApp()">📋 Patch Panel</button><button class="subtb${foMode==='box'?' on':''}" onclick="foMode='box';foBSel={};exportQtys={};renderApp()">📦 Wall Box</button></div>`;
+  if(foMode==='panel'){
+    const nfOpts=[{v:'6',t:'6 ίνες',s:'Panduit: 3 duplex'},{v:'8',t:'8 ίνες',s:'Central: 8θ = 4 duplex'},{v:'12',t:'12 ίνες',s:'Panduit: 6 duplex / Central: 12θ'},{v:'24',t:'24 ίνες',s:'Panduit: 12 duplex / Central: 24θ'},{v:'48',t:'48 ίνες',s:'Panduit: 24 duplex / Central: 48θ QUAD'}];
+    const pSteps=[
+      {k:'fi',lbl:'1. Τύπος Ίνας',opts:[{v:'OS2',t:'SM OS2',s:'9/125'},{v:'OM3',t:'MM OM3',s:'50/125'},{v:'OM4',t:'MM OM4',s:'50/125 10G'}]},
+      {k:'co',lbl:'2. Connector',opts:foSel.fi?[{v:'LC',t:'LC UPC',s:''},{v:'SC',t:'SC UPC',s:''},{v:'LC-APC',t:'LC APC',s:'πράσινο',dis:foSel.fi!=='OS2'},{v:'SC-APC',t:'SC APC',s:'πράσινο',dis:foSel.fi!=='OS2'}]:[{v:'LC',t:'LC UPC',s:''},{v:'SC',t:'SC UPC',s:''},{v:'LC-APC',t:'LC APC',s:'πράσινο'},{v:'SC-APC',t:'SC APC',s:'πράσινο'}]},
+      {k:'sr',lbl:'3. Σειρά',opts:[{v:'FD1W',t:'Panduit FD1W',s:'κασέτα+pigtails+ΘΣ'},{v:'FAP',t:'Panduit FAP',s:'κασέτα+pigtails+ΘΣ'},{v:'PLUS',t:'Central PLUS',s:'pigtails+ΘΣ (θ=ίνες)'},{v:'BASIC',t:'Central BASIC',s:'adaptors+pigtails+ΘΣ ≤24θ'}].map(o=>({...o,dis:foSel.co&&(foSel.co==='LC-APC'||foSel.co==='SC-APC')&&(o.v==='FD1W'||o.v==='FAP')}))},
+      {k:'nf',lbl:'4. Αριθμός Ινών',opts:nfOpts},
+    ];
+    const done=Object.keys(foSel).filter(k=>foSel[k]),next=pSteps.find(s=>!done.includes(s.k));
+    const foLn={fi:'Τύπος Ίνας',co:'Connector',sr:'Σειρά',nf:'Ίνες'};
+    const crumb=done.length?done.map((k,i)=>`${i?'<span class="csep">›</span>':''}<span class="chip"><span style="font-size:10px;color:var(--color-text-secondary)">${foLn[k]||k}:</span> <b>${foSel[k]}</b><button onclick="foCf('${k}')">×</button></span>`).join(''):'<span style="color:var(--color-text-tertiary);font-size:11px"><i class="ti ti-filter"></i> Επέλεξε κριτήρια</span>';
+    let wiz='';
+    pSteps.forEach(st=>{
+      if(!done.includes(st.k)&&st!==next)return;
+      const opts=Array.isArray(st.opts)?st.opts:st.opts();
+      const fOpts=st.k==='sr'&&foSel.nf==='48'?opts.map(o=>({...o,dis:o.dis||o.v==='BASIC'})):opts;
+      wiz+=`<div class="step"><div class="slbl">${st.lbl}</div><div class="opts">${fOpts.map(o=>`<button class="opt${foSel[st.k]===o.v?' sel':''}" onclick="foCh('${st.k}','${o.v}')"${o.dis?' disabled':''}><div class="ot">${o.t}</div><div class="os">${o.s||''}</div></button>`).join('')}</div></div>`;
+    });
+    html+=`<div class="crumb">${crumb}</div>${wiz}`;
+    if(foSel.fi&&foSel.co&&foSel.sr&&foSel.nf){
+      const fi=foSel.fi,co=foSel.co,sr=foSel.sr,N=parseInt(foSel.nf),ef=foEff(fi,co);
+      const isPanduit=sr==='FD1W'||sr==='FAP';
+      const minP=foMinP(sr,N);
+      const adQty=Math.ceil(N/2);
+      let expItems=[];
+      html+=`<div class="div"></div>`;
+      if(sr==='FAP'){
+        const bodies=FO_PANELS.filter(p=>p.sr==='FAP');
+        html+=`<div class="sl">FAP Bodies</div><div class="pg">${bodies.map(b=>genericCard({...b,br:'Panduit'},1)).join('')}</div><div class="note" style="font-size:10px">⚠️ CFAPPBL1: χωρίς cable management πίσω.</div>`;
+        expItems.push(...bodies.map(b=>({...b,br:'Panduit',_qty:1})));
+        const fapR=foFap(fi,co,N);
+        if(fapR){html+=`<div class="sl">FAP Module</div><div class="pg">${genericCard({...fapR.mod,br:'Panduit'},fapR.qty)}</div>`;expItems.push({...fapR.mod,br:'Panduit',_qty:fapR.qty});if(fapR.blanks>0){html+=`<div class="sl">FAP Blanks</div><div class="pg">${genericCard({...FAPBLK,br:'Panduit'},fapR.blanks)}</div>`;expItems.push({...FAPBLK,br:'Panduit',_qty:fapR.blanks});}}
+        const nc=Math.ceil(N/24);html+=`<div class="sl">Κασέτες</div><div class="pg">${genericCard({...FO_CAS,br:'Panduit'},nc)}</div>`;expItems.push({...FO_CAS,br:'Panduit',_qty:nc});
+      } else {
+        const panels=FO_PANELS.filter(p=>{if(p.sr!==sr)return false;if(!foFm(p.fi,fi,co))return false;if(p.co!==co&&p.sr!=='BASIC')return false;if(p.p===null)return false;return p.p>=minP;}).filter((p,i,a)=>a.findIndex(x=>x.sap===p.sap)===i);
+        html+=`<div class="sl">Panels — ${sr==='PLUS'||sr==='BASIC'?`${N}θ ≤ panel θ (Central)`:`${N} ίνες / ${Math.ceil(N/2)} duplex (Panduit)`}</div>`;
+        html+=panels.length?`<div class="pg">${panels.map(p=>genericCard(p,1)).join('')}</div>`:`<div class="none">Δεν βρέθηκε panel.</div>`;
+        expItems.push(...panels.map(p=>({...p,_qty:1})));
+        if(sr==='FD1W'){const nc=Math.ceil(N/24);html+=`<div class="sl">Κασέτες</div><div class="pg">${genericCard({...FO_CAS,br:'Panduit'},nc)}</div>`;expItems.push({...FO_CAS,br:'Panduit',_qty:nc});}
+        if(sr==='BASIC'){
+          const adFi=foAd(fi);
+          const ads=FO_ADAPS.filter(a=>a.br==='Central'&&(a.fi===adFi||a.fi===ef||a.fi===fi)&&a.co===co);
+          if(ads.length){html+=`<div class="sl">Adaptors (${adQty}× duplex)</div><div class="pg">${ads.map(a=>genericCard(a,adQty)).join('')}</div>`;expItems.push(...ads.map(a=>({...a,_qty:adQty})));}
+          html+=`<div class="note" style="font-size:10px">Central BASIC: έως 24θ, OS2/OM3/OM4. Adaptors duplex, ξεχωριστοί κωδικοί.</div>`;
+        }
+      }
+      const pigFi=co.includes('APC')?ef:fi;
+      const allPigs=FO_PIGS.filter(p=>(p.fi===pigFi||p.fi===fi)&&p.co===co);
+      const filtPigs=allPigs.filter(p=>isPanduit?p.br==='Panduit':p.br==='Central');
+      const showPigs=filtPigs.length?filtPigs:allPigs;
+      if(showPigs.length){html+=`<div class="sl">Pigtails (${N}×)</div><div class="pg">${showPigs.map(p=>genericCard(p,N)).join('')}</div>`;expItems.push(...showPigs.map(p=>({...p,_qty:N})));}
+      html+=`<div class="sl">Θερμοσυστελλόμενο (${N}×) — Central</div><div class="pg">${genericCard({...FO_HS,br:'Central'},N)}</div>`;
+      expItems.push({...FO_HS,br:'Central',_qty:N});
+      html+=renderExportBox(expItems);
+    }
+  } else {
+    const bSteps=[
+      {k:'fi',lbl:'1. Τύπος Ίνας',opts:[{v:'OS2',t:'SM OS2',s:''},{v:'OM3',t:'MM OM3',s:''},{v:'OM4',t:'MM OM4',s:''}]},
+      {k:'co',lbl:'2. Connector',opts:[{v:'LC',t:'LC',s:''},{v:'SC',t:'SC',s:''}]},
+      {k:'bp',lbl:'3. Κουτί',opts:[{v:'6',t:'6 θέσεων',s:''},{v:'12',t:'12 θέσεων',s:''}]},
+      {k:'nf',lbl:'4. Ίνες',opts:foBSel.bp?[{v:'2',t:'2',s:''},{v:'4',t:'4',s:''},{v:'6',t:'6',s:''},{v:'12',t:'12',s:''}].filter(o=>parseInt(o.v)<=parseInt(foBSel.bp)*2):[{v:'2',t:'2',s:''},{v:'4',t:'4',s:''},{v:'6',t:'6',s:''},{v:'12',t:'12',s:''}]},
+    ];
+    const done=Object.keys(foBSel).filter(k=>foBSel[k]),next=bSteps.find(s=>!done.includes(s.k));
+    const foLn={fi:'Τύπος Ίνας',co:'Connector',bp:'Κουτί',nf:'Ίνες'};
+    const crumb=done.length?done.map((k,i)=>`${i?'<span class="csep">›</span>':''}<span class="chip"><span style="font-size:10px;color:var(--color-text-secondary)">${foLn[k]||k}:</span> <b>${foBSel[k]}</b><button onclick="foCf('${k}')">×</button></span>`).join(''):'<span style="color:var(--color-text-tertiary);font-size:11px"><i class="ti ti-filter"></i> Επέλεξε κριτήρια</span>';
+    let wiz='';
+    bSteps.forEach(st=>{if(!done.includes(st.k)&&st!==next)return;const opts=Array.isArray(st.opts)?st.opts:st.opts();wiz+=`<div class="step"><div class="slbl">${st.lbl}</div><div class="opts">${opts.map(o=>`<button class="opt${foBSel[st.k]===o.v?' sel':''}" onclick="foCh('${st.k}','${o.v}')"${o.dis?' disabled':''}><div class="ot">${o.t}</div><div class="os">${o.s||''}</div></button>`).join('')}</div></div>`;});
+    html+=`<div class="crumb">${crumb}</div>${wiz}`;
+    if(foBSel.fi&&foBSel.co&&foBSel.bp&&foBSel.nf){
+      const fi=foBSel.fi,co=foBSel.co,boxP=parseInt(foBSel.bp),N=parseInt(foBSel.nf),pu=N/2,blanks=boxP-pu;
+      const adFi=foAd(fi);const boxes=FO_BOXES.filter(b=>b.p===boxP);
+      const ads=FO_ADAPS.filter(a=>a.br==='Panduit'&&(a.fi===adFi||a.fi===fi)&&a.co===co);
+      const pigs=FO_PIGS.filter(p=>p.fi===fi&&p.co===co&&p.br==='Panduit');
+      const pigsFb=pigs.length?pigs:FO_PIGS.filter(p=>p.fi===fi&&p.co===co);
+      let expItems=[];
+      html+=`<div class="div"></div>`;
+      html+=`<div class="sl">Κουτί</div><div class="pg">${boxes.map(b=>genericCard({...b,br:'Panduit'},1)).join('')}</div>`;
+      expItems.push(...boxes.map(b=>({...b,br:'Panduit',_qty:1})));
+      if(ads.length){html+=`<div class="sl">Couplers (${pu}×)</div><div class="pg">${ads.map(a=>genericCard(a,pu)).join('')}</div>`;expItems.push(...ads.map(a=>({...a,_qty:pu})));}
+      if(pigsFb.length){html+=`<div class="sl">Pigtails (${N}×)</div><div class="pg">${pigsFb.map(p=>genericCard(p,N)).join('')}</div>`;expItems.push(...pigsFb.map(p=>({...p,_qty:N})));}
+      html+=`<div class="sl">Θερμοσυστελλόμενο (${N}×) — Central</div><div class="pg">${genericCard({...FO_HS,br:'Central'},N)}</div>`;
+      expItems.push({...FO_HS,br:'Central',_qty:N});
+      if(blanks>0){html+=`<div class="sl">Τυφλοί Ομφαλοί (${blanks}×)</div><div class="pg">${genericCard({...FO_WBLK,br:'Panduit'},blanks)}</div>`;expItems.push({...FO_WBLK,br:'Panduit',_qty:blanks});}
+      html+=renderExportBox(expItems);
+    }
+  }
+  s.innerHTML=html;
+}
+
+// ═══════════════════════════════════════════════════════════
+// ══ RACKS MODULE
+// ═══════════════════════════════════════════════════════════
+function rEtp(){if(rSel.ip==='ip')return'ip55';if(rSel.size==='small')return'wall';return rSel.tp||null;}
+function rCf(k){const o=['ip','size','tp','u','dims'];o.slice(o.indexOf(k)).forEach(x=>delete rSel[x]);rCk.clear();exportQtys={};renderApp();}
+function rCh(k,v){const o=['ip','size','tp','u','dims'];o.slice(o.indexOf(k)+1).forEach(x=>delete rSel[x]);rSel[k]=v;rCk.clear();exportQtys={};renderApp();}
+function rTog(id){if(rCk.has(id))rCk.delete(id);else rCk.add(id);renderApp();}
+function rGetU(tp){return[...new Set(RACKS.filter(r=>r.tp===tp).map(r=>r.u))].sort((a,b)=>a-b).map(u=>({v:String(u),t:`${u}U`,s:`≈${Math.round(u*44.45/100)/10}m`}));}
+function rGetD(tp,u){return[...new Set(RACKS.filter(r=>r.tp===tp&&r.u===parseInt(u)).map(r=>`${r.w}×${r.dep}`))].sort().map(d=>{const[w,dp]=d.split('×');return{v:d,t:`${w}×${dp}mm`,s:''};});}
+function renderRacks(){
+  const s=document.getElementById('main-content');if(!s)return;
+  const tp=rEtp(),isIP=rSel.ip==='ip',isSmall=rSel.size==='small';
+  let vis=['ip'];
+  if(rSel.ip){vis.push('size');if(rSel.size){if(isSmall)vis.push('u');else if(isIP)vis.push('u','dims');else vis.push('tp','u','dims');}}
+  const done=Object.keys(rSel).filter(k=>rSel[k]);
+  const next=vis.find(k=>!done.includes(k));
+  const rLn={ip:'IP',size:'Μέγεθος',tp:'Τύπος',u:'U',dims:'Διαστ.'};
+  const rVM={std:'Standard',ip:'IP55/66',small:'<22U',large:'≥22U',srv:'Server',rittal:'Rittal'};
+  const crumbKeys=done.filter(k=>k!=='tp'||!isIP);
+  const crumb=crumbKeys.length?crumbKeys.map((k,i)=>`${i?'<span class="csep">›</span>':''}<span class="chip"><span style="font-size:10px;color:var(--color-text-secondary)">${rLn[k]||k}:</span> <b>${rVM[rSel[k]]||rSel[k]}</b><button onclick="rCf('${k}')">×</button></span>`).join(''):'<span style="color:var(--color-text-tertiary);font-size:11px"><i class="ti ti-filter"></i> Επέλεξε κριτήρια</span>';
+  let wiz='';
+  vis.forEach(sk=>{
+    if(!done.includes(sk)&&sk!==next)return;
+    let opts=[],lbl={ip:'1. IP Rating',size:'2. Μέγεθος',tp:'3. Τύπος',u:'4. U',dims:'5. Διαστάσεις'}[sk];
+    if(sk==='ip')opts=[{v:'std',t:'Standard IP20',s:''},{v:'ip',t:'IP-rated IP55/IP66',s:'Rittal μόνο'}];
+    if(sk==='size')opts=[{v:'small',t:'< 22U Επιτοίχιο',s:isIP?'Μη διαθέσιμο':'',dis:isIP},{v:'large',t:'≥ 22U Επιδαπέδιο',s:''}];
+    if(sk==='tp')opts=[{v:'std',t:'Τηλεπικοιν.',s:'Central'},{v:'srv',t:'Server Rack',s:'Central'},{v:'rittal',t:'Rittal Premium',s:'VX IT / TS IT'}];
+    if(sk==='u'&&tp)opts=rGetU(tp);
+    if(sk==='dims'&&tp&&rSel.u)opts=rGetD(tp,rSel.u);
+    const cur=sk==='u'?rSel.u:sk==='dims'?rSel.dims:rSel[sk];
+    wiz+=`<div class="step"><div class="slbl">${lbl}</div><div class="opts">${opts.map(o=>`<button class="opt${cur===o.v?' sel':''}" onclick="rCh('${sk}','${o.v}')"${o.dis?' disabled':''}><div class="ot">${o.t}</div><div class="os">${o.s||''}</div></button>`).join('')}</div></div>`;
+  });
+  let html=`<div class="crumb">${crumb}</div>${wiz}`;
+  if(tp&&rSel.u&&(isSmall||rSel.dims)){
+    let racks;
+    if(isSmall)racks=RACKS.filter(r=>r.tp==='wall'&&r.u===parseInt(rSel.u));
+    else{const[w,dp]=rSel.dims.split('×').map(Number);racks=RACKS.filter(r=>r.tp===tp&&r.u===parseInt(rSel.u)&&r.w===w&&r.dep===dp);}
+    const dep=racks.length?racks[0].dep:600;
+    const shelf=SHELVES[dep]||SHELVES[600];const allAccs=shelf?[shelf,...ACCS]:ACCS;
+    html+=`<div class="div"></div><div class="sl">Rack (${racks.length})</div>`;
+    html+=racks.length?`<div class="pg">${racks.map(r=>{const isIP2=r.tp==='ip55',isBay=r.pn.includes('Baying'),bc=isBay?'bIP':isIP2?'bIP':r.br==='Rittal'?'bR':'bC',badge=isBay?'IP66':isIP2?'IP55':r.br;return`<div class="pc"><div><div class="ps">${r.sap}</div></div><div class="pm"><a class="pp" href="${r.url||'#'}" target="_blank">${r.pn} <i class="ti ti-external-link" style="font-size:9px"></i></a><div class="pd">${r.d}</div></div><span class="pb ${bc}">${badge}</span></div>`;}).join('')}</div>`:`<div class="none">Δεν βρέθηκε.</div>`;
+    if(racks.some(r=>r.tp==='ip55'))html+=`<div class="note">IP55/IP66 — Rittal order codes.</div>`;
+    html+=`<div class="sl" style="margin-top:.85rem">Παρελκόμενα</div><div class="note" style="margin-bottom:.35rem">Ράφι: αυτόματα βάσει βάθους ${dep}mm.</div>`;
+    html+=`<div class="acc-grid">${allAccs.map(a=>{const on=rCk.has(a.id);const sapEl=String(a.sap).startsWith('⚠')?`<span style="color:var(--color-text-warning);font-size:9px">${a.sap}</span>`:`<div class="acc-sap">${a.sap}</div>`;return`<div class="acc-card${on?' on':''}" onclick="rTog('${a.id}')"><div class="acc-cb">${on?'✓':''}</div><div style="min-width:0;overflow:hidden"><div class="acc-pn">${a.pn}</div><div class="acc-d">${a.d}</div>${sapEl}</div></div>`;}).join('')}</div>`;
+    const expItems=[...racks.map(r=>({...r,_qty:1})),...allAccs.filter(a=>rCk.has(a.id)).map(a=>({...a,_qty:1}))];
+    html+=renderExportBox(expItems);
+  }
+  s.innerHTML=html;
+}
+
+// ═══════════════════════════════════════════════════════════
+// ══ ADMIN MODULE
+// ═══════════════════════════════════════════════════════════
+function pinPress(d){if(pinBuf.length>=4)return;pinBuf+=d;renderAdmin();if(pinBuf.length===4){setTimeout(()=>{if(pinBuf===admPin){admAuth=true;pinBuf='';pinErr='';renderAdmin();}else{pinErr='Λάθος PIN';pinBuf='';const pd=document.getElementById('pindots');if(pd){pd.classList.add('shake');setTimeout(()=>pd.classList.remove('shake'),400);}renderAdmin();}},200);}}
+function pinDel(){if(pinBuf.length)pinBuf=pinBuf.slice(0,-1);renderAdmin();}
+function pinLock(){admAuth=false;pinBuf='';pinErr='';renderAdmin();}
+const IS_DEF=new Set(DEFAULT_RACKS.map(r=>r.pn));
+const TP_L={wall:'Επιτ.',std:'Τηλεπ.',srv:'Server',rittal:'Rittal',ip55:'IP55+'};
+const TP_C={wall:'tp-wall',std:'tp-std',srv:'tp-srv',rittal:'tp-rittal',ip55:'tp-ip55'};
+function admRackDel(pn){if(!confirm(`Διαγραφή "${pn}";`))return;RACKS=RACKS.filter(r=>r.pn!==pn);saveData('racks',RACKS,'✓ Διαγράφηκε');renderAdmin();}
+function admRackEd(i){rackEditIdx=i;rackEditForm={...RACKS[i]};showRackForm=false;renderAdmin();}
+function admRackCan(){rackEditIdx=null;rackEditForm={};renderAdmin();}
+function admRackSav(){if(!rackEditForm.sap||!rackEditForm.pn)return;RACKS[rackEditIdx]={...rackEditForm,u:parseInt(rackEditForm.u),w:parseInt(rackEditForm.w),dep:parseInt(rackEditForm.dep),_mod:true};rackEditIdx=null;saveData('racks',RACKS,'✓ Αποθηκεύτηκε ☁️');renderAdmin();}
+function admRackAdd(){if(!rackAddForm.sap||!rackAddForm.pn)return;const ei=RACKS.findIndex(r=>r.pn===rackAddForm.pn);const nr={...rackAddForm,u:parseInt(rackAddForm.u),w:parseInt(rackAddForm.w),dep:parseInt(rackAddForm.dep),_cust:true,url:'https://www.central-telecom.gr/Product/6'};ei>=0?RACKS[ei]=nr:RACKS.push(nr);rackAddForm={sap:'',pn:'',d:'',br:'Central',tp:'std',u:42,w:600,dep:600};showRackForm=false;saveData('racks',RACKS,'✓ Προστέθηκε ☁️');renderAdmin();}
+function admRackRst(){if(!confirm('Επαναφορά;'))return;RACKS=DEFAULT_RACKS.map(r=>({...r}));rackEditIdx=null;showRackForm=false;saveData('racks',RACKS,'✓ Επαναφορά ☁️');renderAdmin();}
+function rfv(f,v){if(rackEditIdx!==null)rackEditForm[f]=v;else rackAddForm[f]=v;}
+function admShEd(dep){shelfEditDep=dep;shelfEditForm={...SHELVES[dep]};renderAdmin();}
+function admShSav(){SHELVES[shelfEditDep]={...shelfEditForm,dep:parseInt(shelfEditDep)};shelfEditDep=null;saveData('shelves',SHELVES,'✓ Ράφι αποθηκεύτηκε ☁️');renderAdmin();}
+function admShCan(){shelfEditDep=null;renderAdmin();}
+function sfv(f,v){shelfEditForm[f]=v;}
+function admAccEd(id){accEditId=id;accEditForm={...ACCS.find(x=>x.id===id)};showAccForm=false;renderAdmin();}
+function admAccSav(){const i=ACCS.findIndex(x=>x.id===accEditId);if(i>=0)ACCS[i]={...accEditForm,_mod:true};accEditId=null;saveData('accs',ACCS,'✓ Αποθηκεύτηκε ☁️');renderAdmin();}
+function admAccCan(){accEditId=null;renderAdmin();}
+function admAccDel(id){if(!confirm('Διαγραφή;'))return;ACCS=ACCS.filter(x=>x.id!==id);saveData('accs',ACCS,'✓ Διαγράφηκε ☁️');renderAdmin();}
+function admAccAdd(){if(!accAddForm.id||!accAddForm.sap||!accAddForm.pn)return;ACCS.push({...accAddForm,_cust:true});accAddForm={id:'',sap:'',pn:'',d:''};showAccForm=false;saveData('accs',ACCS,'✓ Προστέθηκε ☁️');renderAdmin();}
+function admAccRst(){if(!confirm('Επαναφορά παρελκομένων;'))return;ACCS=DEFAULT_ACCS.map(x=>({...x}));accEditId=null;saveData('accs',ACCS,'✓ Επαναφορά ☁️');renderAdmin();}
+function afv(f,v){if(accEditId)accEditForm[f]=v;else accAddForm[f]=v;}
+function admPinSav(){const{cur,n1,n2}=pinChangeForm;if(cur!==admPin){alert('Λάθος τρέχων PIN');return;}if(n1.length<4||!/^\d+$/.test(n1)){alert('4+ ψηφία');return;}if(n1!==n2){alert('Δεν ταιριάζουν');return;}admPin=n1;pinChangeForm={cur:'',n1:'',n2:''};saveData('pin',null,'✓ PIN αλλάχτηκε ☁️');renderAdmin();}
+function rFH(fd,isEd){return`<div class="adm-form"><div style="font-size:12px;font-weight:600;margin-bottom:.5rem">${isEd?'✏️ Edit':'➕ Νέο'}</div><div class="form-grid"><div class="fi"><label>SAP *</label><input value="${fd.sap||''}" oninput="rfv('sap',this.value)"/></div><div class="fi"><label>P/N *</label><input value="${fd.pn||''}" oninput="rfv('pn',this.value)"/></div><div class="fi wide"><label>Περιγραφή</label><input value="${fd.d||''}" oninput="rfv('d',this.value)"/></div><div class="fi"><label>Brand</label><select onchange="rfv('br',this.value)"><option${(fd.br||'')==='Central'?' selected':''}>Central</option><option${(fd.br||'')==='Rittal'?' selected':''}>Rittal</option></select></div><div class="fi"><label>Τύπος</label><select onchange="rfv('tp',this.value)"><option value="wall"${fd.tp==='wall'?' selected':''}>wall</option><option value="std"${(fd.tp||'std')==='std'?' selected':''}>std</option><option value="srv"${fd.tp==='srv'?' selected':''}>srv</option><option value="rittal"${fd.tp==='rittal'?' selected':''}>rittal</option><option value="ip55"${fd.tp==='ip55'?' selected':''}>ip55</option></select></div><div class="fi"><label>U</label><input type="number" value="${fd.u||42}" oninput="rfv('u',this.value)" min="1" max="55"/></div><div class="fi"><label>Πλάτος</label><select onchange="rfv('w',this.value)"><option value="540"${(fd.w||600)==540?' selected':''}>540</option><option value="600"${(fd.w||600)==600?' selected':''}>600</option><option value="800"${(fd.w||600)==800?' selected':''}>800</option></select></div><div class="fi"><label>Βάθος</label><select onchange="rfv('dep',this.value)"><option value="600"${(fd.dep||600)==600?' selected':''}>600</option><option value="800"${(fd.dep||600)==800?' selected':''}>800</option><option value="1000"${(fd.dep||600)==1000?' selected':''}>1000</option><option value="1200"${(fd.dep||600)==1200?' selected':''}>1200</option></select></div></div><div class="form-actions">${isEd?`<button class="btn-save" onclick="admRackSav()">💾 Αποθήκευση</button><button class="btn-cancel" onclick="admRackCan()">✕</button>`:`<button class="btn-save" onclick="admRackAdd()">+ Προσθήκη</button><button class="btn-cancel" onclick="showRackForm=false;renderAdmin()">✕</button>`}</div></div>`;}
+function renderAdmin(){
+  const s=document.getElementById('main-content');if(!s)return;
+  if(!admAuth){s.innerHTML=`<div class="pin-screen"><div style="font-size:2.5rem;color:var(--color-text-tertiary)"><i class="ti ti-lock"></i></div><div style="font-size:15px;font-weight:600;color:var(--color-text-primary)">Περιοχή Διαχείρισης</div><div style="font-size:12px;color:var(--color-text-secondary)">Εισάγετε κωδικό πρόσβασης</div><div id="pindots" class="pin-dots">${[0,1,2,3].map(i=>`<div class="pin-dot${pinBuf.length>i?' f':''}"></div>`).join('')}</div>${pinErr?`<div class="pin-error">${pinErr}</div>`:''}<div class="pin-pad">${[1,2,3,4,5,6,7,8,9,'',0,'⌫'].map(k=>`<button class="pin-btn" ${k===''?'disabled':''} onclick="${k==='⌫'?'pinDel()':'pinPress('+k+')'}">${k}</button>`).join('')}</div>${admPin==='1234'?`<div class="note" style="font-size:11px;margin-top:8px">⚠️ Default PIN: <b>1234</b> — αλλάξτε από Ρυθμίσεις.</div>`:''}</div>`;return;}
+  const filtered=admFlt==='all'?RACKS:RACKS.filter(r=>r.tp===admFlt);
+  const TFL=['all','wall','std','srv','rittal','ip55'],TLB={all:'Όλα',wall:'Επιτ.',std:'Τηλεπ.',srv:'Server',rittal:'Rittal',ip55:'IP55+'};
+  let content='';
+  if(admSec==='racks'){
+    const rows=filtered.map(r=>{const ri=RACKS.indexOf(r);if(rackEditIdx===ri)return`<tr style="background:var(--color-background-info)"><td colspan="7">${rFH(rackEditForm,true)}</td></tr>`;const cust=!IS_DEF.has(r.pn)||r._mod;return`<tr><td class="td-sap">${r.sap}</td><td class="td-pn">${r.pn}</td><td style="font-size:11px;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--color-text-secondary)">${r.d}</td><td><span class="tp-badge ${TP_C[r.tp]||''}">${TP_L[r.tp]||r.tp}</span></td><td style="font-size:10px;color:var(--color-text-secondary)">${r.u}U·${r.w}×${r.dep}</td><td><span class="${cust?'badge-cust':'badge-def'}">${cust?'C':'D'}</span></td><td class="td-acts"><button class="btn-edit" onclick="admRackEd(${ri})" title="Edit"><i class="ti ti-pencil"></i></button><button class="btn-del" onclick="admRackDel('${r.pn}')" title="Delete"><i class="ti ti-trash"></i></button></td></tr>`;}).join('');
+    content=`<div class="adm-bar"><div style="display:flex;gap:4px;flex-wrap:wrap">${TFL.map(f=>`<button class="af${admFlt===f?' on':''}" onclick="admFlt='${f}';renderAdmin()">${TLB[f]}${f==='all'?' ('+RACKS.length+')':''}</button>`).join('')}</div><div style="display:flex;gap:5px"><button class="btn btn-add" onclick="showRackForm=!showRackForm;rackEditIdx=null;renderAdmin()"><i class="ti ti-plus"></i> Νέο</button><button class="btn btn-rst" onclick="admRackRst()" title="Reset to defaults"><i class="ti ti-refresh"></i></button></div></div>${showRackForm&&rackEditIdx===null?rFH(rackAddForm,false):''}<div style="overflow-x:auto"><table class="adm-table"><thead><tr><th>SAP</th><th>P/N</th><th>Περιγραφή</th><th>Τύπος</th><th>U×Δ</th><th></th><th></th></tr></thead><tbody>${rows||'<tr><td colspan="7" style="text-align:center;padding:1.5rem;color:var(--color-text-tertiary)">Κανένα</td></tr>'}</tbody></table></div><div style="font-size:11px;color:var(--color-text-tertiary);margin-top:.4rem;text-align:right">${filtered.length} εγγραφές</div>`;
+  }
+  if(admSec==='accs'){
+    const shRows=Object.values(SHELVES).map(sv=>{if(shelfEditDep==sv.dep)return`<div style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:5px;align-items:end;margin-bottom:5px"><div class="fi"><label>SAP</label><input value="${shelfEditForm.sap||''}" oninput="sfv('sap',this.value)"/></div><div class="fi"><label>P/N</label><input value="${shelfEditForm.pn||''}" oninput="sfv('pn',this.value)"/></div><div class="fi"><label>Περιγραφή</label><input value="${shelfEditForm.d||''}" oninput="sfv('d',this.value)"/></div><div style="display:flex;gap:4px;padding-bottom:2px"><button class="btn-save" onclick="admShSav()">💾</button><button class="btn-cancel" onclick="admShCan()">✕</button></div></div>`;return`<div class="inline-row"><span class="il">${sv.dep}mm</span><span class="il">${sv.sap}</span><span class="il">${sv.pn}</span><button class="btn-edit" onclick="admShEd(${sv.dep})"><i class="ti ti-pencil"></i></button></div>`;}).join('');
+    const accAddHtml=showAccForm?`<div class="adm-form"><div style="font-size:11px;font-weight:600;margin-bottom:.45rem">➕ Νέο Παρελκόμενο</div><div class="form-grid"><div class="fi"><label>ID (unique)</label><input value="${accAddForm.id}" oninput="afv('id',this.value)" placeholder="π.χ. fan2"/></div><div class="fi"><label>SAP</label><input value="${accAddForm.sap}" oninput="afv('sap',this.value)"/></div><div class="fi"><label>P/N</label><input value="${accAddForm.pn}" oninput="afv('pn',this.value)"/></div><div class="fi wide"><label>Περιγραφή</label><input value="${accAddForm.d}" oninput="afv('d',this.value)"/></div></div><div class="form-actions"><button class="btn-save" onclick="admAccAdd()">+ Προσθήκη</button><button class="btn-cancel" onclick="showAccForm=false;renderAdmin()">✕</button></div></div>`:'';
+    const accRows=ACCS.map(a=>{const isDef=DEFAULT_ACCS.some(d=>d.id===a.id);if(accEditId===a.id)return`<tr style="background:var(--color-background-info)"><td colspan="4"><div style="display:grid;grid-template-columns:80px 120px 1fr auto;gap:5px;align-items:end;padding:4px 0"><div class="fi"><label>SAP</label><input value="${accEditForm.sap||''}" oninput="afv('sap',this.value)"/></div><div class="fi"><label>P/N</label><input value="${accEditForm.pn||''}" oninput="afv('pn',this.value)"/></div><div class="fi"><label>Περιγραφή</label><input value="${accEditForm.d||''}" oninput="afv('d',this.value)"/></div><div style="display:flex;gap:4px;padding-bottom:2px"><button class="btn-save" onclick="admAccSav()">💾</button><button class="btn-cancel" onclick="admAccCan()">✕</button></div></div></td></tr>`;return`<tr><td class="td-sap">${a.sap}</td><td class="td-pn">${a.pn}</td><td style="font-size:11px;color:var(--color-text-secondary)">${a.d}</td><td class="td-acts"><button class="btn-edit" onclick="admAccEd('${a.id}')"><i class="ti ti-pencil"></i></button>${!isDef?`<button class="btn-del" onclick="admAccDel('${a.id}')"><i class="ti ti-trash"></i></button>`:''}</td></tr>`;}).join('');
+    content=`<div class="section-card"><h4><i class="ti ti-box"></i> Ράφια ανά βάθος rack</h4>${shRows}</div><div class="section-card"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem"><h4 style="margin:0"><i class="ti ti-tool"></i> Παρελκόμενα Racks</h4><div style="display:flex;gap:5px"><button class="btn btn-add" onclick="showAccForm=!showAccForm;accEditId=null;renderAdmin()"><i class="ti ti-plus"></i></button><button class="btn btn-rst" onclick="admAccRst()"><i class="ti ti-refresh"></i></button></div></div>${accAddHtml}<div style="overflow-x:auto"><table class="adm-table"><thead><tr><th>SAP</th><th>P/N</th><th>Περιγραφή</th><th></th></tr></thead><tbody>${accRows}</tbody></table></div></div>`;
+  }
+  if(admSec==='pin'){content=`<div class="section-card" style="max-width:300px"><h4><i class="ti ti-key"></i> Αλλαγή PIN</h4><div class="pin-change-form"><div class="fi"><label>Τρέχων PIN</label><input type="password" maxlength="10" value="${pinChangeForm.cur}" oninput="pinChangeForm.cur=this.value"/></div><div class="fi"><label>Νέος PIN (4+ ψηφία)</label><input type="password" maxlength="10" value="${pinChangeForm.n1}" oninput="pinChangeForm.n1=this.value"/></div><div class="fi"><label>Επιβεβαίωση νέου PIN</label><input type="password" maxlength="10" value="${pinChangeForm.n2}" oninput="pinChangeForm.n2=this.value"/></div><button class="btn-save" style="width:fit-content;margin-top:8px" onclick="admPinSav()">💾 Αλλαγή PIN</button></div>${admPin==='1234'?`<div class="warn" style="margin-top:.75rem">⚠️ Χρησιμοποιείτε default PIN 1234. Αλλάξτε τον.</div>`:''}<div class="note" style="margin-top:.75rem"><i class="ti ti-cloud"></i> Το PIN αποθηκεύεται στο Google Sheets.</div></div>`;}
+  s.innerHTML=`<div class="adm-hdr"><div style="display:flex;gap:5px"><button class="anav${admSec==='racks'?' on':''}" onclick="admSec='racks';renderAdmin()">🗄 Racks</button><button class="anav${admSec==='accs'?' on':''}" onclick="admSec='accs';renderAdmin()">🔧 Παρελκ/να</button><button class="anav${admSec==='pin'?' on':''}" onclick="admSec='pin';renderAdmin()">🔑 PIN</button></div><div style="display:flex;align-items:center;gap:8px"><span id="adm-smsg" class="save-msg" style="opacity:0"></span><button class="lock-btn" onclick="pinLock()"><i class="ti ti-lock"></i> Κλείδωμα</button></div></div>${content}`;
+}
+
+// ═══════════════════════════════════════════════════════════
+// ══ MAIN
+// ═══════════════════════════════════════════════════════════
+const TABS=[{id:'copper',lbl:'🔌 Χαλκός'},{id:'fo',lbl:'💡 FO'},{id:'racks',lbl:'🗄 Racks'},{id:'admin',lbl:'🔒 Admin'}];
+function switchTab(t){activeTab=t;renderApp();}
+function renderApp(){
+  const te=document.getElementById('main-tabs');
+  if(te)te.innerHTML=TABS.map(t=>`<button class="stb${activeTab===t.id?' on':''}" onclick="switchTab('${t.id}')">${t.lbl}</button>`).join('');
+  if(activeTab==='copper')renderCopper();
+  else if(activeTab==='fo')renderFO();
+  else if(activeTab==='racks')renderRacks();
+  else renderAdmin();
+}
+document.getElementById('brst').onclick=()=>{
+  if(activeTab==='copper'){cuSel={};cuOSel={};}
+  else if(activeTab==='fo'){foSel={};foBSel={};}
+  else if(activeTab==='racks'){rSel={};rCk.clear();}
+  exportQtys={};renderApp();
+};
+loadAll();
+</script>
+</body>
+</html>
