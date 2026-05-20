@@ -1011,41 +1011,112 @@ function showLoading(v){
 function showOffline(v){
   document.getElementById('offline-banner').style.display = v ? 'block' : 'none';
 }
-
+const CACHE_KEY = 'kafkas_ict_cache_v15';  
 async function loadAll(){
   showLoading(true);
   showOffline(false);
+ 
+  // Helper: API array → fallback to DEFAULT if empty/missing
+  const pick = (apiArr, defArr) =>
+    (apiArr && apiArr.length) ? apiArr : defArr.map(x=>({...x}));
+ 
+  // Helper: auto-merge defaults not present in API (by uniqueness key)
+  const mergeDef = (arr, defArr, keyFn) => {
+    const seen = new Set(arr.map(keyFn));
+    defArr.forEach(d => { if(!seen.has(keyFn(d))) arr.push({...d}); });
+    return arr;
+  };
+ 
   try{
     const resp = await fetch(`${API_URL}?t=${Date.now()}`);
     if(!resp.ok) throw new Error('HTTP ' + resp.status);
     const data = await resp.json();
-
-    RACKS  = (data.racks  && data.racks.length)       ? data.racks  : DEFAULT_RACKS.map(x=>({...x}));
-    ACCS   = (data.accessories && data.accessories.length) ? data.accessories : DEFAULT_ACCS.map(x=>({...x}));
-    // Auto-merge: any new DEFAULT_RACKS / DEFAULT_ACCS not in Sheets get added
-    {const seen=new Set(RACKS.map(r=>r.sap)); DEFAULT_RACKS.forEach(d=>{if(!seen.has(d.sap))RACKS.push({...d});});}
-    {const seen=new Set(ACCS.map(a=>a.id)); DEFAULT_ACCS.forEach(d=>{if(!seen.has(d.id))ACCS.push({...d});});}
-
-    // Shelves: API returns array, HTML uses obj keyed by dep
+ 
+    // ── Racks / Shelves / Accessories (existing) ─────────────
+    RACKS = pick(data.racks, DEFAULT_RACKS);
+    mergeDef(RACKS, DEFAULT_RACKS, r=>r.sap);
+ 
+    ACCS = pick(data.accessories, DEFAULT_ACCS);
+    mergeDef(ACCS, DEFAULT_ACCS, a=>a.id);
+ 
     if(data.shelves && data.shelves.length){
       SHELVES = {};
       data.shelves.forEach(s => { if(s.dep) SHELVES[parseInt(s.dep)] = s; });
     } else {
       SHELVES = JSON.parse(JSON.stringify(DEFAULT_SHELVES));
     }
-
+ 
+    // ── v1.2 — Copper arrays ─────────────────────────────────
+    // NOTE: Αν τα sheets είναι κενά → χρησιμοποιούνται τα const
+    // hardcoded arrays από το HTML (CU_PANELS, CU_JACKS κ.λπ.)
+    // Όταν θέλεις να ενεργοποιήσεις cloud sync για κάθε array,
+    // απλά γέμισε το αντίστοιχο sheet στο Google Sheets.
+    if(data.cuPanels  && data.cuPanels.length)  window.CU_PANELS  = data.cuPanels;
+    if(data.cuJacks   && data.cuJacks.length)   window.CU_JACKS   = data.cuJacks;
+    if(data.cuOJacks  && data.cuOJacks.length)  window.CU_OJACKS  = data.cuOJacks;
+    if(data.cuOutlets && data.cuOutlets.length) window.CU_OUTLETS = data.cuOutlets;
+ 
+    // ── v1.2 — FO arrays ─────────────────────────────────────
+    if(data.foPanels  && data.foPanels.length)  window.FO_PANELS  = data.foPanels;
+    if(data.foFaps    && data.foFaps.length)    window.FO_FAPS    = data.foFaps;
+    if(data.foPigs    && data.foPigs.length)    window.FO_PIGS    = data.foPigs;
+    if(data.foAdaps   && data.foAdaps.length)   window.FO_ADAPS   = data.foAdaps;
+    if(data.foBoxes   && data.foBoxes.length)   window.FO_BOXES   = data.foBoxes;
+ 
+    // ── v1.2 — Cables arrays ─────────────────────────────────
+    if(data.cabCu     && data.cabCu.length)     window.CAB_CU     = data.cabCu;
+    if(data.cabFo     && data.cabFo.length)     window.CAB_FO     = data.cabFo;
+ 
     admPin = data.pin || '1234';
-
-    // Cache locally
-    try{ localStorage.setItem(CACHE_KEY, JSON.stringify({racks:RACKS, shelves:SHELVES, accs:ACCS, ts:Date.now()})); }catch(e){}
-
+ 
+    // Cache locally (extended payload)
+    try{
+      localStorage.setItem(CACHE_KEY, JSON.stringify({
+        racks:RACKS, shelves:SHELVES, accs:ACCS,
+        cuPanels: data.cuPanels  || [],
+        cuJacks:  data.cuJacks   || [],
+        cuOJacks: data.cuOJacks  || [],
+        cuOutlets:data.cuOutlets || [],
+        foPanels: data.foPanels  || [],
+        foFaps:   data.foFaps    || [],
+        foPigs:   data.foPigs    || [],
+        foAdaps:  data.foAdaps   || [],
+        foBoxes:  data.foBoxes   || [],
+        cabCu:    data.cabCu     || [],
+        cabFo:    data.cabFo     || [],
+        ts:Date.now()
+      }));
+    }catch(e){}
+ 
   } catch(err){
     console.warn('API unavailable, using cache:', err);
     try{
       const cache = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null');
-      if(cache){ RACKS=cache.racks; SHELVES=cache.shelves; ACCS=cache.accs; showOffline(true); }
-      else { RACKS=DEFAULT_RACKS.map(x=>({...x})); SHELVES=JSON.parse(JSON.stringify(DEFAULT_SHELVES)); ACCS=DEFAULT_ACCS.map(x=>({...x})); showOffline(true); }
-    }catch(e2){ RACKS=DEFAULT_RACKS.map(x=>({...x})); SHELVES=JSON.parse(JSON.stringify(DEFAULT_SHELVES)); ACCS=DEFAULT_ACCS.map(x=>({...x})); }
+      if(cache){
+        RACKS=cache.racks; SHELVES=cache.shelves; ACCS=cache.accs;
+        if(cache.cuPanels  && cache.cuPanels.length)  window.CU_PANELS  = cache.cuPanels;
+        if(cache.cuJacks   && cache.cuJacks.length)   window.CU_JACKS   = cache.cuJacks;
+        if(cache.cuOJacks  && cache.cuOJacks.length)  window.CU_OJACKS  = cache.cuOJacks;
+        if(cache.cuOutlets && cache.cuOutlets.length) window.CU_OUTLETS = cache.cuOutlets;
+        if(cache.foPanels  && cache.foPanels.length)  window.FO_PANELS  = cache.foPanels;
+        if(cache.foFaps    && cache.foFaps.length)    window.FO_FAPS    = cache.foFaps;
+        if(cache.foPigs    && cache.foPigs.length)    window.FO_PIGS    = cache.foPigs;
+        if(cache.foAdaps   && cache.foAdaps.length)   window.FO_ADAPS   = cache.foAdaps;
+        if(cache.foBoxes   && cache.foBoxes.length)   window.FO_BOXES   = cache.foBoxes;
+        if(cache.cabCu     && cache.cabCu.length)     window.CAB_CU     = cache.cabCu;
+        if(cache.cabFo     && cache.cabFo.length)     window.CAB_FO     = cache.cabFo;
+        showOffline(true);
+      } else {
+        RACKS=DEFAULT_RACKS.map(x=>({...x}));
+        SHELVES=JSON.parse(JSON.stringify(DEFAULT_SHELVES));
+        ACCS=DEFAULT_ACCS.map(x=>({...x}));
+        showOffline(true);
+      }
+    }catch(e2){
+      RACKS=DEFAULT_RACKS.map(x=>({...x}));
+      SHELVES=JSON.parse(JSON.stringify(DEFAULT_SHELVES));
+      ACCS=DEFAULT_ACCS.map(x=>({...x}));
+    }
   } finally{
     showLoading(false);
   }
