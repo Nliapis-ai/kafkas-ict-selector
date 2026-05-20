@@ -441,7 +441,7 @@ body{background:var(--color-background-secondary)}
 // ★ GOOGLE SHEETS API URL
 // ═══════════════════════════════════════════════════════════
 const API_URL = 'https://script.google.com/macros/s/AKfycbzAvtHusA-RS4K2DJYTkaCUkGk9JZDDSOIAPqkWTQLpR4fEiML2qMyvXDKIpqpQMXrjwQ/exec';
-const CACHE_KEY = 'kafkas_ict_cache_v14';
+const CACHE_KEY = 'kafkas_ict_cache_v15';  
 
 // ═══════════════════════════════════════════════════════════
 // ══ STATE
@@ -1011,7 +1011,7 @@ function showLoading(v){
 function showOffline(v){
   document.getElementById('offline-banner').style.display = v ? 'block' : 'none';
 }
-const CACHE_KEY = 'kafkas_ict_cache_v15';  
+
 async function loadAll(){
   showLoading(true);
   showOffline(false);
