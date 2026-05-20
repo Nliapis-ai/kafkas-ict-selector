@@ -691,6 +691,66 @@ const CAB_FO=[
   {sap:'1030321',pn:'ADQ(ZN)(SR)2Y1X24',d:'ΚΑΛ ΟΠΤ ΙΝΩΝ 24 9/125 SM ΜΕΤΑΛ ΘΩΡΑΚ',br:'Hellenic Cables',ft:'OS2',nf:24,env:'outdoor',arm:true,st:'UNK'}
 ];
 
+// ══ TELCO DATA ══
+const TELCO_ITEMS=[
+  {sap:'—',pn:'01-05-100/CM',d:'ADSL SPLITTER “ΔΙΑΧΩΡΙΣΤΗΣ ΜΕ ΦΙΛΤΡΟ” ( Ατομική Συσκευασία “blister”)',tc:'signal',st:'?'},
+  {sap:'—',pn:'01-05-102/CM',d:'ADSL FILTER “ΦΙΛΤΡΟ ΓΙΑ ΤΗΛ. ΣΥΣΚΕΥΕΣ” ( Ατομική Συσκευασία “blister”)',tc:'signal',st:'?'},
+  {sap:'—',pn:'01-05-104/CM',d:'VDSL SPLITTER “ΔΙΑΧΩΡΙΣΤΗΣ ΜΕ ΦΙΛΤΡΟ” ( Ατομική Συσκευασία “blister”)',tc:'signal',st:'?'},
+  {sap:'—',pn:'01-05-103/CM',d:'VDSL FILTER “ΦΙΛΤΡΟ ΓΙΑ ΤΗΛ. ΣΥΣΚΕΥΕΣ” ( Ατομική Συσκευασία “blister”)',tc:'signal',st:'?'},
+  {sap:'—',pn:'01-04-83M',d:'ΠΡΙΖΑ ΤΗΛ. RJ11 - 6P4C “MONH” ΧΩΝΕΥΤΗ (Ατομική συσκευασία “blister”)',tc:'socket',st:'?'},
+  {sap:'—',pn:'01-04-53M',d:'ΠΡΙΖΑ ΤΗΛ. RJ11 - 2x6P4C “ΔΙΠΛΗ” ΧΩΝΕΥΤΗ (Ατομική συσκευασία “blister”)',tc:'socket',st:'?'},
+  {sap:'—',pn:'01-04-64M',d:'ΠΡΙΖΑ ΤΗΛ. RJ11 - 6P4C “MONH” ΕΠΙΤΟΙΧΗ (Ατομική συσκευασία “blister”)',tc:'socket',st:'?'},
+  {sap:'—',pn:'01-04-65M',d:'ΠΡΙΖΑ ΤΗΛ. RJ11 - 2x6P4C “ΔΙΠΛΗ” ΕΠΙΤΟΙΧΗ (Ατομική συσκευασία “blister”)',tc:'socket',st:'?'},
+  {sap:'—',pn:'01-04-55/X',d:'ΠΡΙΖΑ ΤΗΛ. RJ11 - 6P4C “MONH” (Ομαδική συσκευασία polybag 50 τεμ.)',tc:'socket',st:'?'},
+  {sap:'—',pn:'01-04-55M',d:'ΠΡΙΖΑ ΤΗΛ. RJ11 - 6P4C “MONH” (Ατομική συσκευασία “blister”)',tc:'socket',st:'?'},
+  {sap:'—',pn:'01-04-63/X',d:'ΠΡΙΖΑ ΤΗΛ. RJ11 - 2x6P4C “ΔΙΠΛΗ” (Ομαδική συσκευασία polybag 50 τεμ.)',tc:'socket',st:'?'},
+  {sap:'—',pn:'01-04-63M',d:'ΠΡΙΖΑ ΤΗΛ. RJ11 - 2x6P4C “ΔΙΠΛΗ” (Ατομική συσκευασία “blister”)',tc:'socket',st:'?'},
+  {sap:'—',pn:'01-04-51M',d:'ΠΡΙΖΑ ΤΗΛ. RJ45 - 8P8C “MONH” (Ατομική συσκευασία “blister”)',tc:'socket',st:'?'},
+  {sap:'—',pn:'01-04-59M',d:'ΣΥΝΔΕΣΜΟΣ ΠΡΟΕΚΤΑΣΗΣ RJ11 - 6P4C ( Ατομική συσκευασία “blister”)',tc:'other',st:'?'},
+  {sap:'—',pn:'01-04-56M',d:'ΣΥΝΔΕΣΜΟΣ ΠΡΟΕΚΤΑΣΗΣ RJ45 - 8P8C ( Ατομική συσκευασία “blister”)',tc:'other',st:'?'},
+  {sap:'—',pn:'01-04-98C-M',d:'METAΤΡΟΠΕΑΣ ME KΑΛΩΔΙΟ RJ11 ΣΕ 2 ΠΑΡΑΛΛΗΛΕΣ ΕΞΟΔΟΥΣ RJ11 - 6P4C & RJ45 - 8P4C ( Ατομι',tc:'other',st:'?'},
+  {sap:'1001885',pn:'01-04-79',d:'ΚΛΙΠΣ RJ11 “6P4C για σύνδεση καλωδίου 2 ζευγών” (κουτί των 200 τεμ.)',tc:'cable',st:'BTS'},
+  {sap:'1045872',pn:'01-04-29',d:'ΚΛΙΠΣ RJ45 “8P8C για σύνδεση καλωδίου 2/4 ζευγών” (κουτί των 100 τεμ.)',tc:'cable',st:'BTS'},
+  {sap:'—',pn:'01-04-60M',d:'ADAPTOR RJ11 - 6P4C 1 ΑΡΣ./ 2 ΘΗΛ. ( Ατομική συσκευασία “blister”)',tc:'other',st:'?'},
+  {sap:'—',pn:'01-04-67M',d:'ADAPTOR RJ11 - 6P4C 1 ΑΡΣ./ 3 ΘΗΛ. ( Ατομική συσκευασία “blister”)',tc:'other',st:'?'},
+  {sap:'—',pn:'01-04-57M',d:'ΔΙΑΧΩΡΙΣΤΗΣ RJ11 - 6P4C “LINE1 - LINE2” ( Ατομική συσκευασία “blister”)',tc:'other',st:'?'},
+  {sap:'—',pn:'01-01-61ΛEY',d:'ΚΑΛΩΔΙΟ ΤΗΛ. ΠΛΑΚΕ (ΓΙΑ ΚΛΙΠΣ RJ11) 2 ΖΕΥΓΩΝ (Στροφείο 100m) ΛΕΥΚΟ',tc:'cable',st:'?'},
+  {sap:'—',pn:'01-01-61MAY',d:'ΚΑΛΩΔΙΟ ΤΗΛ. ΠΛΑΚΕ (ΓΙΑ ΚΛΙΠΣ RJ11) 2 ΖΕΥΓΩΝ (Στροφείο 100m) ΜΑΥΡΟ',tc:'cable',st:'?'},
+  {sap:'—',pn:'01-01-76M/ΛEY',d:'ΣΥΝΔΕΣΕΩΣ ΤΗΛ. 3Μ ( Ατομική συσκευασία “blister”) ΛΕΥΚΟ',tc:'other',st:'?'},
+  {sap:'—',pn:'01-01-76M/MAY',d:'ΣΥΝΔΕΣΕΩΣ ΤΗΛ. 3Μ ( Ατομική συσκευασία “blister”) ΜΑΥΡΟ',tc:'other',st:'?'},
+  {sap:'—',pn:'01-01-77M/ΛEY',d:'ΣΥΝΔΕΣΕΩΣ ΤΗΛ. 6Μ ( Ατομική συσκευασία “blister”) ΛΕΥΚΟ',tc:'other',st:'?'},
+  {sap:'—',pn:'01-01-77M/MAY',d:'ΣΥΝΔΕΣΕΩΣ ΤΗΛ. 6Μ ( Ατομική συσκευασία “blister”) ΜΑΥΡΟ',tc:'other',st:'?'},
+  {sap:'—',pn:'01-01-80M/ΛEY',d:'ΣΥΝΔΕΣΕΩΣ ΤΗΛ. 10Μ ( Ατομική συσκευασία “blister”) ΛΕΥΚΟ',tc:'other',st:'?'},
+  {sap:'—',pn:'01-01-80M/MAY',d:'ΣΥΝΔΕΣΕΩΣ ΤΗΛ. 10Μ ( Ατομική συσκευασία “blister”) ΜΑΥΡΟ',tc:'other',st:'?'},
+  {sap:'—',pn:'01-01-81ΛEY/X',d:'ΣΥΝΔΕΣΕΩΣ ΤΗΛ. 15Μ ( Συσκευασία polybag) ΛΕΥΚΟ',tc:'other',st:'?'},
+  {sap:'—',pn:'01-01-81MAY/X',d:'ΣΥΝΔΕΣΕΩΣ ΤΗΛ. 15Μ ( Συσκευασία polybag) ΜΑΥΡΟ',tc:'other',st:'?'},
+  {sap:'—',pn:'01-01-38M/ΛEY',d:'ΣΠΙΡΑΛ ΤΗΛ. “ STANDARD” ~ 0,35 cm κλειστό ( Ατομική συσκευασία “blister”) ΛΕΥΚΟ',tc:'other',st:'?'},
+  {sap:'—',pn:'01-01-38M/MAY',d:'ΣΠΙΡΑΛ ΤΗΛ. “ STANDARD” ~ 0,35 cm κλειστό ( Ατομική συσκευασία “blister”) ΜΑΥΡΟ',tc:'other',st:'?'},
+  {sap:'—',pn:'01-01-40M/ΛEY',d:'ΣΠΙΡΑΛ ΤΗΛ. “ΠΡΟΕΚΤΑΣΕΩΣ” ~ 0,95 cm κλειστό ( Ατομική συσκευασία “blister”) ΛΕΥΚΟ',tc:'other',st:'?'},
+  {sap:'—',pn:'01-01-40M/MAY',d:'ΣΠΙΡΑΛ ΤΗΛ. “ΠΡΟΕΚΤΑΣΕΩΣ” ~ 0,95 cm κλειστό ( Ατομική συσκευασία “blister”) ΜΑΥΡΟ',tc:'other',st:'?'},
+  {sap:'—',pn:'01-02-46ΛEY/M',d:'ΣΠΙΡΑΛ ΡΕΥΜΑΤΟΣ (3 Χ 0,75mm2) 3M ( Ατομική συσκευασία “blister”) ΛΕΥΚΟ',tc:'other',st:'?'},
+  {sap:'—',pn:'01-02-46MAY/M',d:'ΣΠΙΡΑΛ ΡΕΥΜΑΤΟΣ (3 Χ 0,75mm2) 3M ( Ατομική συσκευασία “blister”) ΜΑΥΡΟ',tc:'other',st:'?'},
+  {sap:'1045897',pn:'93-90-1602BK',d:'“ΣΠΙΡΑΛ” ΟΡΓΑΝΩΤΗΣ 2Μ (Διατομή. 16mm) ΜΑΥΡΟ (Ατομική Συσκευασία "κουτί")',tc:'other',st:'BTO'},
+  {sap:'1045898',pn:'93-90-2802BK',d:'“ΣΠΙΡΑΛ” ΟΡΓΑΝΩΤΗΣ 2Μ (Διατομή. 28mm) ΜΑΥΡΟ (Ατομική Συσκευασία "κουτί")',tc:'other',st:'BTO'},
+];
+
+const KRONE_ITEMS=[
+  {sap:'—',pn:'80-81-551',d:'ΟΡΙΟΛΩΡΙΔΑ ΔΙΑΧΩΡΙΣΤΙΚΗ 10 ΖΕΥΓΩΝ (Τ. KRONE)',st:'?'},
+  {sap:'—',pn:'80-81-562',d:'ΠΙΝΑΚΙΔΑ ΣΗΜΑΝΣΗΣ ΖΕΥΓΩΝ ΟΡΙΟΛΩΡΙΔΑΣ (ΑΡΘΡΩΤΗ)',st:'?'},
+  {sap:'—',pn:'80-82-552',d:'ΜΕΤΑΛΛΙΚΗ ΒΑΣΗ ΣΤΗΡΙΞΗΣ ΟΡΙΟΛΩΡΙΔΑΣ 1 ΘΕΣΕΩΣ ΎΨΟΣ: 2,5cm',st:'?'},
+  {sap:'—',pn:'80-82-553',d:'ΜΕΤΑΛΛΙΚΗ ΒΑΣΗ ΣΤΗΡΙΞΗΣ ΟΡΙΟΛΩΡΙΔΑΣ 2 ΘΕΣΕΩΝ ΎΨΟΣ: 2,5cm',st:'?'},
+  {sap:'—',pn:'80-82-554',d:'ΜΕΤΑΛΛΙΚΗ ΒΑΣΗ ΣΤΗΡΙΞΗΣ ΟΡΙΟΛΩΡΙΔΑΣ 3 ΘΕΣΕΩΝ ΎΨΟΣ: 2,5cm',st:'?'},
+  {sap:'—',pn:'80-82-555',d:'ΜΕΤΑΛΛΙΚΗ ΒΑΣΗ ΣΤΗΡΙΞΗΣ ΟΡΙΟΛΩΡΙΔΑΣ 5 ΘΕΣΕΩΝ ΎΨΟΣ: 2,5cm',st:'?'},
+  {sap:'—',pn:'80-82-557',d:'ΜΕΤΑΛΛΙΚΗ ΒΑΣΗ ΣΤΗΡΙΞΗΣ ΟΡΙΟΛΩΡΙΔΑΣ 10 ΘΕΣΕΩΝ ΎΨΟΣ: 2,5cm',st:'?'},
+  {sap:'—',pn:'80-81-563',d:'ΠΙΝΑΚΙΔΑ ΣΗΜΑΝΣΗΣ ΜΕΤΑΛΛΙΚΗΣ ΒΑΣΗΣ (ομάδων οριολωρίδων)',st:'?'},
+  {sap:'—',pn:'80-81-565',d:'ΒΥΣΜΑ ΔΟΚΙΜΑΣΤΙΚΟ “ΠΑΡΑΛΛΗΛΟ” ΔΙΠΟΛΙΚΟ (2/2)',st:'?'},
+  {sap:'—',pn:'80-81-566',d:'ΒΥΣΜΑ ΔΟΚΙΜΑΣΤΙΚΟ “ΔΙΑΧΩΡΙΣΤΙΚΟ” ΤΕΤΡΑΠΟΛΙΚΟ (2/4)',st:'?'},
+  {sap:'—',pn:'80-81-564',d:'ΒΥΣΜΑ ΔΙΑΧΩΡΙΣΤΙΚΟ ΕΝΟΣ ΖΕΥΓΟΥΣ (Plug)',st:'?'},
+  {sap:'1045670',pn:'01-01-73',d:'ΚΑΛΩΔΙΟ ΜΙΚΤΟΝΟΜΗΣΗΣ "ΧΑΛΚΟΥ" μονόκλωνο ενός ζεύγους (2x0,5mm) "Στροφείο 305m"',st:'BTO'},
+  {sap:'—',pn:'80-81-558',d:'ΑΣΦΑΛΕΙΟΛΩΡΙΔΑ ΥΠΕΡΤΑΣΗΣ "ΟΡΙΟΛΩΡΙΔΑΣ" ΕΩΣ 10 ΘΕΣΕΩΝ (Για Τριπολικές Ασφάλειες)',st:'?'},
+  {sap:'—',pn:'80-81-559/N',d:'ΤΡΙΠΟΛΙΚΗ ΑΣΦΑΛΕΙΑ ΑΕΡΙΟΥ 230V/10KA ΜΕ “FAIL SAFE”',st:'?'},
+];
+
 // ═══════════════════════════════════════════════════════════
 // ══ FO DATA
 // ═══════════════════════════════════════════════════════════
@@ -832,8 +892,52 @@ const DEFAULT_RACKS=[
   {sap:'8840120',pn:'VX 8840120',d:'Rittal VX 42U 600×600 IP55',br:'Rittal',tp:'ip55',u:42,w:600,dep:600,url:'https://www.rittal.com'},
   {sap:'8840130',pn:'VX 8840130',d:'Rittal VX 42U 600×800 IP55',br:'Rittal',tp:'ip55',u:42,w:600,dep:800,url:'https://www.rittal.com'},
   {sap:'8807000',pn:'VX Baying 8807000',d:'Rittal VX Baying 800×600 IP66',br:'Rittal',tp:'ip55',u:42,w:800,dep:600,url:'https://www.rittal.com'},
-  {sap:'8458000',pn:'VX Baying 8458000',d:'Rittal VX Baying 800×600 IP66 Stainless',br:'Rittal',tp:'ip55',u:42,w:800,dep:600,url:'https://www.rittal.com'},
+  {sap:'8458000',pn:'VX Baying 8458000',d:'Rittal VX Baying 800×600 IP66 Stainless',br:'Rittal',tp:'ip55',u:42,w:800,dep:600,url:'https://www.rittal.com'},,
+  {sap:'1046133',pn:'4000160047/C',d:'Επιδαπέδιο 47U 600×600mm',br:'Central',tp:'std',u:47,w:600,dep:600,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046139',pn:'4000268037/C',d:'Επιδαπέδιο 37U 600×800mm',br:'Central',tp:'std',u:37,w:600,dep:800,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046149',pn:'4000268047/C',d:'Επιδαπέδιο 47U 600×800mm',br:'Central',tp:'std',u:47,w:600,dep:800,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1265177',pn:'4000369627/C',d:'Επιδαπέδιο 27U 600×1000mm',br:'Central',tp:'std',u:27,w:600,dep:1000,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046140',pn:'4000369637/C',d:'Επιδαπέδιο 37U 600×1000mm',br:'Central',tp:'std',u:37,w:600,dep:1000,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046203',pn:'4000369647/C',d:'Επιδαπέδιο 47U 600×1000mm',br:'Central',tp:'std',u:47,w:600,dep:1000,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046119',pn:'4000480027/C',d:'Επιδαπέδιο 27U 800×800mm',br:'Central',tp:'std',u:27,w:800,dep:800,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046156',pn:'4000480032/C',d:'Επιδαπέδιο 32U 800×800mm',br:'Central',tp:'std',u:32,w:800,dep:800,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046144',pn:'4000480037/C',d:'Επιδαπέδιο 37U 800×800mm',br:'Central',tp:'std',u:37,w:800,dep:800,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046145',pn:'4000480042/C',d:'Επιδαπέδιο 42U 800×800mm',br:'Central',tp:'std',u:42,w:800,dep:800,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046155',pn:'4000480047/C',d:'Επιδαπέδιο 47U 800×800mm',br:'Central',tp:'std',u:47,w:800,dep:800,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1265190',pn:'4000596027/C',d:'Επιδαπέδιο 27U 800×1000mm',br:'Central',tp:'std',u:27,w:800,dep:1000,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1265178',pn:'4000596032/C',d:'Επιδαπέδιο 32U 800×1000mm',br:'Central',tp:'std',u:32,w:800,dep:1000,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046143',pn:'4000596037/C',d:'Επιδαπέδιο 37U 800×1000mm',br:'Central',tp:'std',u:37,w:800,dep:1000,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046157',pn:'4000596042/C',d:'Επιδαπέδιο 42U 800×1000mm',br:'Central',tp:'std',u:42,w:800,dep:1000,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1046165',pn:'4000596047/C',d:'Επιδαπέδιο 47U 800×1000mm',br:'Central',tp:'std',u:47,w:800,dep:1000,url:'https://www.central-telecom.gr/Product/6'},
+  {sap:'1217782',pn:'3000145006/C',d:'Επιτοίχιο Μη Αρθρωτό 6U 600×450mm',br:'Central',tp:'wall',u:6,w:600,dep:450,url:'https://www.central-telecom.gr/Product/4'},
+  {sap:'1046106',pn:'3000145009/C',d:'Επιτοίχιο Μη Αρθρωτό 9U 600×450mm',br:'Central',tp:'wall',u:9,w:600,dep:450,url:'https://www.central-telecom.gr/Product/4'},
+  {sap:'1046108',pn:'3000145012/C',d:'Επιτοίχιο Μη Αρθρωτό 12U 600×450mm',br:'Central',tp:'wall',u:12,w:600,dep:450,url:'https://www.central-telecom.gr/Product/4'},
+  {sap:'1046109',pn:'3000145015/C',d:'Επιτοίχιο Μη Αρθρωτό 15U 600×450mm',br:'Central',tp:'wall',u:15,w:600,dep:450,url:'https://www.central-telecom.gr/Product/4'},
+  {sap:'1046114',pn:'3000255006/C',d:'Επιτοίχιο Αρθρωτό 6U 600×550mm',br:'Central',tp:'wall',u:6,w:600,dep:550,url:'https://www.central-telecom.gr/Product/4'},
+  {sap:'1046118',pn:'3000255009/C',d:'Επιτοίχιο Αρθρωτό 9U 600×550mm',br:'Central',tp:'wall',u:9,w:600,dep:550,url:'https://www.central-telecom.gr/Product/4'},
+  {sap:'1046121',pn:'3000255012/C',d:'Επιτοίχιο Αρθρωτό 12U 600×550mm',br:'Central',tp:'wall',u:12,w:600,dep:550,url:'https://www.central-telecom.gr/Product/4'},
+  {sap:'1046122',pn:'3000255015/C',d:'Επιτοίχιο Αρθρωτό 15U 600×550mm',br:'Central',tp:'wall',u:15,w:600,dep:550,url:'https://www.central-telecom.gr/Product/4'},
+  {sap:'1265287',pn:'7000345006/C',d:'Επιτοίχιο/Επιδαπέδιο (Αρθρωτό) 6U 540×450mm',br:'Central',tp:'wall',u:6,w:540,dep:450,url:'https://www.central-telecom.gr/Product/4'},
+  {sap:'?',pn:'7000345009/C',d:'Επιτοίχιο/Επιδαπέδιο (Αρθρωτό) 9U 540×450mm',br:'Central',tp:'wall',u:9,w:540,dep:450,url:'https://www.central-telecom.gr/Product/4'},
+  {sap:'?',pn:'7000345012/C',d:'Επιτοίχιο/Επιδαπέδιο (Αρθρωτό) 12U 540×450mm',br:'Central',tp:'wall',u:12,w:540,dep:450,url:'https://www.central-telecom.gr/Product/4'},
+  {sap:'?',pn:'7000345015/C',d:'Επιτοίχιο/Επιδαπέδιο (Αρθρωτό) 15U 540×450mm',br:'Central',tp:'wall',u:15,w:540,dep:450,url:'https://www.central-telecom.gr/Product/4'},
+  {sap:'1026710',pn:'7000345020/C',d:'Επιτοίχιο/Επιδαπέδιο (Αρθρωτό) 20U 540×450mm',br:'Central',tp:'wall',u:20,w:540,dep:450,url:'https://www.central-telecom.gr/Product/4'},
+  {sap:'1046164',pn:'3000360025/C',d:'Επιτοίχιο 25U 540×600mm',br:'Central',tp:'wall',u:25,w:540,dep:600,url:'https://www.central-telecom.gr/Product/4'},
+  {sap:'1265173',pn:'9800360006/C',d:'Επιτοίχιο/Επιδαπέδιο Βασικό 3 6U 540×600mm',br:'Central',tp:'wall',u:6,w:540,dep:600,url:'https://www.central-telecom.gr/Product/4'},
+  {sap:'1265172',pn:'9800360009/C',d:'Επιτοίχιο/Επιδαπέδιο Βασικό 3 9U 540×600mm',br:'Central',tp:'wall',u:9,w:540,dep:600,url:'https://www.central-telecom.gr/Product/4'},
+  {sap:'1046107',pn:'9800360012/C',d:'Επιτοίχιο/Επιδαπέδιο Βασικό 3 12U 540×600mm',br:'Central',tp:'wall',u:12,w:540,dep:600,url:'https://www.central-telecom.gr/Product/4'},
+  {sap:'1046110',pn:'9800360015/C',d:'Επιτοίχιο/Επιδαπέδιο Βασικό 3 15U 540×600mm',br:'Central',tp:'wall',u:15,w:540,dep:600,url:'https://www.central-telecom.gr/Product/4'},
+  {sap:'1046112',pn:'9800360020/C',d:'Επιτοίχιο/Επιδαπέδιο Βασικό 3 20U 540×600mm',br:'Central',tp:'wall',u:20,w:540,dep:600,url:'https://www.central-telecom.gr/Product/4'},
+  {sap:'1046158',pn:'9800360025/C',d:'Επιτοίχιο/Επιδαπέδιο Βασικό 3 25U 540×600mm',br:'Central',tp:'wall',u:25,w:540,dep:600,url:'https://www.central-telecom.gr/Product/4'},
+  {sap:'1046115',pn:'3000030004/C',d:'Μίνι Επιτοίχιο 4U 600×300mm',br:'Central',tp:'wall',u:4,w:600,dep:300,url:'https://www.central-telecom.gr/Product/4'},
+  {sap:'1046113',pn:'3000030006/C',d:'Μίνι Επιτοίχιο 6U 600×300mm',br:'Central',tp:'wall',u:6,w:600,dep:300,url:'https://www.central-telecom.gr/Product/4'},
+  {sap:'1046117',pn:'3000030009/C',d:'Μίνι Επιτοίχιο 9U 600×300mm',br:'Central',tp:'wall',u:9,w:600,dep:300,url:'https://www.central-telecom.gr/Product/4'},
+  {sap:'1046174',pn:'3000030012/C',d:'Μίνι Επιτοίχιο 12U 600×300mm',br:'Central',tp:'wall',u:12,w:600,dep:300,url:'https://www.central-telecom.gr/Product/4'},
+  {sap:'1046177',pn:'3000030015/C',d:'Μίνι Επιτοίχιο 15U 600×300mm',br:'Central',tp:'wall',u:15,w:600,dep:300,url:'https://www.central-telecom.gr/Product/4'},
+  {sap:'1046101',pn:'2500135006/C',d:'Επιτοίχιο SOHO 10" 6U 350×280mm',br:'Central',tp:'wall',u:6,w:350,dep:280,url:'https://www.central-telecom.gr/Product/4'}
 ];
+
+const RACK_STATUS={"1046138":"BTO","1046139":"BTO","5503120":"?","5507120":"?","1046162":"BTO","1046122":"BTO","8840120":"?","1046126":"BTO","8840130":"?","5330133":"?","1046142":"BTO","1046106":"BTO","1046158":"BTO","1265258":"BTO","1046145":"BTO","1046112":"BTO","5326121":"?","1265172":"BTO","1046157":"BTO","1046208":"BTO","1265177":"BTO","1046159":"BTO","1046127":"BTO","1046117":"BTS","1217782":"BTO","1046118":"BTO","1046141":"BTO","1046128":"BTS","1046150":"BTO","1046205":"BTO","1065366":"BTO","1046134":"BTS","5309126":"?","1046172":"BTO","1265198":"BTO","1265194":"BTO","1046160":"BTO","1046110":"BTO","8840110":"?","1046107":"BTO","1046165":"BTO","1265180":"BTO","5303134":"?","1046119":"BTO","5509120":"?","1046130":"BTO","1265193":"BTO","1046131":"BTO","1046109":"BTO","5329121":"?","1046163":"BTO","1046115":"BTS","1046108":"BTO","1046203":"BTO","5307134":"?","1046136":"BTO","1046147":"BTO","1265178":"BTO","5326131":"?","1046206":"BTO","1046101":"BTO","1046202":"BTO","1046152":"BTO","1046129":"BTO","1265190":"BTO","1046140":"BTO","1046148":"BTO","1046144":"BTO","1046121":"BTO","5309136":"?","1046143":"BTO","1046151":"BTO","1046125":"BTO","1046137":"BTO","1046146":"BTO","1046164":"BTO","1046132":"BTO","1046120":"BTS","1046135":"BTO","1046170":"BTO","1046204":"BTO","1046149":"STO","8807000":"?","1046113":"BTS","5329131":"?","1046166":"BTO","1026710":"BTO","1046171":"BTO","1046155":"BTO","8840100":"?","1046154":"BTO","1046174":"BTO","1265173":"BTO","1265287":"BTO","1046156":"BTO","5307124":"?","8458000":"?","1046177":"BTO","1046114":"BTO","1046133":"BTO"};
 const DEFAULT_SHELVES={
   600:{dep:600,id:'shelf600',sap:'1046186',pn:'2000160003/C',d:'Ράφι Σταθερό 1U — 600mm'},
   800:{dep:800,id:'shelf800',sap:'1046182',pn:'2000480004/C',d:'Ράφι 4 Σημείων 1U — 800mm'},
@@ -878,7 +982,19 @@ const DEFAULT_ACCS=[
   {id:'rac28',sap:'?',pn:'80-82-304/N',d:'ΣΤΕΓΑΝΟΣ “ΜΕΤΑΛΛΙΚΟΣ” ΚΑΤΑΝΕΜΗΤΗΣ ( 500Υ x 400Π x 180Β ) ΕΩΣ 300 ΖΕΥΓΩΝ',st:'?'},
   {id:'rac29',sap:'1045677',pn:'91-71-300',d:'ΠΡΟΣΤΑΤΕΥΤΙΚΟ ΥΠΕΡΤΑΣΕΩΝ 1 ΘΕΣΕΩΣ 230V/16A (ΤΥΠΟΥ “PACK”) • με επιπλέον αντ',st:'STO'},
   {id:'rac30',sap:'?',pn:'91-71-200',d:'ΠΡΟΣΤΑΤΕΥΤΙΚO ΠΟΛΥΠΡΙΖO ΑΣΦΑΛΕΙΑΣ 230V/16A 6 ΘΕΣΕΩΝ • Υπερτάσεων & Υπερεντά',st:'?'},
-  {id:'rac31',sap:'?',pn:'91-71-202',d:'ΠΡΟΣΤΑΤΕΥΤΙΚO ΠΟΛΥΠΡΙΖO ΑΣΦΑΛΕΙΑΣ 230V/16A 6 ΘΕΣΕΩΝ • Υπερτάσεων & Υπερεντά',st:'?'}
+  {id:'rac31',sap:'?',pn:'91-71-202',d:'ΠΡΟΣΤΑΤΕΥΤΙΚO ΠΟΛΥΠΡΙΖO ΑΣΦΑΛΕΙΑΣ 230V/16A 6 ΘΕΣΕΩΝ • Υπερτάσεων & Υπερεντά',st:'?'},
+  {id:'shf01',sap:'1001889',pn:'1500130004/C',d:'ΡΑΦΙ ΣΤΑΘΕΡΟ “ΕΜΠΡΟΣΘΙΑΣ ΣΤΗΡΙΞΗΣ” (Bάθους: 300mm) ΓΙΑ ΕΠΙΤΟΙΧΑ RACK & BASI',st:'BTS'},
+  {id:'shf02',sap:'1046190',pn:'1600260004/C',d:'ΡΑΦΙ ΣΤΑΘΕΡΟ “4 ΣΗΜΕΙΩΝ ΣΤΗΡΙΞΗΣ” (Bάθους: 430mm) ΓΙΑ ΣΕΙΡΑ BASIC 2 - 3',st:'BTS'},
+  {id:'shf03',sap:'1046187',pn:'2000160006/C',d:'ΡΑΦΙ ΤΗΛΕΣΚΟΠΙΚΟ 4 ΣΗΜ. ΣΤΗΡΙΞΗΣ (Bάθ.: 350mm) ΕΠΙΔΑΠΕΔΙΑ/SERVER 60Χ60',st:'BTO'},
+  {id:'shf04',sap:'1046183',pn:'2000480007/C',d:'ΡΑΦΙ ΤΗΛΕΣΚΟΠΙΚΟ 4 ΣΗΜ. ΣΤΗΡΙΞΗΣ (Bάθ.: 550mm) ΕΠΙΔΑΠΕΔΙΑ/SERVER 60Χ80, 80Χ',st:'BTS'},
+  {id:'shf05',sap:'1046185',pn:'2000596008/C',d:'ΡΑΦΙ ΤΗΛΕΣΚΟΠΙΚΟ 4 ΣΗΜ. ΣΤΗΡΙΞΗΣ (Bάθ.: 700mm) ΕΠΙΔΑΠΕΔΙΑ/SERVER 60Χ100, 80',st:'BTO'},
+  {id:'m1001',sap:'1046188',pn:'2500235020/C',d:'ΡΑΦΙ ΣΤΑΘΕΡΟ 10" (ΒΑΘΟΥΣ 20cm) 1U',st:'BTO'},
+  {id:'m1002',sap:'?',pn:'2500235021/C',d:'ΠΡΟΣΟΨΗ (MODULAR) PATCH PANEL 10" ΓΙΑ JACKS ΕΩΣ 8 ΘΥΡΩΝ 1U',st:'?'},
+  {id:'m1003',sap:'1046104',pn:'2500235022/C',d:'ΟΡΓΑΝΩΤΗΣ ΔΙΕΛΕΥΣΗΣ ΚΑΛΩΔΙΩΝ 10" 1U',st:'BTO'},
+  {id:'rxa04',sap:'1045706',pn:'80-83-442/C',d:'ΨΗΦΙΑΚΟΣ ΘΕΡΜΟΣΤΑΤΗΣ ΣΕ PANEL 19” ΕΜΠΡΟΣΘΙΑΣ ΣΤΗΡΙΞΗΣ (κιτ) 1U',st:'BTS'},
+  {id:'rxa05',sap:'1046175',pn:'1000990026/C',d:'(κιτ) PANEL 19" ΜΕ 2 ΑΝΕΜΙΣΤΗΡΕΣ, ΨΗΦΙΑΚΟ ΘΕΡΜΟΣΤΑΤΗ, ΔΙΑΚΟΠΤΗ ON/OFF 1U',st:'BTS'},
+  {id:'rxa06',sap:'1046176',pn:'1000990027/C',d:'(κιτ) PANEL 19" ΜΕ 4 ΑΝΕΜΙΣΤΗΡΕΣ, ΨΗΦΙΑΚΟ ΘΕΡΜΟΣΤΑΤΗ, ΔΙΑΚΟΠΤΗ ON/OFF 1U',st:'BTS'},
+  {id:'rxa07',sap:'1045969',pn:'01-66-477/25P',d:'ΤΗΛΕΦΩΝΙΚΟ ( VOICE ) PATCH PANEL 19" 25 ΘΥΡΩΝ 1U',st:'BTO'}
 ];
 
 // ═══════════════════════════════════════════════════════════
@@ -1013,7 +1129,10 @@ function genericCard(it,qty,url){
   const k=eqKey(it), qd=qty||1;
   if(exportQtys[k]===undefined)exportQtys[k]=qd;
   const unsel=exportQtys[k]===0;
-  return`<div class="pc${unsel?' unsel':''}" data-k="${k}" data-qd="${qd}" onclick="togglePc(this,event)" title="Κλικ για επιλογή/αποεπιλογή"><div class="pc-tick"><i class="ti ti-check"></i></div><div>${sapEl}</div><div class="pm"><a class="pp" href="${link}" target="_blank" onclick="event.stopPropagation()">${qEl}${it.pn} <i class="ti ti-external-link" style="font-size:9px"></i></a><div class="pd">${it.d}</div></div><span class="pb ${bc}">${badge}</span></div>`;
+  const stRaw=it.st||(RACK_STATUS?RACK_STATUS[it.sap]:null);
+  const stI=stRaw&&STMAP[stRaw]?STMAP[stRaw]:null;
+  const stEl=stI&&stI.c!=='st-unk'?`<span class="st ${stI.c}" title="${stI.tip}">${stI.t}</span>`:'';
+  return`<div class="pc${unsel?' unsel':''}" data-k="${k}" data-qd="${qd}" onclick="togglePc(this,event)" title="Κλικ για επιλογή/αποεπιλογή"><div class="pc-tick"><i class="ti ti-check"></i></div><div>${sapEl}${stEl}</div><div class="pm"><a class="pp" href="${link}" target="_blank" onclick="event.stopPropagation()">${qEl}${it.pn} <i class="ti ti-external-link" style="font-size:9px"></i></a><div class="pd">${it.d}</div></div><span class="pb ${bc}">${badge}</span></div>`;
 }
 function getJacks(kp,cat,shield){
   if(!kp.length||!cat||!shield)return[];
@@ -1343,7 +1462,7 @@ function cabCh(k,v){
 
 function renderCables(){
   const s=document.getElementById('main-content');if(!s)return;
-  let html=`<div class="subtabs"><button class="subtb${cabMode==='copper'?' on':''}" onclick="cabMode='copper';cabCu={};exportQtys={};renderApp()">🔌 Χαλκός</button><button class="subtb${cabMode==='fiber'?' on':''}" onclick="cabMode='fiber';cabFo={};exportQtys={};renderApp()">💡 Οπτικά</button></div>`;
+  let html=`<div class="subtabs"><button class="subtb${cabMode==='copper'?' on':''}" onclick="cabMode='copper';cabCu={};exportQtys={};renderApp()">🔌 Χάλκινα</button><button class="subtb${cabMode==='fiber'?' on':''}" onclick="cabMode='fiber';cabFo={};exportQtys={};renderApp()">💡 Οπτικά</button></div>`;
 
   if(cabMode==='copper'){
     function flt(excl){
@@ -1412,7 +1531,60 @@ function renderCables(){
   s.innerHTML=html;
 }
 
-const TABS=[{id:'copper',lbl:'🔌 Χαλκός'},{id:'fo',lbl:'💡 FO'},{id:'racks',lbl:'🗄 Racks'},{id:'cables',lbl:'🔗 Καλώδια'},{id:'admin',lbl:'🔒 Admin'}];
+// ═══════════════════════════════════════════════════════════
+// ══ TELCO MODULE  (Τηλεφωνία / IDC-KRONE)
+// ═══════════════════════════════════════════════════════════
+let telcoMode='telco', telcoFilter=null;
+
+const TC_TYPES=[
+  {v:null,    t:'Όλα',          s:''},
+  {v:'signal',t:'ADSL/VDSL',   s:'splitters & filters'},
+  {v:'socket',t:'Πρίζες',      s:'RJ11 / RJ45'},
+  {v:'cable', t:'Καλώδια',     s:'clips & κορδόνια'},
+  {v:'other', t:'Λοιπά',       s:'adaptors & spirals'},
+];
+
+function telcoCard(it, isKrone){
+  const k=eqKey(it);
+  if(exportQtys[k]===undefined) exportQtys[k]=0;
+  const unsel=exportQtys[k]===0;
+  const stI=it.st&&STMAP[it.st]?STMAP[it.st]:null;
+  const stEl=stI&&stI.c!=='st-unk'?`<span class="st ${stI.c}" title="${stI.tip}">${stI.t}</span>`:'';
+  const sapEl=it.sap==='—'?`<span style="color:var(--color-text-tertiary);font-size:10px">—</span>`
+    :`<div class="ps">${it.sap}</div>`;
+  const badge=isKrone?'IDC/Krone':'Central';
+  const bc=isKrone?'bR':'bC';
+  return`<div class="pc${unsel?' unsel':''}" data-k="${k}" data-qd="1" onclick="togglePc(this,event)" title="Κλικ για επιλογή"><div class="pc-tick"><i class="ti ti-check"></i></div><div>${sapEl}${stEl}</div><div class="pm"><div class="pp" style="cursor:default">${it.pn}</div><div class="pd">${it.d}</div></div><span class="pb ${bc}">${badge}</span></div>`;
+}
+
+function renderTelco(){
+  const s=document.getElementById('main-content'); if(!s)return;
+  let html=`<div class="subtabs">
+    <button class="subtb${telcoMode==='telco'?' on':''}" onclick="telcoMode='telco';exportQtys={};renderApp()">📞 Τηλεφωνία</button>
+    <button class="subtb${telcoMode==='krone'?' on':''}" onclick="telcoMode='krone';exportQtys={};renderApp()">🔌 IDC / Krone</button>
+  </div>`;
+
+  if(telcoMode==='telco'){
+    // Type filter buttons
+    html+=`<div class="step"><div class="slbl">Κατηγορία</div><div class="opts">`;
+    TC_TYPES.forEach(f=>{
+      const cnt=f.v?TELCO_ITEMS.filter(i=>i.tc===f.v).length:TELCO_ITEMS.length;
+      html+=`<button class="opt${telcoFilter===f.v?' sel':''}" onclick="telcoFilter='${f.v}';exportQtys={};renderApp()"><div class="ot">${f.t}</div><div class="os">${f.s} <span style="font-family:var(--font-mono);font-size:10px;color:var(--color-text-tertiary)">(${cnt})</span></div></button>`;
+    });
+    html+=`</div></div>`;
+    const items=telcoFilter?TELCO_ITEMS.filter(i=>i.tc===telcoFilter):TELCO_ITEMS;
+    html+=`<div class="div"></div><div class="sl">Τηλεφωνικά Αξεσουάρ (${items.length})</div>`;
+    html+=`<div class="pg">${items.map(it=>telcoCard(it,false)).join('')}</div>`;
+    if(items.length) html+=renderExportBox(items.map(i=>({...i,_qty:1})));
+  } else {
+    html+=`<div class="div"></div><div class="sl">IDC / T.Krone (${KRONE_ITEMS.length})</div>`;
+    html+=`<div class="pg">${KRONE_ITEMS.map(it=>telcoCard(it,true)).join('')}</div>`;
+    if(KRONE_ITEMS.length) html+=renderExportBox(KRONE_ITEMS.map(i=>({...i,_qty:1})));
+  }
+  s.innerHTML=html;
+}
+
+const TABS=[{id:'copper',lbl:'🔌 Χαλκός'},{id:'fo',lbl:'💡 FO'},{id:'racks',lbl:'🗄 Racks'},{id:'cables',lbl:'🔗 Καλώδια'},{id:'telco',lbl:'📞 Τηλεφωνία'},{id:'admin',lbl:'🔒 Admin'}];
 function switchTab(t){activeTab=t;renderApp();}
 function renderApp(){
   const te=document.getElementById('main-tabs');
@@ -1421,13 +1593,15 @@ function renderApp(){
   else if(activeTab==='fo')renderFO();
   else if(activeTab==='racks')renderRacks();
   else if(activeTab==='cables')renderCables();
+  else if(activeTab==='telco')renderTelco();
   else renderAdmin();
 }
 document.getElementById('brst').onclick=()=>{
   if(activeTab==='copper'){cuSel={};cuOSel={};}
   else if(activeTab==='fo'){foSel={};foBSel={};}
   else if(activeTab==='racks'){rSel={};rCk.clear();}
-  else if(activeTab==='cables'){cabCu={};cabFo={};}
+  else if(activeTab==='cables'){cabCu={};cabFo={};
+  } else if(activeTab==='telco'){telcoFilter=null;}
   exportQtys={};renderApp();
 };
 
