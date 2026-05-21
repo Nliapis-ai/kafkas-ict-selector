@@ -750,33 +750,7 @@ const KRONE_ITEMS=[
   {sap:'—',pn:'80-81-558',d:'ΑΣΦΑΛΕΙΟΛΩΡΙΔΑ ΥΠΕΡΤΑΣΗΣ "ΟΡΙΟΛΩΡΙΔΑΣ" ΕΩΣ 10 ΘΕΣΕΩΝ (Για Τριπολικές Ασφάλειες)',st:'?',url:''},
   {sap:'—',pn:'80-81-559/N',d:'ΤΡΙΠΟΛΙΚΗ ΑΣΦΑΛΕΙΑ ΑΕΡΙΟΥ 230V/10KA ΜΕ “FAIL SAFE”',st:'?',url:''},
 ];
-// ══ ΛΟΙΠΑ (μεταφερμένα από Racks Accessories) ══
-const MISC_ITEMS=[
-  // Επιτοίχιες βάσεις στήριξης 19"
-  {sap:'1045715',pn:'80-83-500C',d:'ΕΠΙΤΟΙΧΗ ΒΑΣΗ ΣΤΗΡΙΞΗΣ 19" (Αρθρωτή) 1U',mc:'bracket',st:'BTO'},
-  {sap:'1045717',pn:'80-83-501C',d:'ΕΠΙΤΟΙΧΗ ΒΑΣΗ ΣΤΗΡΙΞΗΣ 19" (Αρθρωτή) 2U',mc:'bracket',st:'BTO'},
-  {sap:'?',pn:'80-83-503C',d:'ΕΠΙΤΟΙΧΗ ΒΑΣΗ ΣΤΗΡΙΞΗΣ 19" (Αρθρωτή) 4U',mc:'bracket',st:'?'},
-  {sap:'1045710',pn:'80-83-650C',d:'ΕΠΙΤΟΙΧΗ ΒΑΣΗ ΣΤΗΡΙΞΗΣ 19" (Κατακόρυφη) 1U',mc:'bracket',st:'BTO'},
-  {sap:'1045711',pn:'80-83-651C',d:'ΕΠΙΤΟΙΧΗ ΒΑΣΗ ΣΤΗΡΙΞΗΣ 19" (Κατακόρυφη) 2U',mc:'bracket',st:'BTO'},
-  {sap:'1045712',pn:'80-83-652C',d:'ΕΠΙΤΟΙΧΗ ΒΑΣΗ ΣΤΗΡΙΞΗΣ 19" (Κατακόρυφη) 3U',mc:'bracket',st:'BTO'},
-    // Εργαλεία
-  {sap:'?',pn:'80-81-567/S',d:'ΕΡΓΑΛΕΙΟ ΣΥΝΔΕΣΗΣ IDC T.KRONE (SENSOR)',mc:'tool',st:'?'},
-  {sap:'1045845',pn:'01-04-13/C',d:'ΕΡΓΑΛΕΙΟ ΣΥΝΔΕΣΗΣ IDC T.KRONE & 110 (PROFESSIONAL)',mc:'tool',st:'BTS'},
-  {sap:'?',pn:'01-60-27',d:'ΑΠΟΓΥΜΝΩΤΗΣ ΚΑΛΩΔΙΩΝ UTP/FTP',mc:'tool',st:'?'},
-  {sap:'1045873',pn:'01-60-929',d:'ΠΕΝΣΑ ΜΕΤΑΛΛΙΚΗ PROFESSIONAL (RJ9-11-12-45 UTP/FTP)',mc:'tool',st:'BTS'},
-  {sap:'1045849',pn:'01-68-99/N',d:'ΟΡΓΑΝΟ ΓΕΝΝΗΤΡΙΑ-ΑΝΙΧΝΕΥΤΗΣ ΤΗΛ. ΚΑΛΩΔΙΩΝ',mc:'tool',st:'BTS'},
-  {sap:'1045848',pn:'01-68-460/C',d:'ΟΡΓΑΝΟ ΔΙΚΤΥΑΚΟΥ ΕΛΕΓΧΟΥ UTP/FTP',mc:'tool',st:'BTS'},
-  // Κατανεμητές
-  {sap:'1265170',pn:'80-85-950/CE',d:'ΚΑΤΑΝΕΜΗΤΗΣ PLUS1 ΕΩΣ 30 ΖΕΥΓΩΝ (18×15×11)',mc:'distrib',st:'BTO'},
-  {sap:'?',pn:'80-85-954/CE',d:'ΚΑΤΑΝΕΜΗΤΗΣ PLUS2 ΕΩΣ 50 ΖΕΥΓΩΝ (21×21×11)',mc:'distrib',st:'?'},
-  {sap:'?',pn:'80-85-960/CE',d:'ΚΑΤΑΝΕΜΗΤΗΣ PLUS3 ΕΩΣ 100 ΖΕΥΓΩΝ (32×21×11)',mc:'distrib',st:'?'},
-  {sap:'?',pn:'80-81-132/P',d:'MINI ΚΑΤΑΝΕΜΗΤΗΣ 10 ΖΕΥΓΩΝ',mc:'distrib',st:'?'},
-  {sap:'?',pn:'80-81-133/P',d:'MINI ΚΑΤΑΝΕΜΗΤΗΣ 20 ΖΕΥΓΩΝ',mc:'distrib',st:'?'},
-  {sap:'?',pn:'80-82-301/N',d:'ΣΤΕΓΑΝΟΣ ΜΕΤΑΛΛΙΚΟΣ ΚΑΤΑΝΕΜΗΤΗΣ 300Υ×200Π×140Β — 50 ΖΕΥΓΗ',mc:'distrib',st:'?'},
-  {sap:'?',pn:'80-82-302/N',d:'ΣΤΕΓΑΝΟΣ ΜΕΤΑΛΛΙΚΟΣ ΚΑΤΑΝΕΜΗΤΗΣ 400Υ×300Π×160Β — 100 ΖΕΥΓΗ',mc:'distrib',st:'?'},
-  {sap:'?',pn:'80-82-303/N',d:'ΣΤΕΓΑΝΟΣ ΜΕΤΑΛΛΙΚΟΣ ΚΑΤΑΝΕΜΗΤΗΣ 400Υ×400Π×160Β — 200 ΖΕΥΓΗ',mc:'distrib',st:'?'},
-  {sap:'?',pn:'80-82-304/N',d:'ΣΤΕΓΑΝΟΣ ΜΕΤΑΛΛΙΚΟΣ ΚΑΤΑΝΕΜΗΤΗΣ 500Υ×400Π×180Β — 300 ΖΕΥΓΗ',mc:'distrib',st:'?'},
-];
+
 // ═══════════════════════════════════════════════════════════
 // ══ FO DATA
 // ═══════════════════════════════════════════════════════════
@@ -978,25 +952,51 @@ const DEFAULT_ACCS=[
   {id:'org1', sap:'1046189',  pn:'1000440018/C', d:'Οργανωτής 1U Slot'},
   {id:'org2', sap:'1001878',  pn:'80-83-504C',   d:'Οργανωτής 1U Απλός'},
   {id:'cage', sap:'815110084',pn:'80-84-434/C-P',d:'Σετ Βίδα & Παξ. M6'},
-  {id:'rac01',sap:'1046168',pn:'1000330017/C',d:'PANEL 19” ΜΕ ΒΟΥΡΤΣΑ ΔΙΕΛΕΥΣΗΣ ΚΑΛΩΔΙΩΝ 1U',st:'BTS'},
+  {id:'rac01',sap:'1046168',pn:'1000330017/C',d:'PANEL 19” ΜΕ ΒΟΥΡΤΣΑ “ΠΡΟΣΤΑΣΙΑΣ”, ΔΙΕΛΕΥΣΗΣ ΚΑΛΩΔΙΩΝ (Χαλκού & Οπτικών ινώ',st:'BTS'},
   {id:'rac02',sap:'1046191',pn:'1000110015/C',d:'PANEL 19” (ΤΥΦΛΟ) 1U',st:'BTS'},
   {id:'rac03',sap:'1046192',pn:'1000220016/C',d:'PANEL 19” (ΤΥΦΛΟ) 2U',st:'BTO'},
-  {id:'rac05',sap:'?',pn:'80-83-455/C',d:'ΑΝΤΙΚΡΑΔΑΣΜΙΚΑ ΣΤΗΡΙΓΜΑΤΑ Μ12 (σετ 4 τεμ)',st:'?'},
-  {id:'rac29',sap:'1045677',pn:'91-71-300',d:'ΠΡΟΣΤΑΤΕΥΤΙΚΟ ΥΠΕΡΤΑΣΕΩΝ 1Θ 230V/16A',st:'STO'},
-  {id:'rac30',sap:'?',pn:'91-71-200',d:'ΠΡΟΣΤΑΤΕΥΤΙΚΟ ΠΟΛΥΠΡΙΖΟ ΑΣΦΑΛΕΙΑΣ 6Θ 230V/16A',st:'?'},
-  {id:'rac31',sap:'?',pn:'91-71-202',d:'ΠΡΟΣΤΑΤΕΥΤΙΚΟ ΠΟΛΥΠΡΙΖΟ ΑΣΦΑΛΕΙΑΣ 6Θ 230V/16A',st:'?'},
-  {id:'shf01',sap:'1001889',pn:'1500130004/C',d:'ΡΑΦΙ ΣΤΑΘΕΡΟ ΕΜΠΡΟΣΘ. ΣΤΗΡΙΞΗΣ 300mm — ΕΠΙΤΟΙΧΑ',st:'BTS'},
-  {id:'shf02',sap:'1046190',pn:'1600260004/C',d:'ΡΑΦΙ ΣΤΑΘΕΡΟ 4 ΣΗΜ. ΣΤΗΡΙΞΗΣ 430mm — BASIC 2-3',st:'BTS'},
-  {id:'shf03',sap:'1046187',pn:'2000160006/C',d:'ΡΑΦΙ ΤΗΛΕΣΚΟΠΙΚΟ 4 ΣΗΜ. 350mm — ΕΠΙΔ./SERVER 60×60',st:'BTO'},
-  {id:'shf04',sap:'1046183',pn:'2000480007/C',d:'ΡΑΦΙ ΤΗΛΕΣΚΟΠΙΚΟ 4 ΣΗΜ. 550mm — ΕΠΙΔ./SERVER 60×80, 80×80',st:'BTS'},
-  {id:'shf05',sap:'1046185',pn:'2000596008/C',d:'ΡΑΦΙ ΤΗΛΕΣΚΟΠΙΚΟ 4 ΣΗΜ. 700mm — ΕΠΙΔ./SERVER 60×100, 80×100',st:'BTO'},
-  {id:'rxa04',sap:'1045706',pn:'80-83-442/C',d:'ΨΗΦΙΑΚΟΣ ΘΕΡΜΟΣΤΑΤΗΣ ΣΕ PANEL 19" 1U',st:'BTS'},
-  {id:'rxa05',sap:'1046175',pn:'1000990026/C',d:'(KIT) PANEL 19" 2 ΑΝΕΜΙΣΤΗΡΕΣ + ΨΗΦΙΑΚΟΣ ΘΕΡΜΟΣΤΑΤΗΣ 1U',st:'BTS'},
-  {id:'rxa06',sap:'1046176',pn:'1000990027/C',d:'(KIT) PANEL 19" 4 ΑΝΕΜΙΣΤΗΡΕΣ + ΨΗΦΙΑΚΟΣ ΘΕΡΜΟΣΤΑΤΗΣ 1U',st:'BTS'},
-  {id:'m1001',sap:'1046188',pn:'2500235020/C',d:'ΡΑΦΙ ΣΤΑΘΕΡΟ 10" (ΒΑΘ. 200mm) 1U',st:'BTO',mini10:true},
-  {id:'m1002',sap:'?',pn:'2500235021/C',d:'PATCH PANEL 10" 8Θ MODULAR 1U',st:'?',mini10:true},
-  {id:'m1003',sap:'1046104',pn:'2500235022/C',d:'ΟΡΓΑΝΩΤΗΣ ΔΙΕΛΕΥΣΗΣ ΚΑΛΩΔΙΩΝ 10" 1U',st:'BTO',mini10:true}
+  {id:'rac04',sap:'1045714',pn:'80-84-432/C',d:'PANEL 19” ΓΙΑ ΕΩΣ 6 ΟΡΙΟΛΩΡΙΔΕΣ 10 ΖΕΥΓΩΝ (Τ. KRONE) 1U',st:'BTO'},
+  {id:'rac05',sap:'?',pn:'80-83-455/C',d:'ΑΝΤΙΚΡΑΔΑΣΜΙΚΑ - ΑΝΤΙΣΕΙΣΜΙΚΑ ΣΤΗΡΙΓΜΑΤΑ “Μ12 - Ύψους 40mm” (σετ 4 τεμάχια)',st:'?'},
+  {id:'rac06',sap:'1045715',pn:'80-83-500C',d:'ΕΠΙΤΟΙΧΗ ΒΑΣΗ ΣΤΗΡΙΞΗΣ 19" (Αρθρωτή) 1U',st:'BTO'},
+  {id:'rac07',sap:'1045717',pn:'80-83-501C',d:'ΕΠΙΤΟΙΧΗ ΒΑΣΗ ΣΤΗΡΙΞΗΣ 19" (Αρθρωτή) 2U',st:'BTO'},
+  {id:'rac08',sap:'?',pn:'80-83-503C',d:'ΕΠΙΤΟΙΧΗ ΒΑΣΗ ΣΤΗΡΙΞΗΣ 19" (Αρθρωτή) 4U',st:'?'},
+  {id:'rac09',sap:'1045710',pn:'80-83-650C',d:'ΕΠΙΤΟΙΧΗ ΒΑΣΗ ΣΤΗΡΙΞΗΣ 19" (Κατακόρυφη) 1U',st:'BTO'},
+  {id:'rac10',sap:'1045711',pn:'80-83-651C',d:'ΕΠΙΤΟΙΧΗ ΒΑΣΗ ΣΤΗΡΙΞΗΣ 19" (Κατακόρυφη) 2U',st:'BTO'},
+  {id:'rac11',sap:'1045712',pn:'80-83-652C',d:'ΕΠΙΤΟΙΧΗ ΒΑΣΗ ΣΤΗΡΙΞΗΣ 19" (Κατακόρυφη) 3U',st:'BTO'},
+  {id:'rac12',sap:'1045973',pn:'01-66-700/J',d:'PATCH PANEL 19" UTP CAT5e 24 ΘΥΡΩΝ 1U',st:'BTO'},
+  {id:'rac13',sap:'1046065',pn:'01-66-704/C6A',d:'PATCH PANEL 19" UTP CAT6/6A 24 ΘΥΡΩΝ 1U',st:'BTS'},
+  {id:'rac14',sap:'?',pn:'80-81-567/S',d:'ΕΡΓΑΛΕΙΟ ΣΥΝΔΕΣΗΣ IDC “T.KRONE” (SENSOR)',st:'?'},
+  {id:'rac15',sap:'1045845',pn:'01-04-13/C',d:'ΕΡΓΑΛΕΙΟ ΣΥΝΔΕΣΗΣ IDC “T.KRONE & 110” (PROFESSIONAL)',st:'BTS'},
+  {id:'rac16',sap:'?',pn:'01-60-27',d:'ΑΠΟΓΥΜΝΩΤΗΣ ΚΑΛΩΔΙΩΝ UTP/FTP',st:'?'},
+  {id:'rac17',sap:'1045873',pn:'01-60-929',d:'ΠΕΝΣΑ ΜΕΤΑΛΛΙΚΗ “PROFESSIONAL” (RJ9-11-12-45 UTP/FTP)',st:'BTS'},
+  {id:'rac18',sap:'1045849',pn:'01-68-99/N',d:'ΌΡΓΑΝΟ (KIT) ΓΕΝΝΗΤΡΙΑ - ΑΝΙΧΝΕΥΤΗΣ ΤΗΛ. ΚΑΛΩΔΙΩΝ & ΜΕ ΕΝΣΩΜΑΤΩΜΕΝΟ ΟΡΓΑΝΟ',st:'BTS'},
+  {id:'rac19',sap:'1045848',pn:'01-68-460/C',d:'OΡΓΑΝΟ ΔΙΚΤΥΑΚΟΥ ΕΛΕΓΧΟΥ UTP/FTP ΤΕΡΜΑΤΙΣΜΟΥ ΚΑΛΩΔΙΩΝ',st:'BTS'},
+  {id:'rac20',sap:'1265170',pn:'80-85-950/CE',d:'KATANEMHTHΣ PLUS1 (ΕΠΙΤΟΙΧΟΣ Ή ΧΩΝΕΥΤΟΣ) ΕΩΣ 30 ΖΕΥΓΩΝ (Διαστ.: 18Υx15Πx11Β',st:'BTO'},
+  {id:'rac21',sap:'?',pn:'80-85-954/CE',d:'KATANEMHTHΣ PLUS2 (ΕΠΙΤΟΙΧΟΣ Ή ΧΩΝΕΥΤΟΣ) ΕΩΣ 50 ΖΕΥΓΩΝ (Διαστ.: 21Υx21Πx11Β',st:'?'},
+  {id:'rac22',sap:'?',pn:'80-85-960/CE',d:'KATANEMHTHΣ PLUS3 (ΕΠΙΤΟΙΧΟΣ Ή ΧΩΝΕΥΤΟΣ) ΕΩΣ 100 ΖΕΥΓΩΝ (Διαστ.: 32Υx21Πx11',st:'?'},
+  {id:'rac23',sap:'?',pn:'80-81-132/P',d:'MINI ΚΑΤΑΝΕΜΗΤΗΣ 10 ΖΕΥΓΩΝ (ΜΕ 1 ΔΙΑΧΩΡΙΣΤΙΚΗ ΟΡΙΟΛΩΡΙΔΑ)',st:'?'},
+  {id:'rac24',sap:'?',pn:'80-81-133/P',d:'MINI ΚΑΤΑΝΕΜΗΤΗΣ 20 ΖΕΥΓΩΝ (ΜΕ 2 ΔΙΑΧΩΡΙΣΤΙΚΕΣ ΟΡΙΟΛΩΡΙΔΕΣ)',st:'?'},
+  {id:'rac25',sap:'?',pn:'80-82-301/N',d:'ΣΤΕΓΑΝΟΣ “ΜΕΤΑΛΛΙΚΟΣ” ΚΑΤΑΝΕΜΗΤΗΣ ( 300Υ x 200Π x 140Β ) ΕΩΣ 50 ΖΕΥΓΩΝ',st:'?'},
+  {id:'rac26',sap:'?',pn:'80-82-302/N',d:'ΣΤΕΓΑΝΟΣ “ΜΕΤΑΛΛΙΚΟΣ” ΚΑΤΑΝΕΜΗΤΗΣ ( 400Υ x 300Π x 160Β ) ΕΩΣ 100 ΖΕΥΓΩΝ',st:'?'},
+  {id:'rac27',sap:'?',pn:'80-82-303/N',d:'ΣΤΕΓΑΝΟΣ “ΜΕΤΑΛΛΙΚΟΣ” ΚΑΤΑΝΕΜΗΤΗΣ ( 400Υ x 400Π x 160Β ) ΕΩΣ 200 ΖΕΥΓΩΝ',st:'?'},
+  {id:'rac28',sap:'?',pn:'80-82-304/N',d:'ΣΤΕΓΑΝΟΣ “ΜΕΤΑΛΛΙΚΟΣ” ΚΑΤΑΝΕΜΗΤΗΣ ( 500Υ x 400Π x 180Β ) ΕΩΣ 300 ΖΕΥΓΩΝ',st:'?'},
+  {id:'rac29',sap:'1045677',pn:'91-71-300',d:'ΠΡΟΣΤΑΤΕΥΤΙΚΟ ΥΠΕΡΤΑΣΕΩΝ 1 ΘΕΣΕΩΣ 230V/16A (ΤΥΠΟΥ “PACK”) • με επιπλέον αντ',st:'STO'},
+  {id:'rac30',sap:'?',pn:'91-71-200',d:'ΠΡΟΣΤΑΤΕΥΤΙΚO ΠΟΛΥΠΡΙΖO ΑΣΦΑΛΕΙΑΣ 230V/16A 6 ΘΕΣΕΩΝ • Υπερτάσεων & Υπερεντά',st:'?'},
+  {id:'rac31',sap:'?',pn:'91-71-202',d:'ΠΡΟΣΤΑΤΕΥΤΙΚO ΠΟΛΥΠΡΙΖO ΑΣΦΑΛΕΙΑΣ 230V/16A 6 ΘΕΣΕΩΝ • Υπερτάσεων & Υπερεντά',st:'?'},
+  {id:'shf01',sap:'1001889',pn:'1500130004/C',d:'ΡΑΦΙ ΣΤΑΘΕΡΟ “ΕΜΠΡΟΣΘΙΑΣ ΣΤΗΡΙΞΗΣ” (Bάθους: 300mm) ΓΙΑ ΕΠΙΤΟΙΧΑ RACK & BASI',st:'BTS'},
+  {id:'shf02',sap:'1046190',pn:'1600260004/C',d:'ΡΑΦΙ ΣΤΑΘΕΡΟ “4 ΣΗΜΕΙΩΝ ΣΤΗΡΙΞΗΣ” (Bάθους: 430mm) ΓΙΑ ΣΕΙΡΑ BASIC 2 - 3',st:'BTS'},
+  {id:'shf03',sap:'1046187',pn:'2000160006/C',d:'ΡΑΦΙ ΤΗΛΕΣΚΟΠΙΚΟ 4 ΣΗΜ. ΣΤΗΡΙΞΗΣ (Bάθ.: 350mm) ΕΠΙΔΑΠΕΔΙΑ/SERVER 60Χ60',st:'BTO'},
+  {id:'shf04',sap:'1046183',pn:'2000480007/C',d:'ΡΑΦΙ ΤΗΛΕΣΚΟΠΙΚΟ 4 ΣΗΜ. ΣΤΗΡΙΞΗΣ (Bάθ.: 550mm) ΕΠΙΔΑΠΕΔΙΑ/SERVER 60Χ80, 80Χ',st:'BTS'},
+  {id:'shf05',sap:'1046185',pn:'2000596008/C',d:'ΡΑΦΙ ΤΗΛΕΣΚΟΠΙΚΟ 4 ΣΗΜ. ΣΤΗΡΙΞΗΣ (Bάθ.: 700mm) ΕΠΙΔΑΠΕΔΙΑ/SERVER 60Χ100, 80',st:'BTO'},
+  {id:'m1001',sap:'1046188',pn:'2500235020/C',d:'ΡΑΦΙ ΣΤΑΘΕΡΟ 10" (ΒΑΘΟΥΣ 20cm) 1U',st:'BTO'},
+  {id:'m1002',sap:'?',pn:'2500235021/C',d:'ΠΡΟΣΟΨΗ (MODULAR) PATCH PANEL 10" ΓΙΑ JACKS ΕΩΣ 8 ΘΥΡΩΝ 1U',st:'?'},
+  {id:'m1003',sap:'1046104',pn:'2500235022/C',d:'ΟΡΓΑΝΩΤΗΣ ΔΙΕΛΕΥΣΗΣ ΚΑΛΩΔΙΩΝ 10" 1U',st:'BTO'},
+  {id:'rxa04',sap:'1045706',pn:'80-83-442/C',d:'ΨΗΦΙΑΚΟΣ ΘΕΡΜΟΣΤΑΤΗΣ ΣΕ PANEL 19” ΕΜΠΡΟΣΘΙΑΣ ΣΤΗΡΙΞΗΣ (κιτ) 1U',st:'BTS'},
+  {id:'rxa05',sap:'1046175',pn:'1000990026/C',d:'(κιτ) PANEL 19" ΜΕ 2 ΑΝΕΜΙΣΤΗΡΕΣ, ΨΗΦΙΑΚΟ ΘΕΡΜΟΣΤΑΤΗ, ΔΙΑΚΟΠΤΗ ON/OFF 1U',st:'BTS'},
+  {id:'rxa06',sap:'1046176',pn:'1000990027/C',d:'(κιτ) PANEL 19" ΜΕ 4 ΑΝΕΜΙΣΤΗΡΕΣ, ΨΗΦΙΑΚΟ ΘΕΡΜΟΣΤΑΤΗ, ΔΙΑΚΟΠΤΗ ON/OFF 1U',st:'BTS'},
+  {id:'rxa07',sap:'1045969',pn:'01-66-477/25P',d:'ΤΗΛΕΦΩΝΙΚΟ ( VOICE ) PATCH PANEL 19" 25 ΘΥΡΩΝ 1U',st:'BTO'}
 ];
+
 // ═══════════════════════════════════════════════════════════
 // ══ MUTABLE DATA (loaded from API)
 // ═══════════════════════════════════════════════════════════
@@ -1438,10 +1438,7 @@ function renderRacks(){
     if(isSmall)racks=RACKS.filter(r=>r.tp==='wall'&&r.u===parseInt(rSel.u));
     else{const[w,dp]=rSel.dims.split('×').map(Number);racks=RACKS.filter(r=>r.tp===tp&&r.u===parseInt(rSel.u)&&r.w===w&&r.dep===dp);}
     const dep=racks.length?racks[0].dep:600;
-    const isMini10=racks.length&&racks[0].pn.includes('2500135');
-    const shelf=SHELVES[dep]||SHELVES[600];
-    const accsFiltered=ACCS.filter(a=>isMini10?true:!a.mini10);
-    const allAccs=shelf?[shelf,...accsFiltered]:accsFiltered;
+    const shelf=SHELVES[dep]||SHELVES[600];const allAccs=shelf?[shelf,...ACCS]:ACCS;
     html+=`<div class="div"></div><div class="sl">Rack (${racks.length})</div>`;
     html+=racks.length?`<div class="pg">${racks.map(r=>{const isIP2=r.tp==='ip55',isBay=r.pn.includes('Baying'),bc=isBay?'bIP':isIP2?'bIP':r.br==='Rittal'?'bR':'bC',badge=isBay?'IP66':isIP2?'IP55':r.br;const k=eqKey(r);if(exportQtys[k]===undefined)exportQtys[k]=1;const us=exportQtys[k]===0;return`<div class="pc${us?' unsel':''}" data-k="${k}" data-qd="1" onclick="togglePc(this,event)" title="Κλικ για επιλογή/αποεπιλογή"><div class="pc-tick"><i class="ti ti-check"></i></div><div><div class="ps">${r.sap}</div></div><div class="pm"><a class="pp" href="${r.url||'#'}" target="_blank" onclick="event.stopPropagation()">${r.pn} <i class="ti ti-external-link" style="font-size:9px"></i></a><div class="pd">${r.d}</div></div><span class="pb ${bc}">${badge}</span></div>`;}).join('')}</div>`:`<div class="none">Δεν βρέθηκε.</div>`;
     if(racks.some(r=>r.tp==='ip55'))html+=`<div class="note">IP55/IP66 — Rittal order codes.</div>`;
@@ -1538,7 +1535,8 @@ function cabCh(k,v){
 
 function renderCables(){
   const s=document.getElementById('main-content');if(!s)return;
-  let html=`<div class="subtabs"><button class="subtb${cabMode==='copper'?' on':''}" onclick="cabMode='copper';cabCu={};exportQtys={};renderApp()">🔌 Χαλκός</button><button class="subtb${cabMode==='fiber'?' on':''}" onclick="cabMode='fiber';cabFo={};exportQtys={};renderApp()">💡 Οπτικά</button></div>`;
+  let html=`<div class="subtabs"><button class="subtb${cabMode==='copper'?' on':''}" onclick="cabMode='copper';cabCu={};exportQtys={};renderApp()">🔌 Χάλκινα</button><button class="subtb${cabMode==='fiber'?' on':''}" onclick="cabMode='fiber';cabFo={};exportQtys={};renderApp()">💡 Οπτικά</button></div>`;
+
   if(cabMode==='copper'){
     function flt(excl){
       return CAB_CU.filter(c=>{
@@ -1565,9 +1563,6 @@ function renderCables(){
     let wiz='';
     steps.forEach(st=>{if(!done.includes(st.k)&&st!==next)return;wiz+=`<div class="step"><div class="slbl">${st.lbl}</div><div class="opts">${st.opts.map(o=>`<button class="opt${cabCu[st.k]===o.v?' sel':''}" onclick="cabCh('${st.k}','${o.v}')"${o.dis?' disabled':''}><div class="ot">${o.t}</div><div class="os">${o.s||''}</div></button>`).join('')}</div></div>`;});
     html+=`<div class="crumb">${crumb}</div>${wiz}`;
-    if(cabCu.cat==='Cat5e'){
-      html+=`<div class="warn"><i class="ti ti-info-circle"></i> <b>Πρόταση:</b> Για future-proof εγκατάσταση, προτιμήστε <b>Cat6</b> ή ανώτερο. Η Cat5e ικανοποιεί τα τρέχοντα 1 GbE δίκτυα αλλά περιορίζει 10 GbE εφαρμογές μελλοντικής αναβάθμισης.</div>`;
-    }
     if(done.length>=2){
       const res=flt(null);
       html+=`<div class="div"></div><div class="sl">Καλώδια (${res.length})</div>`;
@@ -1599,9 +1594,6 @@ function renderCables(){
     let wiz='';
     steps.forEach(st=>{if(!done.includes(st.k)&&st!==next)return;wiz+=`<div class="step"><div class="slbl">${st.lbl}</div><div class="opts">${st.opts.map(o=>`<button class="opt${cabFo[st.k]===o.v?' sel':''}" onclick="cabCh('${st.k}','${o.v}')"${o.dis?' disabled':''}><div class="ot">${o.t}</div><div class="os">${o.s||''}</div></button>`).join('')}</div></div>`;});
     html+=`<div class="crumb">${crumb}</div>${wiz}`;
-    if(cabFo.ft==='OM1'){
-      html+=`<div class="warn"><i class="ti ti-alert-triangle"></i> <b>Προσοχή:</b> Η ίνα <b>OM1 (62.5/125)</b> τείνει προς κατάργηση και δεν υποστηρίζει modern 10/40/100 GbE εφαρμογές. Για νέες εγκαταστάσεις προτείνεται <b>OM3/OM4</b> (multimode) ή <b>OS2</b> (single-mode).</div>`;
-    }
     if(done.length>=2){
       const res=fltF(null);
       html+=`<div class="div"></div><div class="sl">Οπτικά Καλώδια (${res.length})</div>`;
@@ -1615,7 +1607,8 @@ function renderCables(){
 // ═══════════════════════════════════════════════════════════
 // ══ TELCO MODULE  (Τηλεφωνία / IDC-KRONE)
 // ═══════════════════════════════════════════════════════════
-let telcoMode='telco', telcoFilter=null, miscFilter=null;
+let telcoMode='telco', telcoFilter=null;
+
 const TC_TYPES=[
   {v:null,    t:'Όλα',          s:''},
   {v:'signal',t:'ADSL/VDSL',   s:'splitters & filters'},
@@ -1638,23 +1631,14 @@ function telcoCard(it, isKrone){
 }
 
 function renderTelco(){
- const MC_TYPES=[
-  {v:null,      t:'Όλα',         s:''},
-  {v:'bracket', t:'Βάσεις τοίχου', s:'19" αρθρωτές/κατακόρυφες'},
-  {v:'panel',   t:'Patch Panels',  s:'voice/data/Krone'},
-  {v:'tool',    t:'Εργαλεία',      s:'IDC/πένσες/tester'},
-  {v:'distrib', t:'Κατανεμητές',  s:'PLUS/mini/στεγανοί'},
-];
-
-function renderTelco(){
   const s=document.getElementById('main-content'); if(!s)return;
   let html=`<div class="subtabs">
     <button class="subtb${telcoMode==='telco'?' on':''}" onclick="telcoMode='telco';exportQtys={};renderApp()">📞 Τηλεφωνία</button>
     <button class="subtb${telcoMode==='krone'?' on':''}" onclick="telcoMode='krone';exportQtys={};renderApp()">🔌 IDC / Krone</button>
-    <button class="subtb${telcoMode==='misc'?' on':''}" onclick="telcoMode='misc';exportQtys={};renderApp()">🛠 Λοιπά</button>
   </div>`;
 
   if(telcoMode==='telco'){
+    // Type filter buttons
     html+=`<div class="step"><div class="slbl">Κατηγορία</div><div class="opts">`;
     TC_TYPES.forEach(f=>{
       const cnt=f.v?TELCO_ITEMS.filter(i=>i.tc===f.v).length:TELCO_ITEMS.length;
@@ -1665,27 +1649,16 @@ function renderTelco(){
     html+=`<div class="div"></div><div class="sl">Τηλεφωνικά Αξεσουάρ (${items.length})</div>`;
     html+=`<div class="pg">${items.map(it=>telcoCard(it,false)).join('')}</div>`;
     if(items.length) html+=renderExportBox(items.map(i=>({...i,_qty:1})));
-  } else if(telcoMode==='krone'){
+  } else {
     html+=`<div class="div"></div><div class="sl">IDC / T.Krone (${KRONE_ITEMS.length})</div>`;
     html+=`<div class="pg">${KRONE_ITEMS.map(it=>telcoCard(it,true)).join('')}</div>`;
     if(KRONE_ITEMS.length) html+=renderExportBox(KRONE_ITEMS.map(i=>({...i,_qty:1})));
-  } else {
-    // Misc tab
-    html+=`<div class="step"><div class="slbl">Κατηγορία</div><div class="opts">`;
-    MC_TYPES.forEach(f=>{
-      const cnt=f.v?MISC_ITEMS.filter(i=>i.mc===f.v).length:MISC_ITEMS.length;
-      html+=`<button class="opt${miscFilter===f.v?' sel':''}" onclick="miscFilter='${f.v}';exportQtys={};renderApp()"><div class="ot">${f.t}</div><div class="os">${f.s} <span style="font-family:var(--font-mono);font-size:10px;color:var(--color-text-tertiary)">(${cnt})</span></div></button>`;
-    });
-    html+=`</div></div>`;
-    const items=miscFilter?MISC_ITEMS.filter(i=>i.mc===miscFilter):MISC_ITEMS;
-    html+=`<div class="div"></div><div class="sl">Λοιπά (${items.length})</div>`;
-    html+=`<div class="pg">${items.map(it=>telcoCard(it,false)).join('')}</div>`;
-    if(items.length) html+=renderExportBox(items.map(i=>({...i,_qty:1})));
   }
   s.innerHTML=html;
 }
 
-const TABS=[{id:'copper',lbl:'🔌 Χαλκός'},{id:'fo',lbl:'💡 FO'},{id:'racks',lbl:'🗄 Racks'},{id:'cables',lbl:'🔗 Καλώδια'},{id:'telco',lbl:'📞 Τηλεφωνία & Λοιπά'},{id:'admin',lbl:'🔒 Admin'}];function switchTab(t){activeTab=t;renderApp();}
+const TABS=[{id:'copper',lbl:'🔌 Χαλκός'},{id:'fo',lbl:'💡 FO'},{id:'racks',lbl:'🗄 Racks'},{id:'cables',lbl:'🔗 Καλώδια'},{id:'telco',lbl:'📞 Τηλεφωνία'},{id:'admin',lbl:'🔒 Admin'}];
+function switchTab(t){activeTab=t;renderApp();}
 function renderApp(){
   const te=document.getElementById('main-tabs');
   if(te)te.innerHTML=TABS.map(t=>`<button class="stb${activeTab===t.id?' on':''}" onclick="switchTab('${t.id}')">${t.lbl}</button>`).join('');
@@ -1701,8 +1674,8 @@ document.getElementById('brst').onclick=()=>{
   else if(activeTab==='fo'){foSel={};foBSel={};}
   else if(activeTab==='racks'){rSel={};rCk.clear();}
   else if(activeTab==='cables'){cabCu={};cabFo={};
-} else if(activeTab==='telco'){telcoFilter=null;miscFilter=null;}
-   exportQtys={};renderApp();
+  } else if(activeTab==='telco'){telcoFilter=null;}
+  exportQtys={};renderApp();
 };
 
 // ═══ EASTER EGGS — κρυφά μηνύματα ═══
