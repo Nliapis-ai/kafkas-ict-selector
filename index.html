@@ -449,7 +449,7 @@ const CACHE_KEY = 'kafkas_ict_cache_v15';
 let activeTab='copper', admAuth=false, pinBuf='', pinErr='', admPin='1234', exportQtys={};
 let cuMode='panel', cuSel={}, cuOSel={};
 let foMode='panel', foSel={}, foBSel={};
-let rSel={}, rCk=new Set();
+let rSel={}, rCk=new Set(), rackMode='wizard';
 let admSec='racks', admFlt='all', rackEditIdx=null;
 let rackAddForm={sap:'',pn:'',d:'',br:'Central',tp:'std',u:42,w:600,dep:600}, rackEditForm={};
 let shelfEditDep=null, shelfEditForm={}, accEditId=null, accEditForm={};
@@ -972,18 +972,6 @@ const DEFAULT_SHELVES={
 };
 const DEFAULT_ACCS=[
   {id:'cage', sap:'815110084',pn:'80-84-434/C-P',d:'Σετ Βίδα & Παξ. M6'},
-  {id:'rac06',sap:'1045715',pn:'80-83-500C',d:'ΕΠΙΤΟΙΧΗ ΒΑΣΗ ΣΤΗΡΙΞΗΣ 19" (Αρθρωτή) 1U',st:'BTO'},
-  {id:'rac07',sap:'1045717',pn:'80-83-501C',d:'ΕΠΙΤΟΙΧΗ ΒΑΣΗ ΣΤΗΡΙΞΗΣ 19" (Αρθρωτή) 2U',st:'BTO'},
-  {id:'rac08',sap:'?',pn:'80-83-503C',d:'ΕΠΙΤΟΙΧΗ ΒΑΣΗ ΣΤΗΡΙΞΗΣ 19" (Αρθρωτή) 4U',st:'?'},
-  {id:'rac09',sap:'1045710',pn:'80-83-650C',d:'ΕΠΙΤΟΙΧΗ ΒΑΣΗ ΣΤΗΡΙΞΗΣ 19" (Κατακόρυφη) 1U',st:'BTO'},
-  {id:'rac10',sap:'1045711',pn:'80-83-651C',d:'ΕΠΙΤΟΙΧΗ ΒΑΣΗ ΣΤΗΡΙΞΗΣ 19" (Κατακόρυφη) 2U',st:'BTO'},
-  {id:'rac11',sap:'1045712',pn:'80-83-652C',d:'ΕΠΙΤΟΙΧΗ ΒΑΣΗ ΣΤΗΡΙΞΗΣ 19" (Κατακόρυφη) 3U',st:'BTO'},
-  {id:'rac14',sap:'?',pn:'80-81-567/S',d:'ΕΡΓΑΛΕΙΟ ΣΥΝΔΕΣΗΣ IDC “T.KRONE” (SENSOR)',st:'?'},
-  {id:'rac15',sap:'1045845',pn:'01-04-13/C',d:'ΕΡΓΑΛΕΙΟ ΣΥΝΔΕΣΗΣ IDC “T.KRONE & 110” (PROFESSIONAL)',st:'BTS'},
-  {id:'rac16',sap:'?',pn:'01-60-27',d:'ΑΠΟΓΥΜΝΩΤΗΣ ΚΑΛΩΔΙΩΝ UTP/FTP',st:'?'},
-  {id:'rac17',sap:'1045873',pn:'01-60-929',d:'ΠΕΝΣΑ ΜΕΤΑΛΛΙΚΗ “PROFESSIONAL” (RJ9-11-12-45 UTP/FTP)',st:'BTS'},
-  {id:'rac18',sap:'1045849',pn:'01-68-99/N',d:'ΌΡΓΑΝΟ (KIT) ΓΕΝΝΗΤΡΙΑ - ΑΝΙΧΝΕΥΤΗΣ ΤΗΛ. ΚΑΛΩΔΙΩΝ & ΜΕ ΕΝΣΩΜΑΤΩΜΕΝΟ ΟΡΓΑΝΟ',st:'BTS'},
-  {id:'rac19',sap:'1045848',pn:'01-68-460/C',d:'OΡΓΑΝΟ ΔΙΚΤΥΑΚΟΥ ΕΛΕΓΧΟΥ UTP/FTP ΤΕΡΜΑΤΙΣΜΟΥ ΚΑΛΩΔΙΩΝ',st:'BTS'},
   {id:'shf01',sap:'1001889',pn:'1500130004/C',d:'ΡΑΦΙ ΣΤΑΘΕΡΟ “ΕΜΠΡΟΣΘΙΑΣ ΣΤΗΡΙΞΗΣ” (Bάθους: 300mm) ΓΙΑ ΕΠΙΤΟΙΧΑ RACK & BASI',st:'BTS',shelfFor:'Επίτοιχα Basic 1 | Mini'},
   {id:'shf02',sap:'1046190',pn:'1600260004/C',d:'ΡΑΦΙ ΣΤΑΘΕΡΟ “4 ΣΗΜΕΙΩΝ ΣΤΗΡΙΞΗΣ” (Bάθους: 430mm) ΓΙΑ ΣΕΙΡΑ BASIC 2 - 3',st:'BTS',shelfFor:'Επίτοιχα Basic 2-3'},
   {id:'shf03',sap:'1046187',pn:'2000160006/C',d:'ΡΑΦΙ ΤΗΛΕΣΚΟΠΙΚΟ 4 ΣΗΜ. ΣΤΗΡΙΞΗΣ (Bάθ.: 350mm) ΕΠΙΔΑΠΕΔΙΑ/SERVER 60Χ60',st:'BTO',shelfFor:'Επιδαπέδια / Server 60×60'},
@@ -992,7 +980,39 @@ const DEFAULT_ACCS=[
   {id:'m1001',sap:'1046188',pn:'2500235020/C',d:'ΡΑΦΙ ΣΤΑΘΕΡΟ 10" (ΒΑΘΟΥΣ 20cm) 1U',st:'BTO'},
   {id:'m1002',sap:'?',pn:'2500235021/C',d:'ΠΡΟΣΟΨΗ (MODULAR) PATCH PANEL 10" ΓΙΑ JACKS ΕΩΣ 8 ΘΥΡΩΝ 1U',st:'?'},
   {id:'m1003',sap:'1046104',pn:'2500235022/C',d:'ΟΡΓΑΝΩΤΗΣ ΔΙΕΛΕΥΣΗΣ ΚΑΛΩΔΙΩΝ 10" 1U',st:'BTO'},
-  {id:'rxa07',sap:'1045969',pn:'01-66-477/25P',d:'ΤΗΛΕΦΩΝΙΚΟ ( VOICE ) PATCH PANEL 19" 25 ΘΥΡΩΝ 1U',st:'BTO'}
+  {id:'rxa07',sap:'1045969',pn:'01-66-477/25P',d:'ΤΗΛΕΦΩΝΙΚΟ ( VOICE ) PATCH PANEL 19" 25 ΘΥΡΩΝ 1U',st:'BTO'},
+  {id:'fan',  sap:'1001879',  pn:'80-83-425C',   d:'Ανεμιστήρας 230V'},
+  {id:'therm',sap:'1001880',  pn:'80-83-440C',   d:'Θερμοστάτης'},
+  {id:'pdu1', sap:'1001887',  pn:'91-71-212C',   d:'PDU 8θ Μ/Διακόπτη'},
+  {id:'pdu2', sap:'1001877',  pn:'91-71-213C',   d:'PDU 8θ RFI'},
+  {id:'org1', sap:'1046189',  pn:'1000440018/C', d:'Οργανωτής 1U Slot'},
+  {id:'org2', sap:'1001878',  pn:'80-83-504C',   d:'Οργανωτής 1U Απλός'},
+  {id:'rac01',sap:'1046168',pn:'1000330017/C',d:'PANEL 19” ΜΕ ΒΟΥΡΤΣΑ “ΠΡΟΣΤΑΣΙΑΣ”, ΔΙΕΛΕΥΣΗΣ ΚΑΛΩΔΙΩΝ (Χαλκού & Οπτικών ινώ',st:'BTS'},
+  {id:'rac02',sap:'1046191',pn:'1000110015/C',d:'PANEL 19” (ΤΥΦΛΟ) 1U',st:'BTS'},
+  {id:'rac03',sap:'1046192',pn:'1000220016/C',d:'PANEL 19” (ΤΥΦΛΟ) 2U',st:'BTO'},
+  {id:'rxa04',sap:'1045706',pn:'80-83-442/C',d:'ΨΗΦΙΑΚΟΣ ΘΕΡΜΟΣΤΑΤΗΣ ΣΕ PANEL 19” ΕΜΠΡΟΣΘΙΑΣ ΣΤΗΡΙΞΗΣ (κιτ) 1U',st:'BTS'},
+  {id:'rxa05',sap:'1046175',pn:'1000990026/C',d:'(κιτ) PANEL 19" ΜΕ 2 ΑΝΕΜΙΣΤΗΡΕΣ, ΨΗΦΙΑΚΟ ΘΕΡΜΟΣΤΑΤΗ, ΔΙΑΚΟΠΤΗ ON/OFF 1U',st:'BTS'},
+  {id:'rxa06',sap:'1046176',pn:'1000990027/C',d:'(κιτ) PANEL 19" ΜΕ 4 ΑΝΕΜΙΣΤΗΡΕΣ, ΨΗΦΙΑΚΟ ΘΕΡΜΟΣΤΑΤΗ, ΔΙΑΚΟΠΤΗ ON/OFF 1U',st:'BTS'}
+];
+
+// ══ WALL MOUNT BASES (Racks → Επιτοίχιες Βάσεις subtab) ══
+const WALL_BASES=[
+  {id:'rac06',sap:'1045715',pn:'80-83-500C',d:'ΕΠΙΤΟΙΧΗ ΒΑΣΗ ΣΤΗΡΙΞΗΣ 19" (Αρθρωτή) 1U',st:'BTO'},
+  {id:'rac07',sap:'1045717',pn:'80-83-501C',d:'ΕΠΙΤΟΙΧΗ ΒΑΣΗ ΣΤΗΡΙΞΗΣ 19" (Αρθρωτή) 2U',st:'BTO'},
+  {id:'rac08',sap:'?',      pn:'80-83-503C',d:'ΕΠΙΤΟΙΧΗ ΒΑΣΗ ΣΤΗΡΙΞΗΣ 19" (Αρθρωτή) 4U',st:'?'},
+  {id:'rac09',sap:'1045710',pn:'80-83-650C',d:'ΕΠΙΤΟΙΧΗ ΒΑΣΗ ΣΤΗΡΙΞΗΣ 19" (Κατακόρυφη) 1U',st:'BTO'},
+  {id:'rac10',sap:'1045711',pn:'80-83-651C',d:'ΕΠΙΤΟΙΧΗ ΒΑΣΗ ΣΤΗΡΙΞΗΣ 19" (Κατακόρυφη) 2U',st:'BTO'},
+  {id:'rac11',sap:'1045712',pn:'80-83-652C',d:'ΕΠΙΤΟΙΧΗ ΒΑΣΗ ΣΤΗΡΙΞΗΣ 19" (Κατακόρυφη) 3U',st:'BTO'}
+];
+
+// ══ TOOLS / INSTRUMENTS (Λοιπά → Εργαλεία/Όργανα subtab) ══
+const TOOL_ITEMS=[
+  {id:'rac14',sap:'?',      pn:'80-81-567/S', d:'ΕΡΓΑΛΕΙΟ ΣΥΝΔΕΣΗΣ IDC "T.KRONE" (SENSOR)',st:'?'},
+  {id:'rac15',sap:'1045845',pn:'01-04-13/C',  d:'ΕΡΓΑΛΕΙΟ ΣΥΝΔΕΣΗΣ IDC "T.KRONE & 110" (PROFESSIONAL)',st:'BTS'},
+  {id:'rac16',sap:'?',      pn:'01-60-27',    d:'ΑΠΟΓΥΜΝΩΤΗΣ ΚΑΛΩΔΙΩΝ UTP/FTP',st:'?'},
+  {id:'rac17',sap:'1045873',pn:'01-60-929',   d:'ΠΕΝΣΑ ΜΕΤΑΛΛΙΚΗ "PROFESSIONAL" (RJ9-11-12-45 UTP/FTP)',st:'BTS'},
+  {id:'rac18',sap:'1045849',pn:'01-68-99/N',  d:'ΟΡΓΑΝΟ (KIT) ΓΕΝΝΗΤΡΙΑ - ΑΝΙΧΝΕΥΤΗΣ ΤΗΛ. ΚΑΛΩΔΙΩΝ & ΜΕ ΕΝΣΩΜΑΤΩΜΕΝΟ ΟΡΓΑΝΟ',st:'BTS'},
+  {id:'rac19',sap:'1045848',pn:'01-68-460/C', d:'ΟΡΓΑΝΟ ΔΙΚΤΥΑΚΟΥ ΕΛΕΓΧΟΥ UTP/FTP ΤΕΡΜΑΤΙΣΜΟΥ ΚΑΛΩΔΙΩΝ',st:'BTS'}
 ];
 
 // ═══════════════════════════════════════════════════════════
@@ -1409,6 +1429,17 @@ function rGetU(tp){return[...new Set(RACKS.filter(r=>r.tp===tp).map(r=>r.u))].so
 function rGetD(tp,u){return[...new Set(RACKS.filter(r=>r.tp===tp&&r.u===parseInt(u)).map(r=>`${r.w}×${r.dep}`))].sort().map(d=>{const[w,dp]=d.split('×');return{v:d,t:`${w}×${dp}mm`,s:''};});}
 function renderRacks(){
   const s=document.getElementById('main-content');if(!s)return;
+  const subBar=`<div class="subtabs">`
+    +`<button class="subtb${rackMode==='wizard'?' on':''}" onclick="rackMode='wizard';exportQtys={};renderApp()">🗄 Επιλογή Rack</button>`
+    +`<button class="subtb${rackMode==='wallbase'?' on':''}" onclick="rackMode='wallbase';exportQtys={};renderApp()">🧱 Επιτοίχιες Βάσεις</button>`
+    +`</div>`;
+  if(rackMode==='wallbase'){
+    let h=subBar+`<div class="sl">Επιτοίχιες Βάσεις Στήριξης 19" (${WALL_BASES.length})</div>`;
+    h+=`<div class="note" style="margin-bottom:.5rem">Βάσεις στήριξης για τοποθέτηση 19" εξοπλισμού σε τοίχο — αρθρωτές & κατακόρυφες.</div>`;
+    h+=`<div class="pg">${WALL_BASES.map(it=>telcoCard(it,false)).join('')}</div>`;
+    if(WALL_BASES.length)h+=renderExportBox(WALL_BASES.map(i=>({...i,_qty:1})));
+    s.innerHTML=h;return;
+  }
   const tp=rEtp(),isIP=rSel.ip==='ip',isSmall=rSel.size==='small';
   let vis=['ip'];
   if(rSel.ip){vis.push('size');if(rSel.size){if(isSmall)vis.push('u');else if(isIP)vis.push('u','dims');else vis.push('tp','u','dims');}}
@@ -1430,7 +1461,7 @@ function renderRacks(){
     const cur=sk==='u'?rSel.u:sk==='dims'?rSel.dims:rSel[sk];
     wiz+=`<div class="step"><div class="slbl">${lbl}</div><div class="opts">${opts.map(o=>`<button class="opt${cur===o.v?' sel':''}" onclick="rCh('${sk}','${o.v}')"${o.dis?' disabled':''}><div class="ot">${o.t}</div><div class="os">${o.s||''}</div></button>`).join('')}</div></div>`;
   });
-  let html=`<div class="crumb">${crumb}</div>${wiz}`;
+  let html=subBar+`<div class="crumb">${crumb}</div>${wiz}`;
   if(tp&&rSel.u&&(isSmall||rSel.dims)){
     let racks;
     if(isSmall)racks=RACKS.filter(r=>r.tp==='wall'&&r.u===parseInt(rSel.u));
@@ -1605,10 +1636,10 @@ function renderCables(){
 // ═══════════════════════════════════════════════════════════
 // ══ TELCO MODULE  (Τηλεφωνία / IDC-KRONE)
 // ═══════════════════════════════════════════════════════════
-let telcoMode='telco', telcoFilter=null;
+let telcoMode='telco', telcoFilter='all';
 
 const TC_TYPES=[
-  {v:null,    t:'Όλα',          s:''},
+  {v:'all',   t:'Όλα',          s:''},
   {v:'signal',t:'ADSL/VDSL',   s:'splitters & filters'},
   {v:'socket',t:'Πρίζες',      s:'RJ11 / RJ45'},
   {v:'cable', t:'Καλώδια',     s:'clips & κορδόνια'},
@@ -1634,20 +1665,25 @@ function renderTelco(){
   let html=`<div class="subtabs">
     <button class="subtb${telcoMode==='telco'?' on':''}" onclick="telcoMode='telco';exportQtys={};renderApp()">📞 Τηλεφωνία</button>
     <button class="subtb${telcoMode==='krone'?' on':''}" onclick="telcoMode='krone';exportQtys={};renderApp()">🔌 IDC / Krone</button>
+    <button class="subtb${telcoMode==='tools'?' on':''}" onclick="telcoMode='tools';exportQtys={};renderApp()">🔧 Εργαλεία / Όργανα</button>
   </div>`;
 
   if(telcoMode==='telco'){
     // Type filter buttons
     html+=`<div class="step"><div class="slbl">Κατηγορία</div><div class="opts">`;
     TC_TYPES.forEach(f=>{
-      const cnt=f.v?TELCO_ITEMS.filter(i=>i.tc===f.v).length:TELCO_ITEMS.length;
+      const cnt=f.v==='all'?TELCO_ITEMS.length:TELCO_ITEMS.filter(i=>i.tc===f.v).length;
       html+=`<button class="opt${telcoFilter===f.v?' sel':''}" onclick="telcoFilter='${f.v}';exportQtys={};renderApp()"><div class="ot">${f.t}</div><div class="os">${f.s} <span style="font-family:var(--font-mono);font-size:10px;color:var(--color-text-tertiary)">(${cnt})</span></div></button>`;
     });
     html+=`</div></div>`;
-    const items=telcoFilter?TELCO_ITEMS.filter(i=>i.tc===telcoFilter):TELCO_ITEMS;
+    const items=(telcoFilter&&telcoFilter!=='all')?TELCO_ITEMS.filter(i=>i.tc===telcoFilter):TELCO_ITEMS;
     html+=`<div class="div"></div><div class="sl">${telcoFilter==='rack_misc'?'Εξοπλισμός Rack':'Τηλεφωνικά Αξεσουάρ'} (${items.length})</div>`;
     html+=`<div class="pg">${items.map(it=>telcoCard(it,false)).join('')}</div>`;
     if(items.length) html+=renderExportBox(items.map(i=>({...i,_qty:1})));
+  } else if(telcoMode==='tools'){
+    html+=`<div class="div"></div><div class="sl">Εργαλεία & Όργανα Δικτύου (${TOOL_ITEMS.length})</div>`;
+    html+=`<div class="pg">${TOOL_ITEMS.map(it=>telcoCard(it,false)).join('')}</div>`;
+    if(TOOL_ITEMS.length) html+=renderExportBox(TOOL_ITEMS.map(i=>({...i,_qty:1})));
   } else {
     html+=`<div class="div"></div><div class="sl">IDC / T.Krone (${KRONE_ITEMS.length})</div>`;
     html+=`<div class="pg">${KRONE_ITEMS.map(it=>telcoCard(it,true)).join('')}</div>`;
