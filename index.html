@@ -505,6 +505,44 @@ html{scroll-behavior:smooth}
     transition-duration:.001ms!important;scroll-behavior:auto!important}
 }
 
+
+/* ── SEARCH TAB ── */
+.search-wrap{position:relative;margin-bottom:1rem;animation:riseIn .4s ease both}
+.search-box{width:100%;font-family:var(--font-sans);font-size:15px;color:var(--color-text-primary);
+  background:var(--color-background-primary);border:1px solid var(--color-border-secondary);
+  border-radius:var(--border-radius-lg);padding:.85rem 2.6rem .85rem 2.7rem;
+  box-shadow:var(--shadow-sm);transition:border-color .15s,box-shadow .15s}
+.search-box::placeholder{color:var(--color-text-tertiary)}
+.search-box:focus{outline:none;border-color:var(--k-cyan);box-shadow:0 0 0 3px var(--k-glow),var(--shadow-sm)}
+.search-ico{position:absolute;left:.95rem;top:50%;transform:translateY(-50%);color:var(--k-cyan);font-size:18px;pointer-events:none;display:flex}
+.search-clr{position:absolute;right:.7rem;top:50%;transform:translateY(-50%);width:24px;height:24px;
+  border:none;background:var(--color-background-secondary);color:var(--color-text-secondary);
+  border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .14s}
+.search-clr:hover{background:var(--color-background-danger);color:var(--color-text-danger)}
+.search-clr:active{transform:translateY(-50%) scale(.9)}
+
+.search-hint{padding:1.1rem;background:var(--color-background-secondary);border:1px dashed var(--color-border-secondary);
+  border-radius:var(--border-radius-lg);display:flex;flex-direction:column;gap:7px;align-items:flex-start}
+.sh-title{font-size:11px;font-weight:600;letter-spacing:.05em;color:var(--color-text-secondary);
+  text-transform:uppercase;display:flex;align-items:center;gap:6px;margin-bottom:2px}
+.sh-title i{color:var(--k-cyan)}
+.sh-ex{font-family:var(--font-mono);font-size:12px;color:var(--color-text-info);background:var(--color-background-primary);
+  border:1px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:6px 11px;
+  cursor:pointer;transition:all .14s;text-align:left}
+.sh-ex:hover{border-color:var(--k-cyan);transform:translateX(3px);box-shadow:var(--shadow-sm)}
+.sh-note{font-size:11px;color:var(--color-text-tertiary);margin-top:6px;line-height:1.5}
+
+.search-modebar{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;
+  margin-bottom:.85rem;padding:.5rem .75rem;background:var(--color-background-info);
+  border:1px solid var(--color-border-info);border-radius:var(--border-radius-md)}
+.smb-tag{font-size:11.5px;font-weight:600;color:var(--color-text-info);display:flex;align-items:center;gap:6px}
+.smb-link{font-size:11px;color:var(--color-text-secondary);background:none;border:none;cursor:pointer;
+  text-decoration:underline;text-underline-offset:2px;transition:color .14s}
+.smb-link:hover{color:var(--k-cyan)}
+
+.pb.bSrc{background:var(--color-background-secondary);color:var(--color-text-secondary);
+  border:1px solid var(--color-border-tertiary);font-family:var(--font-sans);font-weight:500}
+
 </style>
 </head>
 <body>
@@ -1831,7 +1869,214 @@ function renderTelco(){
   s.innerHTML=html;
 }
 
-const TABS=[{id:'copper',lbl:'🔌 Χαλκός'},{id:'fo',lbl:'💡 FO'},{id:'racks',lbl:'🗄 Racks'},{id:'cables',lbl:'🔗 Καλώδια'},{id:'telco',lbl:'📦 Λοιπά'},{id:'admin',lbl:'🔒 Admin'}];
+
+// ═══════════════════════════════════════════════════════════
+// ══ SEARCH MODULE (rule-based intent + catalog search)
+// ═══════════════════════════════════════════════════════════
+let searchQuery='', searchParams={};
+
+function sNorm(s){return (s||'').toString().toLowerCase()
+  .normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\u03c2/g,'\u03c3').trim();}
+
+// Flat catalog index across all data arrays, tagged with source.
+function buildSearchIndex(){
+  const idx=[];
+  const add=(arr,src)=>{ (arr||[]).forEach(it=>{ if(it&&(it.pn||it.sap)) idx.push({...it,_src:src}); }); };
+  add(typeof CU_PANELS!=='undefined'?CU_PANELS:[], 'Χαλκός');
+  add(typeof CU_JACKS!=='undefined'?CU_JACKS:[],  'Χαλκός');
+  add(typeof CU_OUTLETS!=='undefined'?CU_OUTLETS:[],'Χαλκός · Outlet');
+  add(typeof CU_OJACKS!=='undefined'?CU_OJACKS:[], 'Χαλκός · Outlet');
+  add(typeof FO_PANELS!=='undefined'?FO_PANELS:[], 'FO');
+  add(typeof FO_FAPS!=='undefined'?FO_FAPS:[],     'FO');
+  add(typeof FO_PIGS!=='undefined'?FO_PIGS:[],     'FO');
+  add(typeof FO_ADAPS!=='undefined'?FO_ADAPS:[],   'FO');
+  add(typeof FO_BOXES!=='undefined'?FO_BOXES:[],   'FO');
+  if(typeof FO_CAS!=='undefined')add([FO_CAS],'FO');
+  if(typeof FO_HS!=='undefined') add([FO_HS], 'FO');
+  add((typeof RACKS!=='undefined'&&RACKS.length)?RACKS:(typeof DEFAULT_RACKS!=='undefined'?DEFAULT_RACKS:[]),'Racks');
+  add(typeof WALL_BASES!=='undefined'?WALL_BASES:[],'Racks · Βάσεις');
+  add((typeof ACCS!=='undefined'&&ACCS.length)?ACCS:(typeof DEFAULT_ACCS!=='undefined'?DEFAULT_ACCS:[]),'Παρελκόμενα');
+  add(typeof TELCO_ITEMS!=='undefined'?TELCO_ITEMS:[],'Λοιπά');
+  add(typeof KRONE_ITEMS!=='undefined'?KRONE_ITEMS:[],'Λοιπά · Krone');
+  add(typeof TOOL_ITEMS!=='undefined'?TOOL_ITEMS:[], 'Λοιπά · Εργαλεία');
+  add(typeof CAB_CU!=='undefined'?CAB_CU:[], 'Καλώδια · Χαλκός');
+  add(typeof CAB_FO!=='undefined'?CAB_FO:[], 'Καλώδια · FO');
+  // de-dup by sap+pn+src
+  const seen=new Set();
+  return idx.filter(it=>{const k=it.sap+'|'+it.pn+'|'+it._src;if(seen.has(k))return false;seen.add(k);return true;});
+}
+
+// Parse free text → intent + params (rule-based).
+function parseQuery(raw){
+  const q=sNorm(raw);
+  const out={intent:null,nf:null,fi:null,co:null,sr:null,cat:null,shield:null,brand:null};
+  if(!q){return out;}
+  const numM=q.match(/\d+/); out.nf=numM?parseInt(numM[0]):null;
+  const isTerm=/(τερματ|terminat|πατσαρ|συγκολ|κολλ|fuse|σπλαις|splice)/.test(q);
+  const foTok=/(οπτικ|fiber|\bfo\b|os2|om3|om4|μονοτροπ|πολυτροπ|pigtail|\bιν(α|ες|ων|ε)?\b|ινων|ινες)/.test(q);
+  const cuTok=/(χαλκ|\butp\b|\bftp\b|sftp|futp|uftp|uutp|s\/ftp|f\/utp|u\/ftp|u\/utp|cat ?5|cat ?6|κατ ?5|κατ ?6|\b6a\b|\b6α\b|rj45|jack|keystone|πριζ|copper)/.test(q);
+  // fiber type
+  if(/om4/.test(q))out.fi='OM4'; else if(/om3/.test(q))out.fi='OM3'; else if(/os2|μονοτροπ|single ?mode|\bsm\b/.test(q))out.fi='OS2';
+  // connector
+  if(/\blc\b/.test(q))out.co='LC'; else if(/\bsc\b/.test(q))out.co='SC';
+  // category
+  if(/cat ?6a|κατ ?6a|\b6a\b|\b6α\b/.test(q))out.cat='Cat6A'; else if(/cat ?6|κατ ?6/.test(q))out.cat='Cat6'; else if(/cat ?5e?|κατ ?5/.test(q))out.cat='Cat5e';
+  // shield (shielded patterns first)
+  if(/s\/?ftp|f\/?utp|u\/?ftp|sftp|futp|uftp|\bstp\b|θωρακ|shield/.test(q))out.shield='SHP';
+  else if(/u\/?utp|uutp|αθωρ|unshield|\butp\b/.test(q))out.shield='UTP';
+  // intent decision
+  const fiberStrong=/(οπτικ|fiber|\bfo\b|os2|om3|om4|pigtail|μονοτροπ|πολυτροπ)/.test(q);
+  const copperStrong=/(χαλκ|utp|ftp|cat ?5|cat ?6|κατ ?5|κατ ?6|rj45|jack|keystone|copper)/.test(q);
+  if(copperStrong && !fiberStrong) out.intent='cu';
+  else if(fiberStrong) out.intent='fo';
+  else if((foTok||cuTok)&&(isTerm||out.nf!=null)) out.intent= copperStrong?'cu':'fo';
+  return out;
+}
+function spEff(){const p=parseQuery(searchQuery);const e={};['intent','nf','fi','co','sr','cat','shield','brand'].forEach(k=>{e[k]=(searchParams[k]!==undefined&&searchParams[k]!=='')?searchParams[k]:p[k];});return e;}
+
+function onSearchType(v){searchQuery=v;searchParams={};var clr=document.querySelector('.search-clr');if(clr)clr.style.display=v?'flex':'none';refreshSearchBody();}
+function setSP(k,v){searchParams[k]=v;refreshSearchBody();}
+function clearSP(k){delete searchParams[k];refreshSearchBody();}
+function searchMode(m){searchParams.mode=m;refreshSearchBody();}
+function refreshSearchBody(){const b=document.getElementById('search-body');if(b)b.innerHTML=renderSearchBody();}
+
+// ── BoM builders (reuse exact formulas from FO/Copper modules) ──
+function foTermBoM(fi,co,sr,N){
+  const items=[]; const isPan=(sr==='FD1W');
+  const minP=(sr==='PLUS'||sr==='BASIC')?N:Math.ceil(N/2);
+  let panels=FO_PANELS.filter(p=>p.sr===sr && foFm(p.fi,fi,co) && (p.co===co||sr==='BASIC') && p.p!==null && p.p>=minP)
+    .filter((p,i,a)=>a.findIndex(x=>x.sap===p.sap)===i).sort((a,b)=>a.p-b.p);
+  const panel=panels[0];
+  if(panel)items.push({...panel,_qty:1,_sec:'Patch Panel'});
+  if(sr==='FD1W'){const nc=Math.ceil(N/24);items.push({...FO_CAS,br:'Panduit',_qty:nc,_sec:'Κασέτες'});}
+  if(sr==='BASIC'){
+    const adFi=(fi==='OS2')?'OS2':(fi==='OM3'||fi==='OM4')?'MM':fi;
+    const ads=FO_ADAPS.filter(a=>a.br==='Central'&&(a.fi===adFi||a.fi===fi||a.fi===foEff(fi,co))&&a.co===co);
+    ads.forEach(a=>items.push({...a,_qty:Math.ceil(N/2),_sec:'Adaptors (duplex)'}));
+  }
+  const pigFi=co.includes('APC')?foEff(fi,co):fi;
+  let pigs=FO_PIGS.filter(p=>(p.fi===pigFi||p.fi===fi)&&p.co===co);
+  const vend=pigs.filter(p=>isPan?p.br==='Panduit':p.br==='Central');
+  (vend.length?vend:pigs).forEach(p=>items.push({...p,_qty:N,_sec:'Pigtails'}));
+  items.push({...FO_HS,br:'Central',_qty:N,_sec:'Θερμοσυστελλόμενα'});
+  return {items,panelMissing:!panel};
+}
+function cuTermBoM(cat,shield,N,brand){
+  const items=[];
+  const panels=CU_PANELS.filter(p=>p.cats.includes(cat)&&p.shields.includes(shield)&&(!brand||brand==='all'||p.br===brand))
+    .filter((p,i,a)=>a.findIndex(x=>x.sap===p.sap&&x.pn===p.pn)===i);
+  const kp=panels.filter(p=>p.tp==='keystone');
+  const pre=panels.filter(p=>p.tp==='prewired');
+  const jacks=getJacks(kp,cat,shield);
+  kp.forEach(p=>items.push({...p,_qty:1,_sec:'Patch Panel (Keystone)'}));
+  jacks.forEach(j=>items.push({...j,_qty:N,_sec:'Jacks'}));
+  pre.forEach(p=>items.push({...p,_qty:Math.max(1,Math.ceil(N/24)),_sec:'Pre-wired (εναλλακτικά)'}));
+  return {items,noKeystone:!kp.length,kpOnly:kp.length&&kp.every(p=>p.sr==='KP')};
+}
+
+// ── chip row helper ──
+function spChips(k,label,opts){
+  const cur=spEff()[k];
+  return `<div class="step"><div class="slbl">${label}</div><div class="opts">`+
+    opts.map(o=>`<button class="opt${cur===o.v?' sel':''}" onclick="setSP('${k}','${o.v}')"><div class="ot">${o.t}</div><div class="os">${o.s||''}</div></button>`).join('')+
+    `</div></div>`;
+}
+function countChips(k,list,parsed){
+  const cur=spEff()[k]; const set=[...new Set([...(parsed?[String(parsed)]:[]),...list.map(String)])];
+  return `<div class="step"><div class="slbl">Πλήθος (ίνες/θύρες)</div><div class="opts" style="grid-template-columns:repeat(auto-fit,minmax(64px,1fr))">`+
+    set.map(v=>`<button class="opt${String(cur)===v?' sel':''}" onclick="setSP('${k}','${v}')"><div class="ot" style="text-align:center">${v}</div></button>`).join('')+
+    `</div></div>`;
+}
+
+function renderSearchBody(){
+  const q=searchQuery.trim();
+  if(!q){
+    return `<div class="search-hint"><div class="sh-title"><i class="ti ti-bulb"></i> Δοκίμασε:</div>
+      <button class="sh-ex" onclick="document.getElementById('search-box').value='τερματισμός 24 ινών OM4 LC';onSearchType('τερματισμός 24 ινών OM4 LC')">«τερματισμός 24 ινών OM4 LC»</button>
+      <button class="sh-ex" onclick="document.getElementById('search-box').value='τερματισμός 24 S/FTP Cat6A';onSearchType('τερματισμός 24 S/FTP Cat6A')">«τερματισμός 24 S/FTP Cat6A»</button>
+      <button class="sh-ex" onclick="document.getElementById('search-box').value='NKFP24Y';onSearchType('NKFP24Y')">«NKFP24Y» (αναζήτηση κωδικού)</button>
+      <div class="sh-note">Γράψε πρόθεση («τερματισμός…») για οδηγό υλικών, ή λέξη/SAP/P/N για αναζήτηση καταλόγου.</div></div>`;
+  }
+  const e=spEff();
+  const guided = e.intent && searchParams.mode!=='catalog';
+  let html='';
+  if(guided){
+    html+=`<div class="search-modebar"><span class="smb-tag"><i class="ti ti-wand"></i> Οδηγός υλικών — ${e.intent==='fo'?'Οπτικός τερματισμός':'Χάλκινος τερματισμός'}</span>`+
+      `<button class="smb-link" onclick="searchMode('catalog')">ή απλή αναζήτηση καταλόγου →</button></div>`;
+    if(e.intent==='fo'){
+      html+=spChips('fi','Τύπος ίνας',[{v:'OS2',t:'OS2',s:'SM'},{v:'OM3',t:'OM3',s:'MM'},{v:'OM4',t:'OM4',s:'MM'}]);
+      html+=spChips('co','Connector',[{v:'LC',t:'LC'},{v:'SC',t:'SC'}]);
+      html+=spChips('sr','Σειρά / Vendor',[{v:'FD1W',t:'FD1W',s:'Panduit'},{v:'PLUS',t:'PLUS',s:'Central'},{v:'BASIC',t:'BASIC',s:'Central'}]);
+      html+=countChips('nf',[6,12,24,48,96],e.nf&&![6,12,24,48,96].includes(e.nf)?e.nf:null);
+      if(e.fi&&e.co&&e.sr&&e.nf){
+        const N=parseInt(e.nf),r=foTermBoM(e.fi,e.co,e.sr,N);
+        html+=`<div class="div"></div>`;
+        if(r.panelMissing)html+=`<div class="none">Δεν βρέθηκε panel ${e.sr} ${e.fi} ${e.co} για ≥${N} ${e.sr==='FD1W'?'ίνες':'θύρες'}. Δοκίμασε άλλη σειρά ή το tab FO.</div>`;
+        html+=foBoMRender(r.items);
+        html+=renderExportBox(r.items.map(i=>({...i})));
+      } else {
+        html+=`<div class="note" style="margin-top:.6rem">Συμπλήρωσε: ${[!e.fi&&'τύπο ίνας',!e.co&&'connector',!e.sr&&'σειρά',!e.nf&&'πλήθος'].filter(Boolean).join(', ')}.</div>`;
+      }
+    } else { // copper
+      html+=spChips('cat','Κατηγορία',[{v:'Cat5e',t:'Cat5e'},{v:'Cat6',t:'Cat6'},{v:'Cat6A',t:'Cat6A'}]);
+      html+=spChips('shield','Θωράκιση',[{v:'UTP',t:'U/UTP',s:'Αθωράκιστο'},{v:'SHP',t:'Θωρακισμένα',s:'F/UTP·U/FTP·S/FTP'}]);
+      html+=spChips('brand','Brand',[{v:'Panduit',t:'Panduit',s:'Επαγγελ.'},{v:'Central',t:'Central',s:'Οικον.'},{v:'all',t:'Αμφότερα'}]);
+      html+=countChips('nf',[12,24,48],e.nf&&![12,24,48].includes(e.nf)?e.nf:null);
+      if(e.cat&&e.shield&&e.nf){
+        const N=parseInt(e.nf),br=e.brand||'all',r=cuTermBoM(e.cat,e.shield,N,br);
+        html+=`<div class="div"></div>`;
+        if(r.kpOnly)html+=`<div class="warn">⚠️ KP24WSBL: ΜΟΝΟ με KJS6X88TC.</div>`;
+        if(r.noKeystone&&!r.items.length)html+=`<div class="none">Δεν βρέθηκαν υλικά για ${e.cat} ${e.shield==='SHP'?'θωρακισμένα':'UTP'}.</div>`;
+        html+=foBoMRender(r.items);
+        html+=renderExportBox(r.items.map(i=>({...i})));
+      } else {
+        html+=`<div class="note" style="margin-top:.6rem">Συμπλήρωσε: ${[!e.cat&&'κατηγορία',!e.shield&&'θωράκιση',!e.nf&&'πλήθος'].filter(Boolean).join(', ')}.</div>`;
+      }
+    }
+  } else {
+    // ── CATALOG SEARCH ──
+    if(e.intent)html+=`<div class="search-modebar"><span class="smb-tag"><i class="ti ti-list-search"></i> Αναζήτηση καταλόγου</span><button class="smb-link" onclick="searchMode('guided')">← οδηγός υλικών</button></div>`;
+    const idx=buildSearchIndex();
+    const toks=sNorm(q).split(/\s+/).filter(Boolean);
+    const res=idx.filter(it=>{const hay=sNorm((it.sap||'')+' '+(it.pn||'')+' '+(it.d||'')+' '+(it._src||'')+' '+(it.br||''));return toks.every(t=>hay.includes(t));}).slice(0,60);
+    html+=`<div class="sl">Αποτελέσματα (${res.length}${res.length>=60?'+':''})</div>`;
+    if(!res.length){html+=`<div class="none">Καμία αντιστοιχία για «${q}».</div>`;}
+    else{html+=`<div class="pg">${res.map(it=>searchCard(it)).join('')}</div>`;
+      html+=renderExportBox(res.map(i=>({...i,_qty:0})));}
+  }
+  return html;
+}
+
+// render BoM items grouped by _sec using genericCard
+function foBoMRender(items){
+  let html='',sec=null,buf=[];
+  const flush=()=>{if(buf.length){html+=`<div class="pg">${buf.join('')}</div>`;buf=[];}};
+  items.forEach(it=>{if(it._sec!==sec){flush();sec=it._sec;html+=`<div class="sl">${sec}${it._qty>1?` (×${it._qty})`:''}</div>`;}buf.push(genericCard(it,it._qty));});
+  flush();return html;
+}
+// catalog result card: source badge, default UNSELECTED
+function searchCard(it){
+  const k=eqKey(it); if(exportQtys[k]===undefined)exportQtys[k]=0; const unsel=exportQtys[k]===0;
+  const sapEl=String(it.sap).startsWith('⚠')?`<span style="color:var(--color-text-warning);font-size:9px">${it.sap}</span>`:`<div class="ps">${it.sap}</div>`;
+  const link=it.url||'#';
+  return `<div class="pc${unsel?' unsel':''}" data-k="${k}" data-qd="1" onclick="togglePc(this,event)" title="Κλικ για επιλογή"><div class="pc-tick"><i class="ti ti-check"></i></div><div>${sapEl}</div><div class="pm"><a class="pp" href="${link}" target="_blank" onclick="event.stopPropagation()">${it.pn}${link!=='#'?` <i class="ti ti-external-link" style="font-size:9px"></i>`:''}</a><div class="pd">${it.d||''}</div></div><span class="pb bSrc">${it._src||''}</span></div>`;
+}
+
+function renderSearch(){
+  const s=document.getElementById('main-content');if(!s)return;
+  s.innerHTML=`<div class="search-wrap">
+    <div class="search-ico"><i class="ti ti-search"></i></div>
+    <input id="search-box" class="search-box" type="text" autocomplete="off" spellcheck="false"
+      placeholder="π.χ. «τερματισμός 24 ινών OM4 LC» ή κωδικός SAP/P/N…"
+      value="${searchQuery.replace(/"/g,'&quot;')}" oninput="onSearchType(this.value)"/>
+    <button class="search-clr" style="display:${searchQuery?'flex':'none'}" onclick="document.getElementById('search-box').value='';onSearchType('')" title="Καθαρισμός"><i class="ti ti-x"></i></button>
+  </div>
+  <div id="search-body">${renderSearchBody()}</div>`;
+  const box=document.getElementById('search-box');
+  if(box){const v=box.value;box.focus();box.setSelectionRange(v.length,v.length);}
+}
+
+const TABS=[{id:'copper',lbl:'🔌 Χαλκός'},{id:'fo',lbl:'💡 FO'},{id:'racks',lbl:'🗄 Racks'},{id:'cables',lbl:'🔗 Καλώδια'},{id:'telco',lbl:'📦 Λοιπά'},{id:'search',lbl:'🔎 Αναζήτηση'},{id:'admin',lbl:'🔒 Admin'}];
 function switchTab(t){activeTab=t;renderApp();}
 function renderApp(){
   const te=document.getElementById('main-tabs');
@@ -1841,6 +2086,7 @@ function renderApp(){
   else if(activeTab==='racks')renderRacks();
   else if(activeTab==='cables')renderCables();
   else if(activeTab==='telco')renderTelco();
+  else if(activeTab==='search')renderSearch();
   else renderAdmin();
 }
 document.getElementById('brst').onclick=()=>{
@@ -1849,6 +2095,7 @@ document.getElementById('brst').onclick=()=>{
   else if(activeTab==='racks'){rSel={};rCk.clear();}
   else if(activeTab==='cables'){cabCu={};cabFo={};
   } else if(activeTab==='telco'){telcoFilter='all';}
+  else if(activeTab==='search'){searchQuery='';searchParams={};}
   exportQtys={};renderApp();
 };
 
