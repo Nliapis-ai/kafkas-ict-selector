@@ -543,6 +543,58 @@ html{scroll-behavior:smooth}
 .pb.bSrc{background:var(--color-background-secondary);color:var(--color-text-secondary);
   border:1px solid var(--color-border-tertiary);font-family:var(--font-sans);font-weight:500}
 
+
+/* ═══ CINEMATIC DATACENTER INTRO ═══ */
+#intro-overlay{display:none;position:fixed;inset:0;z-index:10000;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 50% 42%,#0f2236,#081320 70%);overflow:hidden}
+#intro-overlay::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.4;
+  background-image:linear-gradient(rgba(38,198,240,.14) .5px,transparent .5px),linear-gradient(90deg,rgba(38,198,240,.14) .5px,transparent .5px);
+  background-size:40px 40px;-webkit-mask-image:radial-gradient(circle at 50% 42%,#000,transparent 75%);mask-image:radial-gradient(circle at 50% 42%,#000,transparent 75%)}
+.intro-stage{position:relative;width:min(92vw,760px);transform-origin:50% 42%}
+.intro-scene{width:100%;height:auto;display:block;filter:drop-shadow(0 0 30px rgba(38,198,240,.25))}
+.intro-cap{text-align:center;margin-top:.6rem;font-family:var(--font-sans);letter-spacing:.18em;
+  opacity:0;animation:capIn .7s ease .35s both}
+.intro-k{font-size:26px;font-weight:800;color:#eaf6ff;text-shadow:0 0 18px var(--k-glow)}
+.intro-i{font-size:13px;font-weight:700;color:var(--k-navy-deep);background:var(--k-cyan);
+  padding:2px 8px;border-radius:5px;vertical-align:middle;letter-spacing:.1em}
+.intro-sub{font-size:11px;letter-spacing:.3em;color:var(--color-text-secondary);margin-top:7px;text-transform:uppercase}
+@keyframes capIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* live elements */
+.led,.led2,.port{animation:ledBlink 1.6s ease-in-out infinite}
+@keyframes ledBlink{0%,100%{opacity:.25}50%{opacity:1;filter:drop-shadow(0 0 4px var(--k-cyan))}}
+.core-dot{animation:corePulse 2s ease-in-out infinite}
+.core-ring{transform-origin:380px 46px;animation:coreRing 2.4s ease-out infinite}
+@keyframes corePulse{0%,100%{opacity:.7}50%{opacity:1;filter:drop-shadow(0 0 8px var(--k-cyan))}}
+@keyframes coreRing{0%{transform:scale(.6);opacity:.7}100%{transform:scale(2.2);opacity:0}}
+.link{animation:linkFlow 1s linear infinite}
+@keyframes linkFlow{to{stroke-dashoffset:-26}}
+.pkt{offset-distance:0%;animation:pktRun 1.6s ease-in-out infinite}
+@keyframes pktRun{0%{offset-distance:0%;opacity:0}15%{opacity:1}85%{opacity:1}100%{offset-distance:100%;opacity:0}}
+.rack{transform-origin:50% 100%;animation:rackRise .6s cubic-bezier(.2,.7,.3,1) both}
+@keyframes rackRise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+/* the zoom sequence (plays on .play) */
+#intro-overlay.play .intro-stage{animation:introCine 2.3s cubic-bezier(.55,.05,.7,1) forwards}
+@keyframes introCine{
+  0%{transform:scale(.86);opacity:0}
+  16%{transform:scale(1);opacity:1}
+  46%{transform:scale(1.05);opacity:1}
+  70%{transform:scale(1.5);opacity:.9}
+  100%{transform:scale(3.6);opacity:0}
+}
+#intro-overlay.play{animation:introBg 2.3s ease forwards}
+@keyframes introBg{0%,62%{opacity:1}100%{opacity:0}}
+
+/* app reveal */
+#app.app-reveal{animation:appReveal .8s cubic-bezier(.2,.7,.3,1) both}
+@keyframes appReveal{from{opacity:0;transform:scale(.975)}to{opacity:1;transform:none}}
+
+@media(prefers-reduced-motion:reduce){
+  #intro-overlay{display:none!important}
+  .led,.led2,.port,.core-dot,.core-ring,.link,.pkt,.rack{animation:none!important}
+}
+
 </style>
 </head>
 <body>
@@ -588,6 +640,14 @@ html{scroll-behavior:smooth}
 <!-- Loading overlay -->
 <div id="loading-overlay">
   <div class="loading-box"><div class="spinner"></div>Φόρτωση δεδομένων από Google Sheets...</div>
+</div>
+
+<!-- Cinematic datacenter intro -->
+<div id="intro-overlay" aria-hidden="true">
+  <div class="intro-stage">
+    <svg class="intro-scene" viewBox="0 0 760 500" xmlns="http://www.w3.org/2000/svg" aria-label="Data center"><defs><linearGradient id="igRack" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#16263a"/><stop offset="1" stop-color="#0c1a2b"/></linearGradient><radialGradient id="igGlow" cx="50%" cy="40%" r="60%"><stop offset="0" stop-color="#26c6f0" stop-opacity="0.20"/><stop offset="1" stop-color="#26c6f0" stop-opacity="0"/></radialGradient><linearGradient id="igFloor" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#26c6f0" stop-opacity="0.10"/><stop offset="1" stop-color="#26c6f0" stop-opacity="0"/></linearGradient></defs><rect x="0" y="0" width="760" height="500" fill="url(#igGlow)"/><g stroke="#26c6f0" stroke-opacity="0.18" stroke-width="1"><line x1="40" y1="470" x2="380" y2="56"/><line x1="160" y1="470" x2="380" y2="56"/><line x1="280" y1="470" x2="380" y2="56"/><line x1="380" y1="470" x2="380" y2="56"/><line x1="480" y1="470" x2="380" y2="56"/><line x1="600" y1="470" x2="380" y2="56"/><line x1="720" y1="470" x2="380" y2="56"/></g><polygon points="0,470 760,470 760,500 0,500" fill="url(#igFloor)"/><g><circle class="core-ring" cx="380" cy="46" r="20" fill="none" stroke="#26c6f0" stroke-width="1.5" stroke-opacity="0.6"/><circle class="core-dot" cx="380" cy="46" r="9" fill="#26c6f0"/></g><line class="link" x1="380" y1="46" x2="210.0" y2="92" stroke="#26c6f0" stroke-width="1.6" stroke-opacity="0.5" stroke-dasharray="6 7" style="animation-delay:0.0s"/><circle class="pkt" r="3" fill="#7fe3ff" style="offset-path:path('M 380 46 L 210.0 92');animation-delay:0.0s"/><line class="link" x1="380" y1="46" x2="380.0" y2="92" stroke="#26c6f0" stroke-width="1.6" stroke-opacity="0.5" stroke-dasharray="6 7" style="animation-delay:0.4s"/><circle class="pkt" r="3" fill="#7fe3ff" style="offset-path:path('M 380 46 L 380.0 92');animation-delay:0.6s"/><line class="link" x1="380" y1="46" x2="550.0" y2="92" stroke="#26c6f0" stroke-width="1.6" stroke-opacity="0.5" stroke-dasharray="6 7" style="animation-delay:0.8s"/><circle class="pkt" r="3" fill="#7fe3ff" style="offset-path:path('M 380 46 L 550.0 92');animation-delay:1.2s"/><g class="rack" style="animation-delay:0.15s"><rect x="145" y="92" width="130" height="300" rx="6" fill="url(#igRack)" stroke="#2e4a66" stroke-width="1.5"/><rect x="153" y="100" width="114" height="26" rx="3" fill="#0a1622" stroke="#21384e"/><rect class="port" x="159.0" y="109" width="6.1" height="7" rx="1" fill="#26c6f0" style="animation-delay:0.00s"/><rect class="port" x="169.2" y="109" width="6.1" height="7" rx="1" fill="#26c6f0" style="animation-delay:0.12s"/><rect class="port" x="179.4" y="109" width="6.1" height="7" rx="1" fill="#26c6f0" style="animation-delay:0.24s"/><rect class="port" x="189.6" y="109" width="6.1" height="7" rx="1" fill="#26c6f0" style="animation-delay:0.36s"/><rect class="port" x="199.8" y="109" width="6.1" height="7" rx="1" fill="#26c6f0" style="animation-delay:0.48s"/><rect class="port" x="210.0" y="109" width="6.1" height="7" rx="1" fill="#26c6f0" style="animation-delay:0.60s"/><rect class="port" x="220.2" y="109" width="6.1" height="7" rx="1" fill="#26c6f0" style="animation-delay:0.72s"/><rect class="port" x="230.4" y="109" width="6.1" height="7" rx="1" fill="#26c6f0" style="animation-delay:0.84s"/><rect class="port" x="240.6" y="109" width="6.1" height="7" rx="1" fill="#26c6f0" style="animation-delay:0.96s"/><rect class="port" x="250.8" y="109" width="6.1" height="7" rx="1" fill="#26c6f0" style="animation-delay:1.08s"/><rect x="153" y="134.0" width="114" height="26.0" rx="2" fill="#13314a" stroke="#21384e" stroke-width="0.8"/><circle class="led" cx="259" cy="140.0" r="2.6" fill="#26c6f0" style="animation-delay:0.00s"/><rect x="153" y="166.0" width="114" height="26.0" rx="2" fill="#16465f" stroke="#21384e" stroke-width="0.8"/><circle class="led" cx="259" cy="172.0" r="2.6" fill="#26c6f0" style="animation-delay:0.18s"/><circle class="led led2" cx="249" cy="172.0" r="2.2" fill="#7fe3ff" style="animation-delay:0.71s"/><rect x="153" y="198.0" width="114" height="26.0" rx="2" fill="#13314a" stroke="#21384e" stroke-width="0.8"/><circle class="led" cx="259" cy="204.0" r="2.6" fill="#26c6f0" style="animation-delay:0.36s"/><rect x="153" y="230.0" width="114" height="26.0" rx="2" fill="#13314a" stroke="#21384e" stroke-width="0.8"/><circle class="led" cx="259" cy="236.0" r="2.6" fill="#26c6f0" style="animation-delay:0.54s"/><rect x="153" y="262.0" width="114" height="26.0" rx="2" fill="#13314a" stroke="#21384e" stroke-width="0.8"/><circle class="led" cx="259" cy="268.0" r="2.6" fill="#26c6f0" style="animation-delay:0.72s"/><rect x="153" y="294.0" width="114" height="26.0" rx="2" fill="#16465f" stroke="#21384e" stroke-width="0.8"/><circle class="led" cx="259" cy="300.0" r="2.6" fill="#26c6f0" style="animation-delay:0.90s"/><circle class="led led2" cx="249" cy="300.0" r="2.2" fill="#7fe3ff" style="animation-delay:1.55s"/><rect x="153" y="326.0" width="114" height="26.0" rx="2" fill="#13314a" stroke="#21384e" stroke-width="0.8"/><circle class="led" cx="259" cy="332.0" r="2.6" fill="#26c6f0" style="animation-delay:1.08s"/><rect x="153" y="358.0" width="114" height="26.0" rx="2" fill="#13314a" stroke="#21384e" stroke-width="0.8"/><circle class="led" cx="259" cy="364.0" r="2.6" fill="#26c6f0" style="animation-delay:1.26s"/></g><g class="rack" style="animation-delay:0.27s"><rect x="315" y="92" width="130" height="300" rx="6" fill="url(#igRack)" stroke="#2e4a66" stroke-width="1.5"/><rect x="323" y="100" width="114" height="26" rx="3" fill="#0a1622" stroke="#21384e"/><rect class="port" x="329.0" y="109" width="6.1" height="7" rx="1" fill="#26c6f0" style="animation-delay:0.30s"/><rect class="port" x="339.2" y="109" width="6.1" height="7" rx="1" fill="#26c6f0" style="animation-delay:0.42s"/><rect class="port" x="349.4" y="109" width="6.1" height="7" rx="1" fill="#26c6f0" style="animation-delay:0.54s"/><rect class="port" x="359.6" y="109" width="6.1" height="7" rx="1" fill="#26c6f0" style="animation-delay:0.66s"/><rect class="port" x="369.8" y="109" width="6.1" height="7" rx="1" fill="#26c6f0" style="animation-delay:0.78s"/><rect class="port" x="380.0" y="109" width="6.1" height="7" rx="1" fill="#26c6f0" style="animation-delay:0.90s"/><rect class="port" x="390.2" y="109" width="6.1" height="7" rx="1" fill="#26c6f0" style="animation-delay:1.02s"/><rect class="port" x="400.4" y="109" width="6.1" height="7" rx="1" fill="#26c6f0" style="animation-delay:1.14s"/><rect class="port" x="410.6" y="109" width="6.1" height="7" rx="1" fill="#26c6f0" style="animation-delay:1.26s"/><rect class="port" x="420.8" y="109" width="6.1" height="7" rx="1" fill="#26c6f0" style="animation-delay:1.38s"/><rect x="323" y="134.0" width="114" height="26.0" rx="2" fill="#13314a" stroke="#21384e" stroke-width="0.8"/><circle class="led" cx="429" cy="140.0" r="2.6" fill="#26c6f0" style="animation-delay:0.25s"/><rect x="323" y="166.0" width="114" height="26.0" rx="2" fill="#16465f" stroke="#21384e" stroke-width="0.8"/><circle class="led" cx="429" cy="172.0" r="2.6" fill="#26c6f0" style="animation-delay:0.43s"/><circle class="led led2" cx="419" cy="172.0" r="2.2" fill="#7fe3ff" style="animation-delay:0.71s"/><rect x="323" y="198.0" width="114" height="26.0" rx="2" fill="#13314a" stroke="#21384e" stroke-width="0.8"/><circle class="led" cx="429" cy="204.0" r="2.6" fill="#26c6f0" style="animation-delay:0.61s"/><rect x="323" y="230.0" width="114" height="26.0" rx="2" fill="#13314a" stroke="#21384e" stroke-width="0.8"/><circle class="led" cx="429" cy="236.0" r="2.6" fill="#26c6f0" style="animation-delay:0.79s"/><rect x="323" y="262.0" width="114" height="26.0" rx="2" fill="#13314a" stroke="#21384e" stroke-width="0.8"/><circle class="led" cx="429" cy="268.0" r="2.6" fill="#26c6f0" style="animation-delay:0.97s"/><rect x="323" y="294.0" width="114" height="26.0" rx="2" fill="#16465f" stroke="#21384e" stroke-width="0.8"/><circle class="led" cx="429" cy="300.0" r="2.6" fill="#26c6f0" style="animation-delay:1.15s"/><circle class="led led2" cx="419" cy="300.0" r="2.2" fill="#7fe3ff" style="animation-delay:1.55s"/><rect x="323" y="326.0" width="114" height="26.0" rx="2" fill="#13314a" stroke="#21384e" stroke-width="0.8"/><circle class="led" cx="429" cy="332.0" r="2.6" fill="#26c6f0" style="animation-delay:1.33s"/><rect x="323" y="358.0" width="114" height="26.0" rx="2" fill="#13314a" stroke="#21384e" stroke-width="0.8"/><circle class="led" cx="429" cy="364.0" r="2.6" fill="#26c6f0" style="animation-delay:1.51s"/></g><g class="rack" style="animation-delay:0.39s"><rect x="485" y="92" width="130" height="300" rx="6" fill="url(#igRack)" stroke="#2e4a66" stroke-width="1.5"/><rect x="493" y="100" width="114" height="26" rx="3" fill="#0a1622" stroke="#21384e"/><rect class="port" x="499.0" y="109" width="6.1" height="7" rx="1" fill="#26c6f0" style="animation-delay:0.60s"/><rect class="port" x="509.2" y="109" width="6.1" height="7" rx="1" fill="#26c6f0" style="animation-delay:0.72s"/><rect class="port" x="519.4" y="109" width="6.1" height="7" rx="1" fill="#26c6f0" style="animation-delay:0.84s"/><rect class="port" x="529.6" y="109" width="6.1" height="7" rx="1" fill="#26c6f0" style="animation-delay:0.96s"/><rect class="port" x="539.8" y="109" width="6.1" height="7" rx="1" fill="#26c6f0" style="animation-delay:1.08s"/><rect class="port" x="550.0" y="109" width="6.1" height="7" rx="1" fill="#26c6f0" style="animation-delay:1.20s"/><rect class="port" x="560.2" y="109" width="6.1" height="7" rx="1" fill="#26c6f0" style="animation-delay:1.32s"/><rect class="port" x="570.4" y="109" width="6.1" height="7" rx="1" fill="#26c6f0" style="animation-delay:0.04s"/><rect class="port" x="580.6" y="109" width="6.1" height="7" rx="1" fill="#26c6f0" style="animation-delay:0.16s"/><rect class="port" x="590.8" y="109" width="6.1" height="7" rx="1" fill="#26c6f0" style="animation-delay:0.28s"/><rect x="493" y="134.0" width="114" height="26.0" rx="2" fill="#13314a" stroke="#21384e" stroke-width="0.8"/><circle class="led" cx="599" cy="140.0" r="2.6" fill="#26c6f0" style="animation-delay:0.50s"/><rect x="493" y="166.0" width="114" height="26.0" rx="2" fill="#16465f" stroke="#21384e" stroke-width="0.8"/><circle class="led" cx="599" cy="172.0" r="2.6" fill="#26c6f0" style="animation-delay:0.68s"/><circle class="led led2" cx="589" cy="172.0" r="2.2" fill="#7fe3ff" style="animation-delay:0.71s"/><rect x="493" y="198.0" width="114" height="26.0" rx="2" fill="#13314a" stroke="#21384e" stroke-width="0.8"/><circle class="led" cx="599" cy="204.0" r="2.6" fill="#26c6f0" style="animation-delay:0.86s"/><rect x="493" y="230.0" width="114" height="26.0" rx="2" fill="#13314a" stroke="#21384e" stroke-width="0.8"/><circle class="led" cx="599" cy="236.0" r="2.6" fill="#26c6f0" style="animation-delay:1.04s"/><rect x="493" y="262.0" width="114" height="26.0" rx="2" fill="#13314a" stroke="#21384e" stroke-width="0.8"/><circle class="led" cx="599" cy="268.0" r="2.6" fill="#26c6f0" style="animation-delay:1.22s"/><rect x="493" y="294.0" width="114" height="26.0" rx="2" fill="#16465f" stroke="#21384e" stroke-width="0.8"/><circle class="led" cx="599" cy="300.0" r="2.6" fill="#26c6f0" style="animation-delay:1.40s"/><circle class="led led2" cx="589" cy="300.0" r="2.2" fill="#7fe3ff" style="animation-delay:1.55s"/><rect x="493" y="326.0" width="114" height="26.0" rx="2" fill="#13314a" stroke="#21384e" stroke-width="0.8"/><circle class="led" cx="599" cy="332.0" r="2.6" fill="#26c6f0" style="animation-delay:1.58s"/><rect x="493" y="358.0" width="114" height="26.0" rx="2" fill="#13314a" stroke="#21384e" stroke-width="0.8"/><circle class="led" cx="599" cy="364.0" r="2.6" fill="#26c6f0" style="animation-delay:0.16s"/></g></svg>
+    <div class="intro-cap"><span class="intro-k">ΚΑΥΚΑΣ</span> <span class="intro-i">ICT</span><div class="intro-sub">Network &amp; Data Centers</div></div>
+  </div>
 </div>
 
 <div id="app">
@@ -1200,8 +1260,24 @@ let RACKS=[], SHELVES={}, ACCS=[];
 // ═══════════════════════════════════════════════════════════
 // ══ API FUNCTIONS (Google Sheets)
 // ═══════════════════════════════════════════════════════════
+let introPlayed=false;
+function playIntro(){
+  if(introPlayed)return; introPlayed=true;
+  const ov=document.getElementById('intro-overlay');
+  const app=document.getElementById('app');
+  if(!ov){return;}
+  if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches){
+    ov.style.display='none'; if(app)app.classList.add('app-reveal'); return;
+  }
+  ov.style.display='flex';
+  void ov.offsetWidth;
+  ov.classList.add('play');
+  setTimeout(()=>{ if(app) app.classList.add('app-reveal'); }, 1150);
+  setTimeout(()=>{ ov.style.display='none'; ov.classList.remove('play'); }, 2300);
+}
 function showLoading(v){
   document.getElementById('loading-overlay').style.display = v ? 'flex' : 'none';
+  if(!v && !introPlayed){ playIntro(); }
 }
 function showOffline(v){
   document.getElementById('offline-banner').style.display = v ? 'block' : 'none';
