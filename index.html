@@ -996,13 +996,22 @@ function renderExportBox(items){
   const visible=items.filter(it=>{const k=eqKey(it);return(exportQtys[k]??1)>0;});
   if(!visible.length)return'';
   const rows=visible.map(it=>{const k=eqKey(it),q=exportQtys[k]??1;const sapEl=String(it.sap).startsWith('⚠')?`<span style="color:var(--color-text-warning)">${it.sap}</span>`:it.sap;return`<tr><td class="export-sap">${sapEl}</td><td class="export-pn">${it.pn}</td><td class="export-desc">${it.d}</td><td><input class="qty-input" type="number" min="0" max="999" value="${q}" data-k="${k}" onchange="exportQtys[this.dataset.k]=parseInt(this.value)||0;renderApp()"/></td></tr>`;}).join('');
-  return`<div class="export-box"><div class="export-header"><span class="export-title"><i class="ti ti-clipboard-list"></i> Λίστα Παραγγελίας</span><span style="font-size:11px;color:var(--color-text-tertiary)">${visible.length} αντικ.</span></div><div style="overflow-x:auto"><table class="export-table"><thead><tr><th>SAP</th><th>P/N</th><th>Περιγραφή</th><th>Qty</th></tr></thead><tbody>${rows}</tbody></table></div><div class="export-footer"><button class="copy-btn" onclick="copyTSV(${JSON.stringify(visible).replace(/"/g,"'")})"><i class="ti ti-copy"></i> Αντιγραφή TSV</button><span id="copy-msg" class="copy-msg"></span></div></div>`;
+  return`<div class="export-box"><div class="export-header"><span class="export-title"><i class="ti ti-clipboard-list"></i> Λίστα Παραγγελίας</span><span style="font-size:11px;color:var(--color-text-tertiary)">${visible.length} αντικ.</span></div><div style="overflow-x:auto"><table class="export-table"><thead><tr><th>SAP</th><th>P/N</th><th>Περιγραφή</th><th>Qty</th></tr></thead><tbody>${rows}</tbody></table></div><div class="export-footer"><button class="copy-btn" onclick="exportExcel(${_expBoxes.push(items)-1})"><i class="ti ti-file-spreadsheet"></i> Εξαγωγή σε Excel</button><span id="copy-msg" class="copy-msg"></span></div></div>`;
 }
-async function copyTSV(items){
-  const lines=['SAP\tP/N\tΠεριγραφή\tQty'];
-  items.forEach(it=>{const k=eqKey(it),q=exportQtys[k]??1;if(q>0)lines.push(`${it.sap}\t${it.pn}\t${it.d}\t${q}`);});
-  try{await navigator.clipboard.writeText(lines.join('\n'));const m=document.getElementById('copy-msg');if(m){m.textContent='✓ Αντιγράφηκε!';m.style.opacity='1';setTimeout(()=>{m.style.opacity='0';},2500);}}
-  catch(e){alert('Αντιγράψτε χειροκίνητα:\n\n'+lines.join('\n'));}
+let _expBoxes=[];
+function exportExcel(i){
+  const items=_expBoxes[i]||[];
+  const rows=[['SAP','P/N','Περιγραφή','Qty']];
+  items.forEach(it=>{const q=exportQtys[eqKey(it)]??1;if(q>0)rows.push([String(it.sap),String(it.pn),String(it.d),q]);});
+  const m=document.getElementById('copy-msg');
+  const say=(t,ok)=>{if(m){m.textContent=t;m.style.color=ok?'':'var(--color-text-warning)';m.style.opacity='1';setTimeout(()=>{m.style.opacity='0';},2500);}};
+  if(typeof XLSX==='undefined'){say('✗ Η βιβλιοθήκη Excel δεν φορτώθηκε',false);return;}
+  const ws=XLSX.utils.aoa_to_sheet(rows);
+  ws['!cols']=[{wch:12},{wch:28},{wch:60},{wch:6}];
+  const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Λίστα Παραγγελίας');
+  const p=n=>String(n).padStart(2,'0'),d=new Date();
+  XLSX.writeFile(wb,`Order List ${p(d.getDate())}-${p(d.getMonth()+1)}-${d.getFullYear()}.xlsx`);
+  say('✓ Έγινε εξαγωγή',true);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -1652,6 +1661,7 @@ function renderSearch(){
 const TABS=[{id:'copper',lbl:'🔌 Χαλκός'},{id:'fo',lbl:'💡 FO'},{id:'racks',lbl:'🗄 Racks'},{id:'cables',lbl:'🔗 Καλώδια'},{id:'telco',lbl:'📦 Λοιπά'},{id:'search',lbl:'🔎 Αναζήτηση'}];
 function switchTab(t){activeTab=t;renderApp();}
 function renderApp(){
+  _expBoxes=[];
   const te=document.getElementById('main-tabs');
   if(te)te.innerHTML=TABS.map(t=>`<button class="stb${activeTab===t.id?' on':''}" onclick="switchTab('${t.id}')">${t.lbl}</button>`).join('');
   if(activeTab==='copper')renderCopper();
