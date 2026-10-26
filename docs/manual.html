@@ -1,0 +1,52 @@
+<!doctype html><html lang="el"><head><meta charset="utf-8"><title>ΚΑΥΚΑΣ ICT Selector — Οδηγίες Χρήσης</title>
+<style>
+@page{size:A4;margin:16mm}
+body{font-family:Calibri,"Segoe UI",Arial,sans-serif;font-size:11.5pt;line-height:1.45;color:#1a2433}
+h1{font-size:22pt;margin:0 0 2pt;color:#0a4d8c}.sub{color:#5b6b7d;margin-bottom:14pt}
+h2{font-size:14pt;color:#0a4d8c;border-bottom:2px solid #15bcec;padding-bottom:2pt;margin:16pt 0 6pt}
+ol,ul{margin:4pt 0 4pt 18pt;padding:0}li{margin:2pt 0}
+table{border-collapse:collapse;width:100%;margin:6pt 0}th,td{border:1px solid #9fb0c3;padding:4pt 7pt;text-align:left;vertical-align:top}
+th{background:#4f81bd;color:#fff;font-weight:normal}.tip{background:#eef6fc;border-left:4px solid #15bcec;padding:6pt 10pt;margin:8pt 0}
+.warn{background:#fff6e5;border-left:4px solid #e6a100;padding:6pt 10pt;margin:8pt 0}
+</style></head><body>
+<h1>ΚΑΥΚΑΣ ICT Selector</h1><div class="sub">Οδηγίες χρήσης για τα καταστήματα · Network &amp; Data Centers Infrastructure</div>
+
+<h2>1. Τι είναι</h2>
+<p>Εργαλείο επιλογής υλικών δομημένης καλωδίωσης (χαλκός, οπτικά, racks, καλώδια, λοιπά). Απαντάς σε λίγες ερωτήσεις (π.χ. κατηγορία, θωράκιση, τύπος) και σου προτείνει τους σωστούς κωδικούς, τους οποίους εξάγεις σε <b>λίστα παραγγελίας Excel</b>.</p>
+
+<h2>2. Τα βασικά tabs</h2>
+<table><tr><th>Tab</th><th>Τι κάνει</th></tr>
+<tr><td>🔌 Χαλκός</td><td>Patch Panels + Jacks, ή Outlet / Πριζάκι (κουτί/πρόσοψη + jacks)</td></tr>
+<tr><td>💡 FO</td><td>Οπτικά: Patch Panels, FAP modules, Pigtails, Adaptors, Wall Box</td></tr>
+<tr><td>🗄 Racks</td><td>Επιλογή Rack με οδηγό (είδος, μέγεθος, U, διαστάσεις) + παρελκόμενα, και Επιτοίχιες Βάσεις</td></tr>
+<tr><td>🔗 Καλώδια</td><td>Καλώδια χαλκού και οπτικά, με φίλτρα</td></tr>
+<tr><td>📦 Λοιπά</td><td>Τηλεφωνία, IDC / Krone, Εργαλεία / Όργανα</td></tr>
+<tr><td>🔎 Αναζήτηση</td><td>Ελεύθερη αναζήτηση με κείμενο ή κωδικό</td></tr></table>
+
+<h2>3. Πώς φτιάχνεις μια λίστα</h2>
+<ol>
+<li>Διάλεξε tab και απάντησε στα βήματα που εμφανίζονται (κάθε επιλογή ξεκλειδώνει το επόμενο βήμα). Για να αλλάξεις μια απάντηση, πάτα ξανά στο βήμα που θες.</li>
+<li>Εμφανίζονται οι προτεινόμενοι κωδικοί ως κάρτες. <b>Κλικ σε κάρτα = επιλογή / αποεπιλογή</b>. Οι αποεπιλεγμένες είναι αχνές και δεν μπαίνουν στη λίστα.</li>
+<li>Κάτω εμφανίζεται η <b>Λίστα Παραγγελίας</b> με SAP, P/N, Περιγραφή και Qty. Άλλαξε την ποσότητα στο πεδίο <b>Qty</b> όπου χρειάζεται.</li>
+<li>Πάτα <b>«Εξαγωγή σε Excel»</b>. Κατεβαίνει αρχείο <code>Order List ηη-μμ-εεεε.xlsx</code> με στήλες SAP | P/N | Περιγραφή | Qty, έτοιμο για αποστολή ή επικόλληση στο σύστημα παραγγελιών.</li></ol>
+<div class="tip"><b>Αναζήτηση:</b> γράψε π.χ. «τερματισμός 24 ινών OM4 LC» ή έναν κωδικό SAP / P/N. Για τερματισμούς ινών και χαλκού το εργαλείο προτείνει ολόκληρη λίστα υλικών.</div>
+
+<h2>4. Κουμπιά πάνω δεξιά</h2>
+<ul><li><b>Last updated</b>: η ημερομηνία των δεδομένων. Έλεγξέ την πριν από κάθε παραγγελία.</li>
+<li><b>🔄</b> Ανανέωση δεδομένων.</li><li><b>↺</b> Καθαρισμός επιλογών του τρέχοντος tab.</li></ul>
+
+<h2>5. Ετικέτες διαθεσιμότητας (status)</h2>
+<table><tr><th>Ετικέτα</th><th>Σημασία</th></tr>
+<tr><td>BTS</td><td>Buy To Stock — διαθέσιμο από stock</td></tr>
+<tr><td>BTO</td><td>Buy To Order — παραγγέλνεται κατόπιν ζήτησης</td></tr>
+<tr><td>STO</td><td>Stock Order</td></tr>
+<tr><td>EXP / STE / SBL / BLK</td><td>Ανενεργός ή μπλοκαρισμένος κωδικός: μην τον παραγγείλεις, επικοινώνησε με το τμήμα ICT</td></tr>
+<tr><td>— ή χωρίς ετικέτα</td><td>Άγνωστο status: επιβεβαίωσε τη διαθεσιμότητα πριν δεσμεύσεις χρόνο παράδοσης στον πελάτη</td></tr></table>
+<div class="warn">Ένα SAP με ⚠️ ή «—» σημαίνει ότι ο κωδικός δεν έχει επιβεβαιωθεί. Έλεγξέ τον πριν την παραγγελία.</div>
+
+<h2>6. Συχνά προβλήματα</h2>
+<ul><li><b>Δεν κατεβαίνει το Excel:</b> έλεγξε ότι έχεις σύνδεση στο διαδίκτυο και ότι ο browser δεν μπλοκάρει τα downloads. Δοκίμασε ανανέωση σελίδας (F5).</li>
+<li><b>Η λίστα είναι άδεια:</b> δεν έχεις επιλέξει κάρτες. Πάτα πάνω στις κάρτες που θες.</li>
+<li><b>Λείπει κωδικός ή είναι λάθος:</b> ενημέρωσε το τμήμα ICT με το P/N και το tab όπου τον είδες.</li></ul>
+<p style="margin-top:14pt;color:#5b6b7d;font-size:10pt">ΚΑΥΚΑΣ ICT · Network &amp; Data Centers Infrastructure</p>
+</body></html>
